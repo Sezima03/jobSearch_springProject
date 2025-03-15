@@ -24,4 +24,9 @@ public class VacancyController {
 
     }
 
+    @DeleteMapping("{vacancyId}")
+    public ResponseEntity<VacancyDto> deleteVacancy(@PathVariable("vacancyId") String id) {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }
