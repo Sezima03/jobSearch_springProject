@@ -1,6 +1,9 @@
 package kg.attractor.job_search_project.model;
+import lombok.Data;
+
 import java.sql.Timestamp;
 
+@Data
 public class Vacancy {
     private int id;
     private String name;
