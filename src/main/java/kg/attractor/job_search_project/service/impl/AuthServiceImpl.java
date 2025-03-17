@@ -11,7 +11,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public User createAccount(String name, String surname, int age, String email, String password, String phone_number, String account_type){
         //TODO Здесь будет логика создание учетной записи
-        //TODO тип пользователя
+        //TODO тип пользователя. В зависимости от типа аккаунта задаются параметры
         //TODO проверка на пустую строку
         //TODO Проверяем загружено ли фото. Если фото профиля не загружено установим по умолчанию
         return createAccount(name, surname, age, email, password, phone_number, account_type);

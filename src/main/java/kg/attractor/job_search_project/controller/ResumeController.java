@@ -2,7 +2,7 @@ package kg.attractor.job_search_project.controller;
 
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.Vacancy;
-import kg.attractor.job_search_project.service.ResumeServiceImpl;
+import kg.attractor.job_search_project.service.impl.ResumeServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("resume")
 @RequiredArgsConstructor
 public class ResumeController {
-    private ResumeServiceImpl resumeServiceImpl;
+    private final ResumeServiceImpl resumeServiceImpl;
 
     @PostMapping
     public ResponseEntity<Resume>  createResume(@RequestBody Resume resume){
@@ -30,8 +30,7 @@ public class ResumeController {
 
     @DeleteMapping("delete/{resumeId}")
     public ResponseEntity<Resume>  deleteResume(@PathVariable("resumeId") String resumeId){
-        Resume resume = resumeServiceImpl.getDeleteResume(resumeId);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resume);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("vacancy")

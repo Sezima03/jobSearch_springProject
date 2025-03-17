@@ -1,7 +1,7 @@
 package kg.attractor.job_search_project.controller;
 
 import kg.attractor.job_search_project.model.Vacancy;
-import kg.attractor.job_search_project.service.VacancyServiceImpl;
+import kg.attractor.job_search_project.service.impl.VacancyServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +29,9 @@ public class VacancyController {
     }
 
     @DeleteMapping("delete/{vacancyId}")
-    public ResponseEntity<Void> deleteVacancy(@PathVariable("vacancyId") String id) {
-        vacancyServiceImp.deleteVacancy(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public HttpStatus deleteVacancy(@PathVariable("vacancyId") String id) {
+        //TODO logic
+        return HttpStatus.OK;
     }
 
     @GetMapping("searchresume")
