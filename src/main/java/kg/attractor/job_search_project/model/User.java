@@ -1,5 +1,7 @@
 package kg.attractor.job_search_project.model;
+import lombok.Data;
 
+@Data
 public class User {
     private int id;
     private String name;
