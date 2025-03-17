@@ -1,10 +1,8 @@
-package kg.attractor.job_search_project.service;
-
+package kg.attractor.job_search_project.service.impl;
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.Vacancy;
-import kg.attractor.job_search_project.service.impl.ResumeService;
+import kg.attractor.job_search_project.service.ResumeService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -12,21 +10,26 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public Resume getCreateResume(Resume resume) {
+        //TODO входные данные applicant_id, name, category_id, salary, isActive, created_date, update_date
         //TODO логика создание резюме
+        //TODO возвращаем новое резюме
         return resume;
     }
 
     @Override
     public Resume getUpdateResume(Resume resumeId) {
-        //TODO логика для редактирования
+        //TODO входные данные applicant_id, name, category_id, salary, isActive, created_date, update_date
+        //TODO По id обновляем резбме
+        //TODO возвращаем обновленное резюме
         return resumeId;
     }
 
-    @Override
-    public Resume getDeleteResume(String resumeId) {
-        //TODO логика для удаления резюме
 
-        return null;
+    @Override
+    public boolean getDeleteResume(String resumeId) {
+        //TODO Удаляем резюме по id
+        //TODO возвращаем true если вакансия удалена
+        return true;
     }
 
     @Override

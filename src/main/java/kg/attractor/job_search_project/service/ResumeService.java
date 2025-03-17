@@ -1,4 +1,4 @@
-package kg.attractor.job_search_project.service.impl;
+package kg.attractor.job_search_project.service;
 
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.Vacancy;
@@ -10,7 +10,7 @@ public interface ResumeService {
 
     Resume getUpdateResume(Resume resumeId);
 
-    Resume getDeleteResume(String resumeId);
+    boolean getDeleteResume(String resumeId);
 
     List<Resume> getAllVacancyByCategory(String category);
 

@@ -1,16 +1,16 @@
-package kg.attractor.job_search_project.service.impl;
+package kg.attractor.job_search_project.service;
 
 import kg.attractor.job_search_project.model.Vacancy;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface VacancyService {
-
     Vacancy createdVacancy(Vacancy vacancy);
 
-    Vacancy updateVacancy(String id, Vacancy vacancyDto);
+    Vacancy updateVacancy(String id, Vacancy vacancy);
 
-    void deleteVacancy(String id);
+    boolean deleteVacancy(String id);
 
     List<Vacancy> getAllResume();
 
