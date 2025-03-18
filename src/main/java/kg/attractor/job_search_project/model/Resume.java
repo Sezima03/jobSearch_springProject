@@ -1,6 +1,9 @@
 package kg.attractor.job_search_project.model;
+import lombok.Data;
+
 import java.sql.Timestamp;
 
+@Data
 public class Resume {
     private int id;
     private int applicant_id;
