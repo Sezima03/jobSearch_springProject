@@ -3,11 +3,11 @@ package kg.attractor.job_search_project.model;
 import java.time.LocalDate;
 
 public class EducationInfo {
-    private int id;
-    private int resume_id;
+    private Long id;
+    private int resumeId;
     private String institution;
     private String program;
-    private LocalDate start_date;
-    private LocalDate end_date;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String degree;
 }

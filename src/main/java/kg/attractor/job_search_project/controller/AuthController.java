@@ -15,7 +15,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User user){
-        User user1 =authServiceImpl.createAccount(user.getName(), user.getSurname(), user.getAge(), user.getEmail(), user.getPassword(), user.getPhone_number(), user.getAccount_type());
+        User user1 =authServiceImpl.createAccount(user.getName(), user.getSurname(), user.getAge(), user.getEmail(), user.getPassword(), user.getPhoneNumber(), user.getAccountType());
         //TODO logic
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user1);

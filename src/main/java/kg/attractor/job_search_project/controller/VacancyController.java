@@ -22,7 +22,7 @@ public class VacancyController {
     }
 
     @PutMapping("update/{vacancyId}")
-    public ResponseEntity<Vacancy> updateVacancy(@PathVariable("vacancyId") String id, @RequestBody Vacancy vacancy) {
+    public ResponseEntity<Vacancy> updateVacancy(@PathVariable("vacancyId") Long id, @RequestBody Vacancy vacancy) {
         Vacancy update=vacancyServiceImp.updateVacancy(id, vacancy);
         return ResponseEntity.status(HttpStatus.OK).body(update);
 

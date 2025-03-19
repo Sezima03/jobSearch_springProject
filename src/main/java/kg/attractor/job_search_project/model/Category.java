@@ -1,7 +1,7 @@
 package kg.attractor.job_search_project.model;
 
 public class Category {
-    private int id;
-    private int parent_id;
+    private Long id;
+    private int parentId;
     private String name;
 }

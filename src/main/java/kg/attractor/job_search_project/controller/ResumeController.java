@@ -23,14 +23,14 @@ public class ResumeController {
     }
 
     @PutMapping("update/{resumeId}")
-    public ResponseEntity<Resume>  updateResume(@RequestBody Resume resume){
-        Resume resume1 = resumeServiceImpl.getUpdateResume(resume);
+    public ResponseEntity<Resume>  updateResume(@PathVariable Long resumeId, @RequestBody Resume updateResume){
+        Resume resume1 = resumeServiceImpl.getUpdateResume(resumeId, updateResume);
         return ResponseEntity.status(HttpStatus.OK).body(resume1);
     }
 
     @DeleteMapping("delete/{resumeId}")
-    public ResponseEntity<Resume>  deleteResume(@PathVariable("resumeId") String resumeId){
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public HttpStatus  deleteResume(@PathVariable("resumeId") Long resumeId){
+        return HttpStatus.OK;
     }
 
     @GetMapping("vacancy")
@@ -46,9 +46,9 @@ public class ResumeController {
     }
 
     @PostMapping("response")
-    public ResponseEntity<?> responseToVacancy(@RequestBody Resume resumeId){
-         resumeServiceImpl.getresponceVacancy(String.valueOf(resumeId));
-        return ResponseEntity.ok(resumeId);
+    public ResponseEntity<?> responseToVacancy(@RequestParam Long resumeId,  @RequestParam Long vacancyId){
+         String response =resumeServiceImpl.getresponceVacancy(resumeId,vacancyId);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("searchemployer")

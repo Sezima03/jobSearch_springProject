@@ -1,10 +1,11 @@
 package kg.attractor.job_search_project.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Message {
-    private int id;
-    private int responded_applicants;
+    private Long id;
+    private int respondedApplicants;
     private String content;
-    private Timestamp timestamp;
+    private LocalDateTime localDateTime;
 }

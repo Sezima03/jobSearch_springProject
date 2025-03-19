@@ -19,16 +19,16 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public Vacancy updateVacancy(String id, Vacancy vacancy) {
+    public Vacancy updateVacancy(Long id, Vacancy updateVacancy) {
         //TODO логика для редактирования вакансии пользователя
         //TODO входные данные: name, description, category_id, salary, exp_from, exp_to, isActive, author_id, created_date, update_date
         //TODO по id ещем соответствующую вакансию и обновляем данные вакансии
         //TODO возращаем обновленную вакансию
-        return updateVacancy(id, vacancy);
+        return updateVacancy;
     }
 
     @Override
-    public boolean deleteVacancy(String id) {
+    public boolean deleteVacancy(Long id) {
         //TODO Удаляем вакансию по id
         //TODO возвращаем true если вакансия удалена
         return true;

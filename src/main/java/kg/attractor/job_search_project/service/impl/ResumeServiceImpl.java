@@ -17,16 +17,17 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public Resume getUpdateResume(Resume resumeId) {
+    public Resume getUpdateResume(Long resumeId, Resume updateResume) {
         //TODO входные данные applicant_id, name, category_id, salary, isActive, created_date, update_date
         //TODO По id обновляем резбме
         //TODO возвращаем обновленное резюме
-        return resumeId;
+
+        return updateResume;
     }
 
 
     @Override
-    public boolean getDeleteResume(String resumeId) {
+    public boolean getDeleteResume(Long resumeId) {
         //TODO Удаляем резюме по id
         //TODO возвращаем true если вакансия удалена
         return true;
@@ -39,8 +40,10 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public String getresponceVacancy(String resumeId) {
-        return resumeId;
+    public String getresponceVacancy(Long resumeId, Long vacancyId) {
+
+
+        return "Резюме с ID " + resumeId + "откликнулось на вакансию с ID " + vacancyId;
     }
 
     @Override
