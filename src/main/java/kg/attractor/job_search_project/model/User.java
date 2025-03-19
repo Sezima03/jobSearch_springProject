@@ -1,15 +1,17 @@
 package kg.attractor.job_search_project.model;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class User {
-    private int id;
+    private Long id;
     private String name;
     private String surname;
     private int age;
     private String email;
     private String password;
-    private String phone_number;
+    private String phoneNumber;
     private String avatar;
-    private String account_type;
+    private String accountType;
 }

@@ -8,9 +8,9 @@ import java.util.List;
 public interface VacancyService {
     Vacancy createdVacancy(Vacancy vacancy);
 
-    Vacancy updateVacancy(String id, Vacancy vacancy);
+    Vacancy updateVacancy(Long id, Vacancy updateVacancy);
 
-    boolean deleteVacancy(String id);
+    boolean deleteVacancy(Long id);
 
     List<Vacancy> getAllResume();
 

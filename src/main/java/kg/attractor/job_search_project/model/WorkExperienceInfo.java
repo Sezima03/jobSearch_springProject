@@ -1,10 +1,10 @@
 package kg.attractor.job_search_project.model;
 
 public class WorkExperienceInfo {
-    private int id;
-    private int resume_id;
+    private Long id;
+    private int resumeId;
     private int years;
-    private String company_name;
+    private String companyName;
     private String position;
     private String responsibilities;
 }
