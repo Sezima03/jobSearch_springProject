@@ -8,4 +8,6 @@ public interface UserService {
     List<UserDto> getSearchByName(String name);
 
     List<UserDto> getSearchByNumber(String number);
+
+    List<UserDto> getSearchByEmail(String email);
 }

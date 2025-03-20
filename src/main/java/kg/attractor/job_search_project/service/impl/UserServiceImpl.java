@@ -56,4 +56,25 @@ public class UserServiceImpl implements UserService {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public List<UserDto> getSearchByEmail(String email){
+//        return userDao.getSearchByEmail(email);
+        List<User> users=userDao.getSearchByEmail(email);
+        if (users != null && !users.isEmpty()) {
+            return users.stream()
+                    .map(user -> UserDto.builder()
+                            .id(user.getId())
+                            .name(user.getName())
+                            .surname(user.getSurname())
+                            .email(user.getEmail())
+                            .password(user.getPassword())
+                            .phoneNumber(user.getPhoneNumber())
+                            .avatar(user.getAvatar())
+                            .accountType(user.getAccountType())
+                            .build())
+                    .toList();
+        }
+        return Collections.emptyList();
+    }
 }
