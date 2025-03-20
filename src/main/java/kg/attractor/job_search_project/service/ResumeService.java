@@ -1,5 +1,6 @@
 package kg.attractor.job_search_project.service;
 
+import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.Vacancy;
 
@@ -13,8 +14,8 @@ public interface ResumeService {
 
     boolean getDeleteResume(Long resumeId);
 
-    List<Resume> getAllVacancyByCategory(String category);
 
+    List<ResumeDto> getAllVacancyByCategory(String category);
 
     String getresponceVacancy(Long resumeId, Long vacancyId);
 
