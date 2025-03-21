@@ -1,22 +1,25 @@
 package kg.attractor.job_search_project.service;
 
+import kg.attractor.job_search_project.dto.RespondedApplicantDto;
+import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.Vacancy;
 
 import java.util.List;
 
 public interface ResumeService {
-    Resume getCreateResume(Resume resume);
 
+    void getCreateResume(ResumeDto resumeDto);
 
-    Resume getUpdateResume(Long resumeId, Resume updateResume);
+    void getUpdateResume(Long resumeId, ResumeDto updateResume);
 
     boolean getDeleteResume(Long resumeId);
 
-    List<Resume> getAllVacancyByCategory(String category);
+    List<ResumeDto> getAllVacancyByCategory(String category);
 
+    List<ResumeDto> getUserById(Long userId);
 
-    String getresponceVacancy(Long resumeId, Long vacancyId);
+    List<RespondedApplicantDto> getresponseVacancy(Long vacancyId);
 
     List<Vacancy> getSearchForAnEmployer(String name);
 }

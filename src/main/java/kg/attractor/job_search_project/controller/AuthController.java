@@ -1,5 +1,4 @@
 package kg.attractor.job_search_project.controller;
-
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.service.impl.AuthServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +12,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthServiceImpl authServiceImpl;
 
-    @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user){
-        User user1 =authServiceImpl.createAccount(user.getName(), user.getSurname(), user.getAge(), user.getEmail(), user.getPassword(), user.getPhoneNumber(), user.getAccountType());
-        //TODO logic
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(user1);
+    @PostMapping("register")
+    public ResponseEntity<String> isEmailTaken(@RequestBody User user){
+        String users=authServiceImpl.registerUser(user);
+        if (users.equals("Email уже существует")){
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(users);
+        }
+        return ResponseEntity.ok(users);
     }
 
 

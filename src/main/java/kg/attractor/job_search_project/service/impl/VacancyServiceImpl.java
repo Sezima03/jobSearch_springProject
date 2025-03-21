@@ -1,21 +1,37 @@
 package kg.attractor.job_search_project.service.impl;
 
+import kg.attractor.job_search_project.dao.UserDao;
+import kg.attractor.job_search_project.dto.ResumeDto;
+import kg.attractor.job_search_project.dto.VacancyDto;
+import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.service.VacancyService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class VacancyServiceImpl implements VacancyService {
+    private final UserDao userDao;
 
     @Override
-    public Vacancy createdVacancy(Vacancy vacancy) {
-        //TODO входные данные: name, description, category_id, salary, exp_from, exp_to, isActive, author_id, created_date, update_date
-        //TODO логика для создании вакансии и сохранение
-        //TODO Возвращаем новую ваканисию
-        return vacancy;
+    public void createdVacancy(VacancyDto vacancyDto) {
+
+        Vacancy vacancy=new Vacancy();
+        vacancy.setId(vacancyDto.getId());
+        vacancy.setName(vacancyDto.getName());
+        vacancy.setDescription(vacancyDto.getDescription());
+        vacancy.setCategoryId(vacancyDto.getCategoryId());
+        vacancy.setSalary(vacancyDto.getSalary());
+        vacancy.setExpFrom(vacancyDto.getExpFrom());
+        vacancy.setExpTo(vacancyDto.getExpTo());
+        vacancy.setActive(vacancyDto.isActive());
+        vacancy.setAuthorId(vacancyDto.getAuthorId());
+
+        userDao.getCreatedVacancy(vacancyDto);
     }
 
     @Override
@@ -35,23 +51,89 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<Vacancy> getAllResume() {
-        //TODO логика для возвращения всех резюме
-        //TODO Получаем резюме из базы и можно вовращать их в виде списка
+    public List<ResumeDto> getAllResume() {
+        List<Resume> resumeList = userDao.getResume();
+        if(!resumeList.isEmpty()){
+            return resumeList.stream()
+                    .map(resume -> ResumeDto.builder()
+                            .id(resume.getId())
+                            .applicantId(resume.getApplicantId())
+                            .name(resume.getName())
+                            .categoryId(resume.getCategoryId())
+                            .salary(resume.getSalary())
+                            .isActive(resume.isActive())
+                            .createdDate(resume.getCreatedDate())
+                            .updateTime(resume.getUpdateTime())
+                            .build())
+                    .toList();
+        }
 
-        return new ArrayList<>(); //Пока что возвращаю пустой список
+        return Collections.emptyList();
     }
 
     @Override
-    public List<Vacancy> getVacancyByCategory(String category) {
-        //TODO логика поиска резюме по категориям
+    public List<VacancyDto> getVacancyByCategory(Long category_id) {
+        List<Vacancy> vacancies=userDao.getVacancyByCategory(category_id);
+        if (!vacancies.isEmpty()){
+            return vacancies.stream()
+                    .map(vacancy -> VacancyDto.builder()
+                            .id(vacancy.getId())
+                            .name(vacancy.getName())
+                            .description(vacancy.getDescription())
+                            .salary(vacancy.getSalary())
+                            .expFrom(vacancy.getExpFrom())
+                            .expTo(vacancy.getExpTo())
+                            .isActive(vacancy.isActive())
+                            .authorId(vacancy.getAuthorId())
+                            .createdDate(vacancy.getCreatedDate())
+                            .updateTime(vacancy.getUpdateTime())
+                            .build())
+                    .toList();
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<VacancyDto> getRespondedToVacancy(Long applicantId) {
+        List <Vacancy> vacancies = userDao.responseToVacancies(applicantId);
+        if (!vacancies.isEmpty()) {
+            return vacancies.stream()
+                    .map(vacancy -> VacancyDto.builder()
+                            .id(vacancy.getId())
+                            .name(vacancy.getName())
+                            .description(vacancy.getDescription())
+                            .salary(vacancy.getSalary())
+                            .expFrom(vacancy.getExpFrom())
+                            .expTo(vacancy.getExpTo())
+                            .isActive(vacancy.isActive())
+                            .authorId(vacancy.getAuthorId())
+                            .createdDate(vacancy.getCreatedDate())
+                            .updateTime(vacancy.getUpdateTime())
+                            .build())
+                    .toList();
+        }
         return List.of();
     }
 
     @Override
-    public List<Vacancy> getRespondedToVacancy() {
-        //TODO logic for job seekers who responded to the vacancy
-        return List.of();
+    public List<VacancyDto> getVacancy(){
+        List<Vacancy> vacancies = userDao.getVacancy();
+        if (!vacancies.isEmpty()) {
+            return vacancies.stream()
+                    .map(vacancy -> VacancyDto.builder()
+                            .id(vacancy.getId())
+                            .name(vacancy.getName())
+                            .description(vacancy.getDescription())
+                            .salary(vacancy.getSalary())
+                            .expFrom(vacancy.getExpFrom())
+                            .expTo(vacancy.getExpTo())
+                            .isActive(vacancy.isActive())
+                            .authorId(vacancy.getAuthorId())
+                            .createdDate(vacancy.getCreatedDate())
+                            .updateTime(vacancy.getUpdateTime())
+                            .build()).toList();
+        }
+        return Collections.emptyList();
     }
 
     @Override
