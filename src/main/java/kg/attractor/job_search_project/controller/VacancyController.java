@@ -1,5 +1,6 @@
 package kg.attractor.job_search_project.controller;
 
+import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.service.VacancyService;
@@ -41,9 +42,9 @@ public class VacancyController {
         return HttpStatus.OK;
     }
 
-    @GetMapping("searchresume")
-    public ResponseEntity<Void> allResume() {
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping("resume")
+    public List<ResumeDto> getResume() {
+        return vacancyService.getAllResume();
     }
 
     @GetMapping("category/{id}")

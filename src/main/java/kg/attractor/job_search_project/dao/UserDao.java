@@ -123,6 +123,10 @@ public class UserDao {
         return false;
     }
 
+    public List<Resume> getResume(){
+        String sql = "select * from resume";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class));
 
+    }
 
 }

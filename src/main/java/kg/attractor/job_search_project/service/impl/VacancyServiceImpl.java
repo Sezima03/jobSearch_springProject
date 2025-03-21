@@ -1,13 +1,14 @@
 package kg.attractor.job_search_project.service.impl;
 
 import kg.attractor.job_search_project.dao.UserDao;
+import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
+import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,11 +42,24 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<Vacancy> getAllResume() {
-        //TODO логика для возвращения всех резюме
-        //TODO Получаем резюме из базы и можно вовращать их в виде списка
+    public List<ResumeDto> getAllResume() {
+        List<Resume> resumeList = userDao.getResume();
+        if(!resumeList.isEmpty()){
+            return resumeList.stream()
+                    .map(resume -> ResumeDto.builder()
+                            .id(resume.getId())
+                            .applicantId(resume.getApplicantId())
+                            .name(resume.getName())
+                            .categoryId(resume.getCategoryId())
+                            .salary(resume.getSalary())
+                            .isActive(resume.isActive())
+                            .createdDate(resume.getCreatedDate())
+                            .updateTime(resume.getUpdateTime())
+                            .build())
+                    .toList();
+        }
 
-        return new ArrayList<>(); //Пока что возвращаю пустой список
+        return Collections.emptyList();
     }
 
     @Override

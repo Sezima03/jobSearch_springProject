@@ -1,5 +1,6 @@
 package kg.attractor.job_search_project.service;
 
+import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.model.Vacancy;
 
@@ -14,7 +15,8 @@ public interface VacancyService {
 
     boolean deleteVacancy(Long id);
 
-    List<Vacancy> getAllResume();
+
+    List<ResumeDto> getAllResume();
 
     List<VacancyDto> getVacancyByCategory(Long category_id);
 
