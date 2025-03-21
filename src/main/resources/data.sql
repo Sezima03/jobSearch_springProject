@@ -11,10 +11,11 @@ create table if not exists users(
 
     );
 
-create table if not exists categories(
-                                         id int auto_increment primary key,
-                                         parent_id int,
-                                         name varchar(50)
+create table if not exists categories (
+    id int auto_increment primary key,
+    parent_id int,
+    name varchar(50),
+    foreign key (parent_id) references categories(id)
     );
 
 create table if not exists resume(
@@ -30,9 +31,9 @@ create table if not exists resume(
 
     );
 
-create table if not exists vacancy(
-                                      id int auto_increment primary key,
-                                      name varchar(50),
+create table if not exists vacancyusr (
+    id int auto_increment primary key,
+    name varchar(50),
     description varchar(500),
     category_id int,
     salary double,
@@ -40,9 +41,9 @@ create table if not exists vacancy(
     exp_to int,
     is_active boolean,
     author_id int,
-    created_date timestamp,
-    update_time timestamp,
-    foreign key(category_id) references categories(id) on delete restrict on update cascade
+    created_date timestamp default current_timestamp,
+    update_time timestamp default current_timestamp on update current_timestamp,
+    foreign key (category_id) references categories(id) on delete restrict on update cascade
     );
 
 create table if not exists responded_applicant(
@@ -58,6 +59,12 @@ create table if not exists responded_applicant(
     on delete restrict on update cascade
     );
 
+
+insert into categories(parent_id, name) values
+                                            (1,'js'),
+                                            (2, 'java'),
+                                            (3, 'python'),
+                                            (4, 'project manager');
 
 insert into users(name,
                   surname,
@@ -79,31 +86,19 @@ insert into resume(
     created_date,
     update_time)
 values (1, 'java junior', 2 , 60000, true, now(), now()),
-       (1, 'senior backend developer', 2, 200000, true, now(), now()),
-       (1, 'frontend developer', 1, 90000, true,now(), now());
+       (2, 'senior backend developer', 2, 200000, true, now(), now()),
+       (2, 'frontend developer', 1, 90000, true,now(), now());
 
 
-insert into vacancy(
-    name,
-    description,
-    salary,
-    exp_from,
-    exp_to,
-    is_active,
-    author_id,
-    created_date,
-    update_time)
-values ('Frontend Developer', 'Join our frontend team to develop user interfaces using React.js and modern JavaScript frameworks',100000, 1, 3, true, 2, now(), now()),
-       ('Senior Backend Developer', 'We are looking for a Senior Backend Developer',180000, 3, 6, true, 2, now(), now());
+insert into vacancyusr(name, description, category_id, salary, exp_from, exp_to, is_active, author_id)
+values
+    ('junior java developer', 'looking for a junior java developer', 1, 50000, 0, 2, true, 1),
+    ('senior javascript developer', 'looking for a senior javascript developer', 2, 80000, 3, 5, true, 2),
+    ('frontend developer', 'join our team as a frontend developer', 3, 70000, 1, 3, true, 3),
+    ('backend developer', 'looking for a backend developer', 4, 90000, 2, 5, true, 4);
 
 
 insert into responded_applicant(resume_id,
                                 vacancy_id,
                                 confirmation)
-values (1, 2, true);
-
-insert into categories(parent_id, name) values
-                                            (1,'js'),
-                                            (2, 'java'),
-                                            (3, 'python'),
-                                            (4, 'project manager')
+values (1, 2, true)

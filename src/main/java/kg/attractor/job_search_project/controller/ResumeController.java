@@ -1,5 +1,6 @@
 package kg.attractor.job_search_project.controller;
 
+import kg.attractor.job_search_project.dto.RespondedApplicantDto;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.Vacancy;
@@ -18,25 +19,26 @@ import java.util.List;
 public class ResumeController {
     private final ResumeService resumeService;
 
-    @PostMapping
-    public ResponseEntity<Resume>  createResume(@RequestBody Resume resume){
-        Resume createR= resumeService.getCreateResume(resume);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createR);
+    @PostMapping("add")
+    public HttpStatus addResume(@RequestBody ResumeDto resumeDto){
+        resumeService.getCreateResume(resumeDto);
+        return HttpStatus.OK;
     }
 
     @PutMapping("update/{resumeId}")
-    public ResponseEntity<Resume>  updateResume(@PathVariable Long resumeId, @RequestBody Resume updateResume){
-        Resume resume1 = resumeService.getUpdateResume(resumeId, updateResume);
-        return ResponseEntity.status(HttpStatus.OK).body(resume1);
+    public HttpStatus updateResume(@RequestBody ResumeDto resumeDto, @PathVariable Long resumeId){
+        resumeService.getUpdateResume(resumeId, resumeDto);
+        return HttpStatus.OK;
     }
 
     @DeleteMapping("delete/{resumeId}")
     public HttpStatus  deleteResume(@PathVariable("resumeId") Long resumeId){
+        resumeService.getDeleteResume(resumeId);
         return HttpStatus.OK;
     }
 
     @GetMapping("vacancy")
-    public ResponseEntity<List<Resume>> getAllResume(){
+    public ResponseEntity<List<Resume>> vacancy(){
         //TODO logics
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -46,15 +48,14 @@ public class ResumeController {
         return resumeService.getAllVacancyByCategory(category);
     }
 
-    @PostMapping("response")
-    public ResponseEntity<?> responseToVacancy(@RequestParam Long resumeId,  @RequestParam Long vacancyId){
-         String response =resumeService.getresponceVacancy(resumeId,vacancyId);
-        return ResponseEntity.ok(response);
+    @GetMapping("userId/{userId}")
+    public List<ResumeDto> getAllResumeByUserId(@PathVariable Long userId){
+        return resumeService.getUserById(userId);
     }
 
-    @GetMapping("searchemployer")
-    public ResponseEntity<List<Vacancy>> searchForEmployer(@RequestParam String name){
-        List<Vacancy> employer=resumeService.getSearchForAnEmployer(name);
-        return ResponseEntity.status(HttpStatus.OK).body(employer);
+    @GetMapping("applicant/{idvacancy}")
+    public List<RespondedApplicantDto> responseVacancy(@PathVariable Long idvacancy){
+        return resumeService.getresponseVacancy(idvacancy);
     }
+
 }

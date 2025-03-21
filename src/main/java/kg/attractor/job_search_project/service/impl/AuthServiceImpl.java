@@ -6,7 +6,7 @@ import kg.attractor.job_search_project.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service //аннотация для указания что это сервис
+@Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final UserDao userDao;
