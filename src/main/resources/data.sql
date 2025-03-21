@@ -12,10 +12,10 @@ create table if not exists users(
     );
 
 create table if not exists categories (
-    id int auto_increment primary key,
-    parent_id int,
-    name varchar(50),
-    foreign key (parent_id) references categories(id)
+                                          id int auto_increment primary key,
+                                          parent_id int,
+                                          name varchar(50),
+    foreign key (parent_id) references categories(id) on delete restrict on update cascade
     );
 
 create table if not exists resume(
@@ -32,8 +32,8 @@ create table if not exists resume(
     );
 
 create table if not exists vacancyusr (
-    id int auto_increment primary key,
-    name varchar(50),
+                                          id int auto_increment primary key,
+                                          name varchar(50),
     description varchar(500),
     category_id int,
     salary double,
