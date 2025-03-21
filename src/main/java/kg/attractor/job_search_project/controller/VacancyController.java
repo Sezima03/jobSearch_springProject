@@ -23,10 +23,10 @@ public class VacancyController {
         return vacancyService.getVacancy();
     }
 
-    @PostMapping("create")
-    public ResponseEntity<Vacancy> createVacancy(@RequestBody Vacancy vacancy) {
-        Vacancy createVacancy=vacancyService.createdVacancy(vacancy);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createVacancy);
+    @PostMapping("add")
+    public HttpStatus addVacancy(@RequestBody VacancyDto vacancyDto){
+        vacancyService.createdVacancy(vacancyDto);
+        return HttpStatus.OK;
     }
 
     @PutMapping("update/{vacancyId}")

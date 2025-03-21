@@ -18,11 +18,20 @@ public class VacancyServiceImpl implements VacancyService {
     private final UserDao userDao;
 
     @Override
-    public Vacancy createdVacancy(Vacancy vacancy) {
-        //TODO входные данные: name, description, category_id, salary, exp_from, exp_to, isActive, author_id, created_date, update_date
-        //TODO логика для создании вакансии и сохранение
-        //TODO Возвращаем новую ваканисию
-        return vacancy;
+    public void createdVacancy(VacancyDto vacancyDto) {
+
+        Vacancy vacancy=new Vacancy();
+        vacancy.setId(vacancyDto.getId());
+        vacancy.setName(vacancyDto.getName());
+        vacancy.setDescription(vacancyDto.getDescription());
+        vacancy.setCategoryId(vacancyDto.getCategoryId());
+        vacancy.setSalary(vacancyDto.getSalary());
+        vacancy.setExpFrom(vacancyDto.getExpFrom());
+        vacancy.setExpTo(vacancyDto.getExpTo());
+        vacancy.setActive(vacancyDto.isActive());
+        vacancy.setAuthorId(vacancyDto.getAuthorId());
+
+        userDao.getCreatedVacancy(vacancyDto);
     }
 
     @Override

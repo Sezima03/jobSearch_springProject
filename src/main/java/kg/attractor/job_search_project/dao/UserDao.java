@@ -1,6 +1,7 @@
 package kg.attractor.job_search_project.dao;
 
 import kg.attractor.job_search_project.dto.ResumeDto;
+import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.model.RespondedApplicant;
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.User;
@@ -97,6 +98,13 @@ public class UserDao {
 
         jdbcTemplate.update(sql, resume.getApplicantId(), resume.getName(), resume.getCategoryId(), resume.getSalary(), resume.isActive(), resume.getCreatedDate(), resume.getUpdateTime());
 
+    }
+
+    public void getCreatedVacancy(VacancyDto vacancy){
+        String sql ="insert into vacancyusr(name, description, category_id, salary, exp_from, exp_to, is_active, author_id, created_date, update_time)" +
+                "values(?,?,?,?,?,?,?,?,?, ?)";
+
+        jdbcTemplate.update(sql, vacancy.getName(), vacancy.getDescription(), vacancy.getCategoryId(), vacancy.getSalary(), vacancy.getExpFrom(), vacancy.getExpTo(), vacancy.isActive(), vacancy.getAuthorId(), vacancy.getCreatedDate(), vacancy.getUpdateTime());
     }
 
     public void getupdateResume(Long resumeId, ResumeDto resumedto){

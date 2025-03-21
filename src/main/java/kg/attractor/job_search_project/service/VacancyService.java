@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface VacancyService {
 
-    Vacancy createdVacancy(Vacancy vacancy);
+    void createdVacancy(VacancyDto vacancyDto);
 
     Vacancy updateVacancy(Long id, Vacancy updateVacancy);
 
