@@ -62,16 +62,6 @@ public class UserDao {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class), userId);
     }
 
-    public List<Vacancy> responseToVacancies(Long applicantId) {
-        String sql = "select vacancyusr.id, vacancyusr.name, vacancyusr.description, vacancyusr.salary, vacancyusr.exp_from, vacancyusr.exp_to, vacancyusr.is_active, vacancyusr.author_id, vacancyusr.created_date, vacancyusr.update_time " +
-                "from vacancyusr " +
-                "JOIN responded_applicant ra on vacancyusr.id = ra.vacancy_id " +
-                "JOIN resume r ON r.id = ra.resume_id " +
-                "where r.applicant_id = ?";
-
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), applicantId);
-    }
-
     public List<Vacancy> getVacancy(){
         String sql = "select * from vacancyusr";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Vacancy.class));
@@ -101,10 +91,10 @@ public class UserDao {
     }
 
     public void getCreatedVacancy(VacancyDto vacancy){
-        String sql ="insert into vacancyusr(name, description, category_id, salary, exp_from, exp_to, is_active, author_id, created_date, update_time)" +
-                "values(?,?,?,?,?,?,?,?,?, ?)";
+        String sql ="insert into vacancyusr(name, description, category_id, salary, exp_from, exp_to, is_active, author_id)" +
+                "values(?,?,?,?,?,?,?,?)";
 
-        jdbcTemplate.update(sql, vacancy.getName(), vacancy.getDescription(), vacancy.getCategoryId(), vacancy.getSalary(), vacancy.getExpFrom(), vacancy.getExpTo(), vacancy.isActive(), vacancy.getAuthorId(), vacancy.getCreatedDate(), vacancy.getUpdateTime());
+        jdbcTemplate.update(sql, vacancy.getName(), vacancy.getDescription(), vacancy.getCategoryId(), vacancy.getSalary(), vacancy.getExpFrom(), vacancy.getExpTo(), vacancy.isActive(), vacancy.getAuthorId());
     }
 
     public void getupdateResume(Long resumeId, ResumeDto resumedto){
@@ -136,5 +126,54 @@ public class UserDao {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class));
 
     }
+
+    public boolean getdeleteVacancy(Long vacancyId){
+        String sql = "select count(*) from vacancyusr where id = ?";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, vacancyId);
+
+        if (count > 0){
+            String sql2 ="delete from vacancyusr where id = ?";
+            int res=jdbcTemplate.update(sql2, vacancyId);
+
+            return res>0;
+        }
+        return false;
+    }
+
+    public void getUpdateVacancy(VacancyDto vacancyDto, Long vacancyId){
+        String sql = "UPDATE vacancyusr SET " +
+                "name = ?, " +
+                "description = ?, " +
+                "salary = ?, " +
+                "exp_from = ?, " +
+                "exp_to = ?, " +
+                "is_active = ?, " +
+                "author_id = ?, " +
+                "update_time = ? " +
+                "WHERE id = ?";
+        jdbcTemplate.update(sql, vacancyDto.getName(), vacancyDto.getDescription(),
+                vacancyDto.getSalary(), vacancyDto.getExpFrom(), vacancyDto.getExpTo(),
+                vacancyDto.isActive(), vacancyDto.getAuthorId(), vacancyDto.getUpdateTime(), vacancyId);
+    }
+
+    public List<Vacancy> responseToVacancies(Long applicantId) {
+        String sql = "select vacancyusr.id, " +
+                "vacancyusr.name, " +
+                "vacancyusr.description, " +
+                "vacancyusr.salary, " +
+                "vacancyusr.exp_from, " +
+                "vacancyusr.exp_to," +
+                " vacancyusr.is_active, " +
+                "vacancyusr.author_id, " +
+                "vacancyusr.created_date, " +
+                "vacancyusr.update_time " +
+                "from vacancyusr " +
+                "JOIN responded_applicant ra on vacancyusr.id = ra.vacancy_id " +
+                "JOIN resume r ON r.id = ra.resume_id " +
+                "where r.applicant_id = ?";
+
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), applicantId);
+    }
+
 
 }

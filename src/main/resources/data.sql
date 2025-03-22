@@ -55,7 +55,7 @@ create table if not exists responded_applicant(
                                                   foreign key(resume_id) references resume(id)
     on delete restrict on update cascade,
 
-    foreign key(vacancy_id) references vacancy(id)
+    foreign key(vacancy_id) references vacancyusr(id)
     on delete restrict on update cascade
     );
 
