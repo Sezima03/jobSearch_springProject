@@ -22,7 +22,6 @@ public class UserDao {
     public List<User> getSearchByName(String name) {
         String sql = "select * from users where name like ?";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(User.class), name);
-
     }
 
     public List<User> getSearchByNumber(String phone_number) {

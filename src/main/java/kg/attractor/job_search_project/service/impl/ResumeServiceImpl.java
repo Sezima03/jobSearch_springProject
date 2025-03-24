@@ -1,10 +1,13 @@
 package kg.attractor.job_search_project.service.impl;
+import kg.attractor.job_search_project.dao.ResumeDao;
 import kg.attractor.job_search_project.dao.UserDao;
 import kg.attractor.job_search_project.dto.RespondedApplicantDto;
 import kg.attractor.job_search_project.dto.ResumeDto;
+import kg.attractor.job_search_project.exceptions.ResumeNotFoundException;
 import kg.attractor.job_search_project.model.RespondedApplicant;
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.service.ResumeService;
+import kg.attractor.job_search_project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ResumeServiceImpl implements ResumeService {
 
+    private final ResumeDao resumeDao;
     private final UserDao userDao;
 
 
@@ -29,18 +33,19 @@ public class ResumeServiceImpl implements ResumeService {
         resume1.setCreatedDate(resumeDto.getCreatedDate());
         resume1.setUpdateTime(resumeDto.getUpdateTime());
 
-        userDao.getCreateResume(resumeDto);
+        resumeDao.getCreateResume(resumeDto);
     }
 
+    //TODO Реализован
     @Override
-    public void getUpdateResume(Long resumeId, ResumeDto updateResume) {
-        userDao.getupdateResume(resumeId, updateResume);
+    public void getUpdateResume(Long resumeId, Resume updateResume) {
+        resumeDao.getUpdateResume(resumeId, updateResume);
     }
 
-
+    //TODO реализован
     @Override
     public boolean getDeleteResume(Long resumeId) {
-        return userDao.getdeleteResume(resumeId);
+        return resumeDao.deleteResume(resumeId);
     }
 
     @Override
@@ -64,24 +69,23 @@ public class ResumeServiceImpl implements ResumeService {
         return Collections.emptyList();
     }
 
+    //TODO реализован
     @Override
-    public List<ResumeDto> getUserById(Long userId){
-        List<Resume> resumes=userDao.getUserById(userId);
-        if (resumes!=null && !resumes.isEmpty()){
-            return resumes.stream()
-                    .map(resume -> ResumeDto.builder()
-                            .id(resume.getId())
-                            .applicantId(resume.getApplicantId())
-                            .name(resume.getName())
-                            .categoryId(resume.getCategoryId())
-                            .salary(resume.getSalary())
-                            .isActive(resume.isActive())
-                            .createdDate(resume.getCreatedDate())
-                            .updateTime(resume.getUpdateTime())
-                            .build())
-                    .toList();
-        }
-        return Collections.emptyList();
+    public ResumeDto getFindResumeById(Long resumeId){
+
+        Resume resume = resumeDao.findResumeById(resumeId)
+                .orElseThrow(ResumeNotFoundException::new);
+
+        return ResumeDto.builder()
+                .id(resume.getId())
+                .applicantId(resume.getApplicantId())
+                .name(resume.getName())
+                .categoryId(resume.getCategoryId())
+                .salary(resume.getSalary())
+                .isActive(resume.isActive())
+                .createdDate(resume.getCreatedDate())
+                .updateTime(resume.getUpdateTime())
+                .build();
     }
 
     @Override
@@ -101,9 +105,10 @@ public class ResumeServiceImpl implements ResumeService {
         return Collections.emptyList();
     }
 
+    //TODO реализован
     @Override
     public List<ResumeDto> getAllResume() {
-        List<Resume> resumeList = userDao.getResume();
+        List<Resume> resumeList = resumeDao.getResume();
         if(!resumeList.isEmpty()){
             return resumeList.stream()
                     .map(resume -> ResumeDto.builder()
