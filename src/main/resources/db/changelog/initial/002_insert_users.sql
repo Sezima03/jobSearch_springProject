@@ -11,6 +11,7 @@ values
     (3, 'employerJohn', 'doe', 30, 'johndoe@example.com', 'john123', '996700987654', 'data/images/ava.jpg', 'employer');
 
 
+
 insert into RESUME( applicant_id, name, category_id, salary, is_active, created_date, update_time)
 values (1, 'java junior', 2 , 60000, true, now(), now()),
        (2, 'senior backend developer', 2, 200000, true, now(), now()),

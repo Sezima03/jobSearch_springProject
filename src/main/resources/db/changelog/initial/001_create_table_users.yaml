@@ -155,7 +155,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_a_id
-                    references: categories(id)
+                    references: users(id)
               - column:
                   name: created_date
                   type: timestamp
