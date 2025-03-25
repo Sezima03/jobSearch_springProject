@@ -23,7 +23,7 @@ values
     ('junior java developer', 'looking for a junior java developer', 1, 50000, 0, 2, true, 1),
     ('senior javascript developer', 'looking for a senior javascript developer', 2, 80000, 3, 5, true, 2),
     ('frontend developer', 'join our team as a frontend developer', 3, 70000, 1, 3, true, 3),
-    ('backend developer', 'looking for a backend developer', 4, 90000, 2, 5, true, 1);
+    ('backend developer', 'looking for a backend developer', 4, 90000, 2, 5, false, 1);
 
 
 insert into RESPONDED_APPLICANT(resume_id, vacancy_id, confirmation)

@@ -250,9 +250,7 @@ databaseChangeLog:
               - column:
                   name: resume_id
                   type: long
-#                  autoIncrement: true
                   constraints:
-#                    nullable: false
                     foreignKeyName: fk_resume_id_edu
                     references: resume(id)
               - column:
@@ -288,7 +286,6 @@ databaseChangeLog:
                   name: resume_id
                   type: long
                   constraints:
-#                    nullable: false
                     foreignKeyName: fk_resume_id_info
                     references: resume(id)
               - column:
