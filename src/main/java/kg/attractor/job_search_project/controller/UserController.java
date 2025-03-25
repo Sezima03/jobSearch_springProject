@@ -2,6 +2,7 @@ package kg.attractor.job_search_project.controller;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.model.User;
+import kg.attractor.job_search_project.service.UserService;
 import kg.attractor.job_search_project.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,12 +15,12 @@ import java.util.List;
 @RequestMapping("users")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
 
 
     @PostMapping("register")
     public ResponseEntity<String> isEmailTaken(@RequestBody User user){
-        String users=userServiceImpl.registerUser(user);
+        String users=userService.registerUser(user);
         if (users.equals("Email уже существует")){
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(users);
         }
@@ -28,20 +29,20 @@ public class UserController {
 
     @GetMapping("name/{name}")
     public List<UserDto> getSearchByName(@PathVariable String name){
-        return userServiceImpl.getSearchByName(name);
+        return userService.getSearchByName(name);
     }
 
     @GetMapping("number/{number}")
     public List<UserDto> getSearchByNumber(@PathVariable String number){
-        return userServiceImpl.getSearchByNumber(number);
+        return userService.getSearchByNumber(number);
     }
 
     @GetMapping("/email/{email}")
     public List<UserDto> getSearchByEmail(@PathVariable String email){
-        return userServiceImpl.getSearchByEmail(email);
+        return userService.getSearchByEmail(email);
     }
     @GetMapping("responded/{respondedId}")
     public List<VacancyDto>  vacancyByResponded(@PathVariable("respondedId") Long applicantId) {
-        return userServiceImpl.getRespondedToVacancy(applicantId);
+        return userService.getRespondedToVacancy(applicantId);
     }
 }
