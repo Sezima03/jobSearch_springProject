@@ -1,7 +1,11 @@
 package kg.attractor.job_search_project.dao;
 
+import kg.attractor.job_search_project.dto.EducationInfoDto;
 import kg.attractor.job_search_project.dto.ResumeDto;
+import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
+import kg.attractor.job_search_project.model.EducationInfo;
 import kg.attractor.job_search_project.model.Resume;
+import kg.attractor.job_search_project.model.WorkExperienceInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -17,7 +21,6 @@ public class ResumeDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    //TODO реализован
     public Optional<Resume> findResumeById(Long id) {
         String sql = "select * from resume where id = ?";
         return Optional.ofNullable(
@@ -29,12 +32,12 @@ public class ResumeDao {
                 )
         );
     }
-    //TODO реализован
+
     public List<Resume> getResume() {
         String sql = "select * from resume";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class));
     }
-    //TODO реализован
+
     public void getUpdateResume(Long resumeId, Resume resume){
         String sql = "update resume set " +
                 "applicant_id = ?, " +
@@ -49,12 +52,7 @@ public class ResumeDao {
         jdbcTemplate.update(sql, resume.getApplicantId(), resume.getName(), resume.getCategoryId(), resume.getSalary(), resume.isActive(), resume.getCreatedDate(), resume.getUpdateTime(), resumeId);
     }
 
-    public void insertResume(Resume resume) {
-        //TODO Добавления резюме
-        //TODO при создании нового резюме учтите что модули образование и Опыт работы это отдельные таблицы
-    }
 
-    //TODO реализован
     public boolean deleteResume(Long resumeId) {
         String sql = "select count(*) from resume where id = ?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class, resumeId);
@@ -72,7 +70,7 @@ public class ResumeDao {
         return false;
     }
 
-    public void getCreateResume(ResumeDto resume){
+    public void getCreateResume(ResumeDto resume) {
         String sql="insert into resume(applicant_id, name, category_id, salary, is_active, created_date, update_time)" +
                 "values(?,?,?,?,?,?,?)";
 
@@ -85,5 +83,32 @@ public class ResumeDao {
                 resume.isActive(),
                 resume.getCreatedDate(),
                 resume.getUpdateTime());
+
+    }
+
+    public List<Resume> getAllResumeByCategory(String category){
+        String sql = "select r. * " +
+                "from RESUME r " +
+                "JOIN CATEGORIES C on C.ID = r.CATEGORY_ID " +
+                "where c.NAME = ?";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class), category);
+    }
+
+    public List<Resume> getAllResumeByApplicantId(Long applicantId){
+        String sql = "select * from resume where applicant_id = ?";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class), applicantId);
+    }
+
+    public void getCreateEduInfo(EducationInfoDto educationInfo){
+        String sql = "insert into education_info (institution, program, start_date, end_date, degree)" +
+                "values (?,?,?,?,?)";
+        jdbcTemplate.update(sql, educationInfo.getInstitution(), educationInfo.getProgram(), educationInfo.getStartDate(), educationInfo.getEndDate(), educationInfo.getDegree());
+    }
+
+    public void getCreateWorkExperienceInfo(WorkExperienceInfoDto workExperienceInfo){
+        String sql = "insert into work_experience_info (resume_id, years, company_name, position, responsibilites)" +
+                "values (?,?,?,?,?)";
+
+        jdbcTemplate.update(sql, workExperienceInfo.getResumeId(), workExperienceInfo.getYear(), workExperienceInfo.getCompanyName(), workExperienceInfo.getPosition(), workExperienceInfo.getResponsibility());
     }
 }

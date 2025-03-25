@@ -21,7 +21,8 @@ public interface ResumeService {
 
     ResumeDto getFindResumeById(Long userId);
 
-    List<RespondedApplicantDto> getresponseVacancy(Long vacancyId);
 
     List<ResumeDto> getAllResume();
+
+    List<ResumeDto> getAllResumeByApplicantId(Long applicantId);
 }
