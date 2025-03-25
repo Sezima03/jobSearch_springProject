@@ -73,7 +73,7 @@ public class VacancyDao {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(RespondedApplicant.class), vacancyId);
     }
     public List<Vacancy> getAllActiveVacancies() {
-        String sql = "select * from vacancyusr where is_active = false";
+        String sql = "select * from vacancyusr where is_active = true";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Vacancy.class));
     }
 }
