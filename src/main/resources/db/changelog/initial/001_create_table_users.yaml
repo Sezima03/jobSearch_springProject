@@ -77,7 +77,7 @@ databaseChangeLog:
                   type: long
                   autoIncrement: true
                   constraints:
-                    nullable: false
+#                    nullable: false
                     primaryKey: true
               - column:
                   name: applicant_id
@@ -182,7 +182,7 @@ databaseChangeLog:
                   name: resume_id
                   type: long
                   constraints:
-                    nullable: false
+#                    nullable: false
                     foreignKeyName: fk_resume_idd
                     references: resume(id)
               - column:
@@ -211,7 +211,7 @@ databaseChangeLog:
                     primaryKey: true
               - column:
                   name: type
-                  type: int
+                  type: varchar(100)
   - changeSet:
       id: create_table_contacts_info
       author: admin
@@ -250,8 +250,9 @@ databaseChangeLog:
               - column:
                   name: resume_id
                   type: long
+#                  autoIncrement: true
                   constraints:
-                    nullable: false
+#                    nullable: false
                     foreignKeyName: fk_resume_id_edu
                     references: resume(id)
               - column:
@@ -287,7 +288,7 @@ databaseChangeLog:
                   name: resume_id
                   type: long
                   constraints:
-                    nullable: false
+#                    nullable: false
                     foreignKeyName: fk_resume_id_info
                     references: resume(id)
               - column:

@@ -27,4 +27,19 @@ values
 
 
 insert into RESPONDED_APPLICANT(resume_id, vacancy_id, confirmation)
-values (1, 2, true)
+values (1, 2, true);
+
+insert into CONTACT_TYPES (TYPE)
+values ('email'),
+       ('телефон'),
+       ('telegram'),
+       ('WhatsApp'),
+       ('LinkedIn');
+
+INSERT INTO education_info (resume_id, institution, program, start_date, end_date, degree)
+VALUES
+    (1, 'Harvard University', 'Computer Science', '2015-09-01', '2019-06-30', 'Bachelor'),
+    (2, 'Stanford University', 'Electrical Engineering', '2016-09-01', '2020-06-30', 'Master'),
+    (1, 'MIT', 'Data Science', '2017-09-01', '2021-06-30', 'PhD'),
+    (2, 'University of Oxford', 'Mechanical Engineering', '2014-10-01', '2018-06-30', 'Master'),
+    (1, 'University of Cambridge', 'Physics', '2015-09-01', '2019-06-30', 'Bachelor');
