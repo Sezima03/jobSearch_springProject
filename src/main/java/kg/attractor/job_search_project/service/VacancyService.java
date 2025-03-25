@@ -1,4 +1,5 @@
 package kg.attractor.job_search_project.service;
+import kg.attractor.job_search_project.dto.RespondedApplicantDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 
 import java.util.List;
@@ -16,4 +17,7 @@ public interface VacancyService {
 
     List<VacancyDto> getVacancy();
 
+    List<RespondedApplicantDto>  getRespondedApplicantByVacancyId(Long vacancyId);
+
+    List<VacancyDto> getAllActiveVacancies();
 }
