@@ -16,9 +16,16 @@ import java.util.List;
 public class VacancyServiceImpl implements VacancyService {
 
     private final VacancyDao vacancyDao;
+    private final UserDao userDao;
 
     @Override
     public void createdVacancy(VacancyDto vacancyDto) {
+
+        boolean authorsExist = userDao.existsByAuthorId(vacancyDto.getAuthorId());
+
+        if (!authorsExist) {
+            throw new VacancyNotFoundException("Автор с таким id не существует");
+        }
 
         Vacancy vacancy=new Vacancy();
         vacancy.setId(vacancyDto.getId());
@@ -28,14 +35,14 @@ public class VacancyServiceImpl implements VacancyService {
         vacancy.setSalary(vacancyDto.getSalary());
         vacancy.setExpFrom(vacancyDto.getExpFrom());
         vacancy.setExpTo(vacancyDto.getExpTo());
-        vacancy.setActive(vacancyDto.isActive());
+        vacancy.setIsActive(vacancyDto.isActive());
         vacancy.setAuthorId(vacancyDto.getAuthorId());
 
         vacancyDao.getCreateVacancy(vacancy);
     }
 
     @Override
-    public void updateVacancy(VacancyDto vacancyDto, Long id) {
+    public void getUpdateVacancy(VacancyDto vacancyDto, Long id) {
         vacancyDao.getUpdateVacancy(vacancyDto, id);
     }
 
@@ -48,17 +55,18 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> getVacancyByCategory(Long category_id) {
         List<Vacancy> vacancies=vacancyDao.getVacancyByCategory(category_id);
         if (vacancies.isEmpty()){
-            throw new  VacancyNotFoundException();
+            throw new  VacancyNotFoundException("Vacancy Not Found");
         }
         return vacancies.stream()
                 .map(vacancy -> VacancyDto.builder()
                         .id(vacancy.getId())
                         .name(vacancy.getName())
                         .description(vacancy.getDescription())
+                        .categoryId(vacancy.getCategoryId())
                         .salary(vacancy.getSalary())
                         .expFrom(vacancy.getExpFrom())
                         .expTo(vacancy.getExpTo())
-                        .isActive(vacancy.isActive())
+                        .isActive(vacancy.getIsActive())
                         .authorId(vacancy.getAuthorId())
                         .createdDate(vacancy.getCreatedDate())
                         .updateTime(vacancy.getUpdateTime())
@@ -70,17 +78,18 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> getVacancy(){
         List<Vacancy> vacancies = vacancyDao.getVacancies();
         if (vacancies.isEmpty()) {
-            throw new VacancyNotFoundException();
+            throw new VacancyNotFoundException("Vacancy Not Found");
         }
         return vacancies.stream()
                 .map(vacancy -> VacancyDto.builder()
                         .id(vacancy.getId())
                         .name(vacancy.getName())
                         .description(vacancy.getDescription())
+                        .categoryId(vacancy.getCategoryId())
                         .salary(vacancy.getSalary())
                         .expFrom(vacancy.getExpFrom())
                         .expTo(vacancy.getExpTo())
-                        .isActive(vacancy.isActive())
+                        .isActive(vacancy.getIsActive())
                         .authorId(vacancy.getAuthorId())
                         .createdDate(vacancy.getCreatedDate())
                         .updateTime(vacancy.getUpdateTime())
@@ -91,7 +100,7 @@ public class VacancyServiceImpl implements VacancyService {
     public List<RespondedApplicantDto>  getRespondedApplicantByVacancyId(Long vacancyId) {
         List<RespondedApplicant> respondedApplicants = vacancyDao.getFindRespondedApplicantByVacancyId(vacancyId);
         if ((respondedApplicants == null) || (respondedApplicants.isEmpty())) {
-            throw new VacancyNotFoundException();
+            throw new VacancyNotFoundException("No applicants found");
         }
         return respondedApplicants.stream()
                 .map(respondedApplicant -> RespondedApplicantDto.builder()
@@ -107,7 +116,7 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> getAllActiveVacancies() {
         List<Vacancy> vacancies = vacancyDao.getAllActiveVacancies();
         if (vacancies.isEmpty() || vacancies == null) {
-            throw new VacancyNotFoundException();
+            throw new VacancyNotFoundException("Vacancy Not Found");
         }
         return vacancies.stream()
                 .map(vacancy -> VacancyDto.builder()
@@ -118,7 +127,7 @@ public class VacancyServiceImpl implements VacancyService {
                         .salary(vacancy.getSalary())
                         .expFrom(vacancy.getExpFrom())
                         .expTo(vacancy.getExpTo())
-                        .isActive(vacancy.isActive())
+                        .isActive(vacancy.getIsActive())
                         .authorId(vacancy.getAuthorId())
                         .createdDate(vacancy.getCreatedDate())
                         .updateTime(vacancy.getUpdateTime())
