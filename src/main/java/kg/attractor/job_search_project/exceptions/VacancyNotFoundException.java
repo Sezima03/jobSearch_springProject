@@ -1,7 +1,9 @@
 package kg.attractor.job_search_project.exceptions;
 
-public class VacancyNotFoundException extends RuntimeException {
-    public VacancyNotFoundException() {
-        super("Vacancy Not Found");
+import java.util.NoSuchElementException;
+
+public class VacancyNotFoundException extends NoSuchElementException {
+    public VacancyNotFoundException(String message) {
+        super(message);
     }
 }
