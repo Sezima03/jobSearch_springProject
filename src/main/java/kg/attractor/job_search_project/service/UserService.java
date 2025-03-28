@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserService {
 
 
-    String registerUser(User user);
+    String registerUser(UserDto userDto);
 
     List<UserDto> getSearchByName(String name);
 

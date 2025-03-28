@@ -35,8 +35,7 @@ public class UserDto {
         )
         private String password;
 
-        //TODO проверить валидацию
-        @NotBlank(message = "Поле не может быть пустой")
+        @NotBlank(message = "Номер телефона не должен быть пустым")
         @Pattern(
                 regexp = "^\\+?[1-9]\\d{1,12}$",
                 message = "Неверный формат номера телефона"
@@ -45,7 +44,7 @@ public class UserDto {
 
         private String avatar;
 
-        //TODO проверить валидациб
+        @NotBlank(message = "Выберите тип аккаунта")
         @Pattern(
                 regexp = "^(applicant|employer)$",
                 message = "Тип аккаунта должен быть 'applicant' или 'employer'"
