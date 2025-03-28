@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 @Setter
 public class Resume {
     private Long id;
-    private int applicantId;
+    private Long applicantId;
     private String name;
-    private int categoryId;
+    private Long categoryId;
     private Double salary;
     private boolean isActive;
     private LocalDateTime createdDate;

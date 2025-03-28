@@ -1,5 +1,7 @@
 package kg.attractor.job_search_project.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,13 +16,32 @@ import java.util.List;
 @AllArgsConstructor
 public class ResumeDto {
     private Long id;
-    private int applicantId;
+
+    @NotNull
+    @Min(value = 1, message = "Должен быть больше 0")
+    private Long applicantId;
+
+    @NotBlank(message = "Имя резюме не должно быть пустым")
     private String name;
-    private int categoryId;
+
+    @NotNull
+    @Min(value = 1, message = "Должен быть больше 0")
+    private Long categoryId;
+
     private Double salary;
+
+    @NotNull(message = "Поле 'isActive' не может быть null")
     private boolean isActive;
+
     private LocalDateTime createdDate;
+
     private LocalDateTime updateTime;
+
+    @Valid
+//    @NotEmpty(message = "Список образовательной информации не может быть пустым")
     private List<EducationInfoDto> educationInfo;
+
+    @Valid
+//    @NotEmpty(message = "Список информации о рабочем опыте не может быть пустым")
     private List<WorkExperienceInfoDto> workExperienceInfo;
 }

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class RespondedApplicant {
     private Long id;
-    private int resumeId;
-    private int vacancyId;
+    private Long resumeId;
+    private Long vacancyId;
     private boolean confirmation;
 }
