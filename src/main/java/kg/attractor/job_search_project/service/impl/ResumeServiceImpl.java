@@ -1,9 +1,10 @@
 package kg.attractor.job_search_project.service.impl;
 import kg.attractor.job_search_project.dao.ResumeDao;
+import kg.attractor.job_search_project.dao.existenceCheck.ExistenceCheckDao;
 import kg.attractor.job_search_project.dto.EducationInfoDto;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
-import kg.attractor.job_search_project.exceptions.ResumeNotFoundException;
+import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.EducationInfo;
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.WorkExperienceInfo;
@@ -17,9 +18,15 @@ import java.util.List;
 public class ResumeServiceImpl implements ResumeService {
 
     private final ResumeDao resumeDao;
+    private final ExistenceCheckDao  existenceCheckDao;
 
     @Override
     public void getCreateResume(ResumeDto resumeDto) {
+
+        boolean existsCategory = existenceCheckDao.existaCategoryId(resumeDto.getCategoryId());
+        if (!existsCategory) {
+            throw new JobSearchException("Категория с таким id не существует");
+        }
         Resume resume1=new Resume();
         resume1.setId(resumeDto.getId());
         resume1.setName(resumeDto.getName());
@@ -33,6 +40,7 @@ public class ResumeServiceImpl implements ResumeService {
 
         for (EducationInfoDto educationInfoDto:resumeDto.getEducationInfo()) {
             EducationInfo educationInfo = new EducationInfo();
+            educationInfo.setId(educationInfoDto.getId());
             educationInfo.setResumeId(resumeDto.getId());
             educationInfo.setInstitution(educationInfoDto.getInstitution());
             educationInfo.setProgram(educationInfoDto.getProgram());
@@ -55,7 +63,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public void getUpdateResume(Long resumeId, Resume updateResume) {
+    public void getUpdateResume(Long resumeId, ResumeDto updateResume) {
         resumeDao.getUpdateResume(resumeId, updateResume);
     }
 
@@ -69,7 +77,7 @@ public class ResumeServiceImpl implements ResumeService {
 
         List<Resume> resumes=resumeDao.getAllResumeByCategory(category);
         if (resumes==null||resumes.isEmpty()){
-            throw new ResumeNotFoundException();
+            throw new JobSearchException("Resume Not Found");
         }
         return resumes.stream()
                 .map(resume -> ResumeDto.builder()
@@ -90,7 +98,7 @@ public class ResumeServiceImpl implements ResumeService {
     public ResumeDto getFindResumeById(Long resumeId){
 
         Resume resume = resumeDao.findResumeById(resumeId)
-                .orElseThrow(ResumeNotFoundException::new);
+                .orElseThrow(()->new JobSearchException("Resume Not Found"));
 
         return ResumeDto.builder()
                 .id(resume.getId())
@@ -108,7 +116,7 @@ public class ResumeServiceImpl implements ResumeService {
     public List<ResumeDto> getAllResume() {
         List<Resume> resumeList = resumeDao.getResume();
         if (resumeList==null || resumeList.isEmpty()){
-            throw new ResumeNotFoundException();
+            throw new JobSearchException("Resume Not Found");
         }
         return resumeList.stream()
                 .map(resume -> ResumeDto.builder()
@@ -128,7 +136,7 @@ public class ResumeServiceImpl implements ResumeService {
     public List<ResumeDto> getAllResumeByApplicantId(Long applicantId) {
         List<Resume> resumes = resumeDao.getAllResumeByApplicantId(applicantId);
         if (resumes==null||resumes.isEmpty()){
-            throw new ResumeNotFoundException();
+            throw new JobSearchException("Resume Not Found");
         }
         return resumes.stream()
                 .map(resume -> ResumeDto.builder()

@@ -28,6 +28,11 @@ public class VacancyServiceImpl implements VacancyService {
             throw new JobSearchException("Автор с таким id не существует");
         }
 
+        boolean existsCategory = existenceCheckDao.existaCategoryId(vacancyDto.getCategoryId());
+        if (!existsCategory) {
+            throw new JobSearchException("Категория с таким id не существует");
+        }
+
         Vacancy vacancy=new Vacancy();
         vacancy.setId(vacancyDto.getId());
         vacancy.setName(vacancyDto.getName());

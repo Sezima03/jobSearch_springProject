@@ -12,7 +12,7 @@ public interface ResumeService {
 
     void getCreateResume(ResumeDto resumeDto);
 
-    void getUpdateResume(Long resumeId, Resume updateResume);
+    void getUpdateResume(Long resumeId, ResumeDto updateResume);
 
     boolean getDeleteResume(Long resumeId);
 

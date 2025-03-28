@@ -1,8 +1,6 @@
 package kg.attractor.job_search_project.dto;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,16 +20,15 @@ public class VacancyDto {
     private String description;
 
     @Min(value = 1, message = "Категория должно быть больше 0")
-    @Max(value = 4, message = "Категория должно быть меньше 5")
     private Long categoryId;
 
     private Double salary;
+
 
     private Integer expFrom;
 
     private Integer expTo;
 
-//    @NotBlank(message = "Укажите активность вакансии")
     private boolean isActive;
 
     @Min(value = 1, message = "Должен быть больше 0")

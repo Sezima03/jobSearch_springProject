@@ -1,5 +1,6 @@
 package kg.attractor.job_search_project.controller;
 
+import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.service.ResumeService;
@@ -21,13 +22,13 @@ public class ResumeController {
     }
 
     @PostMapping("add")
-    public HttpStatus addResume(@RequestBody ResumeDto resumeDto){
+    public HttpStatus addResume(@RequestBody @Valid ResumeDto resumeDto){
         resumeService.getCreateResume(resumeDto);
         return HttpStatus.OK;
     }
 
     @PutMapping("update/{resumeId}")
-    public HttpStatus updateResume(@RequestBody Resume resume, @PathVariable Long resumeId){
+    public HttpStatus updateResume(@RequestBody @Valid ResumeDto resume, @PathVariable Long resumeId){
         resumeService.getUpdateResume(resumeId, resume);
         return HttpStatus.OK;
     }
@@ -45,7 +46,6 @@ public class ResumeController {
 
     @GetMapping("find/{resumeId}")
     public ResumeDto findResumeById(@PathVariable Long resumeId){
-
         return resumeService.getFindResumeById(resumeId);
     }
 

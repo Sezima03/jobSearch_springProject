@@ -1,5 +1,6 @@
 package kg.attractor.job_search_project.controller;
 
+import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dao.UserImageDao;
 import kg.attractor.job_search_project.dto.UserImageDto;
 import kg.attractor.job_search_project.service.ImageService;
@@ -25,7 +26,7 @@ public class ImageController {
     }
 
     @PostMapping
-    public String uploadImage(UserImageDto  userImageDto){
+    public String uploadImage(@Valid UserImageDto  userImageDto){
         return imageService.saveImage(userImageDto);
     }
 }
