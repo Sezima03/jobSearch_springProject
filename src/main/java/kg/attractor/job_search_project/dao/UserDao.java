@@ -1,5 +1,5 @@
 package kg.attractor.job_search_project.dao;
-import kg.attractor.job_search_project.model.RespondedApplicant;
+import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import lombok.RequiredArgsConstructor;
@@ -39,30 +39,22 @@ public class UserDao {
         }
     }
 
-    public void saveUser(User user){
-        String sql="insert into users(name, surname, age, email, password, phone_number, avatar, account_type) values(?,?,?,?,?,?,?,?)";
+    public void saveUser(UserDto user){
+        String sql="insert into users(name, surname, age, email, password, phone_number, avatar, account_type) " +
+                "values(?,?,?,?,?,?,?,?)";
 
         jdbcTemplate.update(sql, user.getName(), user.getSurname(), user.getAge(), user.getEmail(), user.getPassword(), user.getPhoneNumber(), user.getAvatar(), user.getAccountType());
     }
 
     public List<Vacancy> responseToVacancies(Long applicantId) {
-        String sql = "select vacancyusr.id, " +
-                "vacancyusr.name, " +
-                "vacancyusr.description, " +
-                "vacancyusr.salary, " +
-                "vacancyusr.exp_from, " +
-                "vacancyusr.exp_to," +
-                " vacancyusr.is_active, " +
-                "vacancyusr.author_id, " +
-                "vacancyusr.created_date, " +
-                "vacancyusr.update_time " +
-                "from vacancyusr " +
-                "JOIN responded_applicant ra on vacancyusr.id = ra.vacancy_id " +
+
+        String sql = "select * from vacancyusr v " +
+                "where v.id in(select ra.vacancy_id " +
+                "from responded_applicant ra " +
                 "JOIN resume r ON r.id = ra.resume_id " +
-                "where r.applicant_id = ?";
+                "where applicant_id = ?)";
 
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), applicantId);
     }
-
 
 }

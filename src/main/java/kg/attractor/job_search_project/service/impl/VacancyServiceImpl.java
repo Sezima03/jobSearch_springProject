@@ -1,9 +1,10 @@
 package kg.attractor.job_search_project.service.impl;
 import kg.attractor.job_search_project.dao.UserDao;
 import kg.attractor.job_search_project.dao.VacancyDao;
+import kg.attractor.job_search_project.dao.existenceCheck.ExistenceCheckDao;
 import kg.attractor.job_search_project.dto.RespondedApplicantDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
-import kg.attractor.job_search_project.exceptions.VacancyNotFoundException;
+import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.RespondedApplicant;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.service.VacancyService;
@@ -16,15 +17,15 @@ import java.util.List;
 public class VacancyServiceImpl implements VacancyService {
 
     private final VacancyDao vacancyDao;
-    private final UserDao userDao;
+    private final ExistenceCheckDao  existenceCheckDao;
 
     @Override
     public void createdVacancy(VacancyDto vacancyDto) {
 
-        boolean authorsExist = userDao.existsByAuthorId(vacancyDto.getAuthorId());
+        boolean authorsExist = existenceCheckDao.existsByAuthorId(vacancyDto.getAuthorId());
 
         if (!authorsExist) {
-            throw new VacancyNotFoundException("Автор с таким id не существует");
+            throw new JobSearchException("Автор с таким id не существует");
         }
 
         Vacancy vacancy=new Vacancy();
@@ -55,7 +56,7 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> getVacancyByCategory(Long category_id) {
         List<Vacancy> vacancies=vacancyDao.getVacancyByCategory(category_id);
         if (vacancies.isEmpty()){
-            throw new  VacancyNotFoundException("Vacancy Not Found");
+            throw new JobSearchException("Vacancy Not Found");
         }
         return vacancies.stream()
                 .map(vacancy -> VacancyDto.builder()
@@ -78,7 +79,7 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> getVacancy(){
         List<Vacancy> vacancies = vacancyDao.getVacancies();
         if (vacancies.isEmpty()) {
-            throw new VacancyNotFoundException("Vacancy Not Found");
+            throw new JobSearchException("Vacancy Not Found");
         }
         return vacancies.stream()
                 .map(vacancy -> VacancyDto.builder()
@@ -100,7 +101,7 @@ public class VacancyServiceImpl implements VacancyService {
     public List<RespondedApplicantDto>  getRespondedApplicantByVacancyId(Long vacancyId) {
         List<RespondedApplicant> respondedApplicants = vacancyDao.getFindRespondedApplicantByVacancyId(vacancyId);
         if ((respondedApplicants == null) || (respondedApplicants.isEmpty())) {
-            throw new VacancyNotFoundException("No applicants found");
+            throw new JobSearchException("No applicants found");
         }
         return respondedApplicants.stream()
                 .map(respondedApplicant -> RespondedApplicantDto.builder()
@@ -116,7 +117,7 @@ public class VacancyServiceImpl implements VacancyService {
     public List<VacancyDto> getAllActiveVacancies() {
         List<Vacancy> vacancies = vacancyDao.getAllActiveVacancies();
         if (vacancies.isEmpty() || vacancies == null) {
-            throw new VacancyNotFoundException("Vacancy Not Found");
+            throw new JobSearchException("Vacancy Not Found");
         }
         return vacancies.stream()
                 .map(vacancy -> VacancyDto.builder()

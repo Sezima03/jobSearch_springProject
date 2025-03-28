@@ -1,7 +1,7 @@
 package kg.attractor.job_search_project.dao;
 
 import kg.attractor.job_search_project.dto.VacancyDto;
-import kg.attractor.job_search_project.exceptions.VacancyNotFoundException;
+import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.RespondedApplicant;
 import kg.attractor.job_search_project.model.Vacancy;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +52,7 @@ public class VacancyDao {
                     vacancy.isActive(), vacancy.getAuthorId(),
                     vacancy.getCreatedDate(), vacancy.getUpdateTime(), id);
         }else {
-            throw new VacancyNotFoundException("Vacancy with ID " + id + " not found.");
+            throw new JobSearchException("Vacancy with ID " + id + " not found.");
         }
     }
 
@@ -80,7 +80,7 @@ public class VacancyDao {
             int res = jdbcTemplate.update(deleteVacancySql, vacancyId);
             return res > 0;
         }
-        throw new VacancyNotFoundException("Vacancy with ID " + vacancyId + " not found.");
+        throw new JobSearchException("Vacancy with ID " + vacancyId + " not found.");
     }
 
 
