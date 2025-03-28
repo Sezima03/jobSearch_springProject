@@ -3,9 +3,8 @@ package kg.attractor.job_search_project.dao;
 import kg.attractor.job_search_project.dto.EducationInfoDto;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
-import kg.attractor.job_search_project.model.EducationInfo;
+import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.Resume;
-import kg.attractor.job_search_project.model.WorkExperienceInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -38,8 +37,13 @@ public class ResumeDao {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class));
     }
 
-    public void getUpdateResume(Long resumeId, Resume resume){
-        String sql = "update resume set " +
+    public void getUpdateResume(Long resumeId, ResumeDto resume){
+        String sql ="select count(*) from resume where id = ?";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class,resumeId);
+        if(count<=0){
+            throw new JobSearchException("Resume not found");
+        }
+        String sql2 = "update resume set " +
                 "applicant_id = ?, " +
                 "name = ?, " +
                 "category_id = ?, " +
@@ -49,7 +53,7 @@ public class ResumeDao {
                 "update_time = ? " +
                 "where id = ?";
 
-        jdbcTemplate.update(sql, resume.getApplicantId(), resume.getName(), resume.getCategoryId(), resume.getSalary(), resume.isActive(), resume.getCreatedDate(), resume.getUpdateTime(), resumeId);
+        jdbcTemplate.update(sql2, resume.getApplicantId(), resume.getName(), resume.getCategoryId(), resume.getSalary(), resume.isActive(), resume.getCreatedDate(), resume.getUpdateTime(), resumeId);
     }
 
 
@@ -59,6 +63,12 @@ public class ResumeDao {
 
         if (count > 0) {
 
+            String deleteEduInfoSql = "DELETE FROM education_info WHERE resume_id = ?";
+            jdbcTemplate.update(deleteEduInfoSql, resumeId);
+
+            String deleteWorkExperienceSql = "DELETE FROM work_experience_info WHERE resume_id = ?";
+            jdbcTemplate.update(deleteWorkExperienceSql, resumeId);
+
             String sql2 = "delete from responded_applicant where id = ?";
             jdbcTemplate.update(sql2, resumeId);
 
@@ -66,8 +76,9 @@ public class ResumeDao {
             int res = jdbcTemplate.update(sql3, resumeId);
 
             return res > 0;
+        }else {
+            throw new JobSearchException("Resume not found");
         }
-        return false;
     }
 
     public void getCreateResume(ResumeDto resume) {
@@ -87,10 +98,12 @@ public class ResumeDao {
     }
 
     public List<Resume> getAllResumeByCategory(String category){
-        String sql = "select r. * " +
-                "from RESUME r " +
-                "JOIN CATEGORIES C on C.ID = r.CATEGORY_ID " +
-                "where c.NAME = ?";
+        String sql = "select r.* " +
+                "from resume r " +
+                "where r.CATEGORY_ID = ( " +
+                "select c.id " +
+                "from CATEGORIES c " +
+                "where c.NAME = ?)";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class), category);
     }
 
@@ -100,9 +113,15 @@ public class ResumeDao {
     }
 
     public void getCreateEduInfo(EducationInfoDto educationInfo){
-        String sql = "insert into education_info (institution, program, start_date, end_date, degree)" +
-                "values (?,?,?,?,?)";
-        jdbcTemplate.update(sql, educationInfo.getInstitution(), educationInfo.getProgram(), educationInfo.getStartDate(), educationInfo.getEndDate(), educationInfo.getDegree());
+        String sql = "insert into education_info (" +
+                "RESUME_ID, " +
+                "institution, " +
+                "program, " +
+                "start_date, " +
+                "end_date, " +
+                "degree)" +
+                "values (?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, educationInfo.getResumeId(), educationInfo.getInstitution(), educationInfo.getProgram(), educationInfo.getStartDate(), educationInfo.getEndDate(), educationInfo.getDegree());
     }
 
     public void getCreateWorkExperienceInfo(WorkExperienceInfoDto workExperienceInfo){

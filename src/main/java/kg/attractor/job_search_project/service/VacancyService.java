@@ -9,7 +9,7 @@ public interface VacancyService {
 
     void createdVacancy(VacancyDto vacancyDto);
 
-    void updateVacancy(VacancyDto vacancyDto, Long id);
+    void getUpdateVacancy(VacancyDto vacancyDto, Long id);
 
     boolean deleteVacancy(Long id);
 

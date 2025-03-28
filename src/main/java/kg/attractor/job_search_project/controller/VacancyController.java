@@ -1,4 +1,5 @@
 package kg.attractor.job_search_project.controller;
+import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.RespondedApplicantDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.service.VacancyService;
@@ -13,21 +14,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VacancyController {
     private final VacancyService vacancyService;
-
     @GetMapping
     public List<VacancyDto> vacancy(){
         return vacancyService.getVacancy();
     }
 
     @PostMapping("add")
-    public HttpStatus addVacancy(@RequestBody VacancyDto vacancyDto){
+    public HttpStatus addVacancy(@RequestBody @Valid VacancyDto vacancyDto){
         vacancyService.createdVacancy(vacancyDto);
         return HttpStatus.OK;
     }
 
     @PutMapping("update/{vacancyId}")
-    public HttpStatus updateVacancy(@RequestBody VacancyDto vacancyDto, @PathVariable Long vacancyId){
-        vacancyService.updateVacancy(vacancyDto, vacancyId);
+    public HttpStatus updateVacancy(@RequestBody @Valid VacancyDto vacancyDto, @PathVariable Long vacancyId){
+        vacancyService.getUpdateVacancy(vacancyDto, vacancyId);
         return HttpStatus.OK;
     }
 
@@ -36,6 +36,7 @@ public class VacancyController {
         vacancyService.deleteVacancy(id);
         return HttpStatus.OK;
     }
+
 
     @GetMapping("category/{id}")
     public List<VacancyDto> getVacancyByCategoryId(@PathVariable("id") Long id) {

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public class Message {
     private Long id;
-    private int respondedApplicants;
+    private Integer respondedApplicants;
     private String content;
     private LocalDateTime localDateTime;
 }

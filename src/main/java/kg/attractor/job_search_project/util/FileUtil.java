@@ -1,5 +1,8 @@
 package kg.attractor.job_search_project.util;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.tomcat.util.http.fileupload.UploadContext;
 import org.springframework.core.io.ByteArrayResource;
@@ -8,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.OutputStream;
@@ -17,7 +21,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+@Service
+@RequiredArgsConstructor
 public class FileUtil {
+
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private static final String UPLOAD_DIR = "data/";
 

@@ -45,7 +45,7 @@ databaseChangeLog:
                   type: varchar(100)
               - column:
                   name: age
-                  type: int
+                  type: integer
               - column:
                   name: email
                   type: varchar(100)
@@ -77,7 +77,7 @@ databaseChangeLog:
                   type: long
                   autoIncrement: true
                   constraints:
-#                    nullable: false
+                    nullable: false
                     primaryKey: true
               - column:
                   name: applicant_id
@@ -91,7 +91,7 @@ databaseChangeLog:
                   type: varchar(100)
               - column:
                   name: category_id
-                  type: int
+                  type: long
                   constraints:
                     nullable: false
                     foreignKeyName: fk_category_id
@@ -142,10 +142,10 @@ databaseChangeLog:
                   type: double
               - column:
                   name: exp_from
-                  type: int
+                  type: integer
               - column:
                   name: exp_to
-                  type: int
+                  type: integer
               - column:
                   name: is_active
                   type: boolean
@@ -182,7 +182,7 @@ databaseChangeLog:
                   name: resume_id
                   type: long
                   constraints:
-#                    nullable: false
+                    nullable: false
                     foreignKeyName: fk_resume_idd
                     references: resume(id)
               - column:
@@ -251,6 +251,7 @@ databaseChangeLog:
                   name: resume_id
                   type: long
                   constraints:
+                    nullable: false
                     foreignKeyName: fk_resume_id_edu
                     references: resume(id)
               - column:
@@ -286,11 +287,12 @@ databaseChangeLog:
                   name: resume_id
                   type: long
                   constraints:
+                    nullable: false
                     foreignKeyName: fk_resume_id_info
                     references: resume(id)
               - column:
                   name: years
-                  type: int
+                  type: integer
               - column:
                   name: company_name
                   type: varchar(100)

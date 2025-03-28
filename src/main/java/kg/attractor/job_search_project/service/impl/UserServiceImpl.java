@@ -3,6 +3,7 @@ package kg.attractor.job_search_project.service.impl;
 import kg.attractor.job_search_project.dao.UserDao;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
+import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.service.UserService;
@@ -18,12 +19,12 @@ public class UserServiceImpl implements UserService {
     private final UserDao userDao;
 
     @Override
-    public String registerUser(User user){
+    public String registerUser(UserDto userDto){
 
-        if (userDao.isEmailTaken(user.getEmail())!=null){
+        if (userDao.isEmailTaken(userDto.getEmail())!=null){
             return "Email уже существует";
         }
-        userDao.saveUser(user);
+        userDao.saveUser(userDto);
         return "успешно";
     }
 
@@ -31,81 +32,85 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getSearchByName(String name){
         List<User> users= userDao.getSearchByName(name);
 
-        if (users != null && !users.isEmpty()) {
-            return users.stream()
-                    .map(user -> UserDto.builder()
-                            .id(user.getId())
-                            .name(user.getName())
-                            .surname(user.getSurname())
-                            .email(user.getEmail())
-                            .password(user.getPassword())
-                            .phoneNumber(user.getPhoneNumber())
-                            .avatar(user.getAvatar())
-                            .accountType(user.getAccountType())
-                            .build())
-                    .toList();
+        if (users==null || users.isEmpty()) {
+            throw new JobSearchException("НЕт пользователя с таким именем");
         }
-        return Collections.emptyList();
+        return users.stream()
+                .map(user -> UserDto.builder()
+                        .id(user.getId())
+                        .name(user.getName())
+                        .surname(user.getSurname())
+                        .age(user.getAge())
+                        .email(user.getEmail())
+                        .password(user.getPassword())
+                        .phoneNumber(user.getPhoneNumber())
+                        .avatar(user.getAvatar())
+                        .accountType(user.getAccountType())
+                        .build())
+                .toList();
     }
 
     @Override
     public List<UserDto> getSearchByNumber(String number){
         List<User> users= userDao.getSearchByNumber(number);
-        if (users != null && !users.isEmpty()) {
-            return users.stream()
-                    .map(user -> UserDto.builder()
-                            .id(user.getId())
-                            .name(user.getName())
-                            .surname(user.getSurname())
-                            .email(user.getEmail())
-                            .password(user.getPassword())
-                            .phoneNumber(user.getPhoneNumber())
-                            .avatar(user.getAvatar())
-                            .accountType(user.getAccountType())
-                            .build())
-                    .toList();
+        if (users == null || users.isEmpty()) {
+            throw new JobSearchException("Phone Number Not Found");
         }
-        return Collections.emptyList();
+        return users.stream()
+                .map(user -> UserDto.builder()
+                        .id(user.getId())
+                        .name(user.getName())
+                        .surname(user.getSurname())
+                        .age(user.getAge())
+                        .email(user.getEmail())
+                        .password(user.getPassword())
+                        .phoneNumber(user.getPhoneNumber())
+                        .avatar(user.getAvatar())
+                        .accountType(user.getAccountType())
+                        .build())
+                .toList();
     }
 
     @Override
     public List<UserDto> getSearchByEmail(String email){
         List<User> users=userDao.getSearchByEmail(email);
-        if (users != null && !users.isEmpty()) {
-            return users.stream()
-                    .map(user -> UserDto.builder()
-                            .id(user.getId())
-                            .name(user.getName())
-                            .surname(user.getSurname())
-                            .email(user.getEmail())
-                            .password(user.getPassword())
-                            .phoneNumber(user.getPhoneNumber())
-                            .avatar(user.getAvatar())
-                            .accountType(user.getAccountType())
-                            .build())
-                    .toList();
+        if (users == null || users.isEmpty()) {
+            throw new JobSearchException("Email not Found");
         }
-        return Collections.emptyList();
+        return users.stream()
+                .map(user -> UserDto.builder()
+                        .id(user.getId())
+                        .name(user.getName())
+                        .surname(user.getSurname())
+                        .age(user.getAge())
+                        .email(user.getEmail())
+                        .password(user.getPassword())
+                        .phoneNumber(user.getPhoneNumber())
+                        .avatar(user.getAvatar())
+                        .accountType(user.getAccountType())
+                        .build())
+                .toList();
     }
     @Override
     public List<VacancyDto> getRespondedToVacancy(Long applicantId) {
         List <Vacancy> vacancies = userDao.responseToVacancies(applicantId);
-        if (!vacancies.isEmpty()) {
-            return vacancies.stream()
-                    .map(vacancy -> VacancyDto.builder()
-                            .id(vacancy.getId())
-                            .name(vacancy.getName())
-                            .description(vacancy.getDescription())
-                            .salary(vacancy.getSalary())
-                            .expFrom(vacancy.getExpFrom())
-                            .expTo(vacancy.getExpTo())
-                            .isActive(vacancy.isActive())
-                            .authorId(vacancy.getAuthorId())
-                            .createdDate(vacancy.getCreatedDate())
-                            .updateTime(vacancy.getUpdateTime())
-                            .build())
-                    .toList();
+        if (vacancies==null || vacancies.isEmpty()) {
+            throw new JobSearchException("Vacancy Not Found");
         }
-        return List.of();
+        return vacancies.stream()
+                .map(vacancy -> VacancyDto.builder()
+                        .id(vacancy.getId())
+                        .name(vacancy.getName())
+                        .description(vacancy.getDescription())
+                        .categoryId(vacancy.getCategoryId())
+                        .salary(vacancy.getSalary())
+                        .expFrom(vacancy.getExpFrom())
+                        .expTo(vacancy.getExpTo())
+                        .isActive(vacancy.getIsActive())
+                        .authorId(vacancy.getAuthorId())
+                        .createdDate(vacancy.getCreatedDate())
+                        .updateTime(vacancy.getUpdateTime())
+                        .build())
+                .toList();
     }
 }

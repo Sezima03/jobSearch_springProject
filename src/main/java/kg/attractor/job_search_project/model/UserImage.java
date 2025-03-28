@@ -5,9 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RespondedApplicant {
+public class UserImage {
     private Long id;
-    private Long resumeId;
-    private Long vacancyId;
-    private boolean confirmation;
+    private Long userId;
+    private String fileName;
 }
