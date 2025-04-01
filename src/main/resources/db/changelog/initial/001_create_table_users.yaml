@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create_table_categories
-      author: admin
+      author: Sezima Turdubekova
       changes:
         - createTable:
             tableName: categories
@@ -25,7 +25,7 @@ databaseChangeLog:
                   type: varchar(100)
   - changeSet:
       id: create_table_users
-      author: admin
+      author: Sezima Turdubekova
       changes:
         - createTable:
             tableName: users
@@ -62,12 +62,12 @@ databaseChangeLog:
               - column:
                   name: avatar
                   type: varchar(255)
-              - column:
-                  name: account_type
-                  type: varchar(100)
+#              - column:
+#                  name: account_type
+#                  type: varchar(100)
   - changeSet:
       id: create_table_resume
-      author: admin
+      author: Sezima Turdubekova
       changes:
         - createTable:
             tableName: resume
@@ -112,7 +112,7 @@ databaseChangeLog:
                   defaultValueComputed: current_timestamp
   - changeSet:
       id: create_table_vacansyusr
-      author: admin
+      author: Sezima Turdubekova
       changes:
         - createTable:
             tableName: vacancyusr
@@ -166,7 +166,7 @@ databaseChangeLog:
                   defaultValueComputed: current_timestamp
   - changeSet:
       id: create_table_responded_applicant
-      author: admin
+      author: Sezima Turdubekova
       changes:
         - createTable:
             tableName: responded_applicant
@@ -197,7 +197,7 @@ databaseChangeLog:
                   type: boolean
   - changeSet:
       id: create_table_contact_types
-      author: admin
+      author: Sezima Turdubekova
       changes:
         - createTable:
             tableName: contact_types
@@ -214,7 +214,7 @@ databaseChangeLog:
                   type: varchar(100)
   - changeSet:
       id: create_table_contacts_info
-      author: admin
+      author: Sezima Turdubekova
       changes:
         - createTable:
             tableName: contacts_info
@@ -235,7 +235,7 @@ databaseChangeLog:
                     references: contact_types(id)
   - changeSet:
       id: create_table_education_info
-      author: admin
+      author: Sezima Turdubekova
       changes:
         - createTable:
             tableName: education_info
@@ -271,7 +271,7 @@ databaseChangeLog:
                   type: varchar(255)
   - changeSet:
       id: create_table_work_experience_info
-      author: admin
+      author: Sezima Turdubekova
       changes:
         - createTable:
             tableName: work_experience_info
@@ -304,7 +304,7 @@ databaseChangeLog:
                   type: varchar(100)
   - changeSet:
       id: create_table_message
-      author: admin
+      author: Sezima Turdubekova
       changes:
         - createTable:
             tableName: messages

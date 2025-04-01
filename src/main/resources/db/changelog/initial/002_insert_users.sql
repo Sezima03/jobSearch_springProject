@@ -4,18 +4,18 @@ values  (1,'js'),
         (3, 'python'),
         (4, 'project manager');
 
-insert into users(id, name, surname, age, email, password, phone_number, avatar, account_type)
+insert into users(name, surname, age, email, password, phone_number, avatar)
 values
-    (1, 'applicantTom', 'maksimov', 20, 'tommaksimov@gmail.com', 'qw12', '996707123456', 'data/images/ava.jpg', 'applicant'),
-    (2, 'employerAlex', 'ashimov', 19, 'alexashimov@gmail.com', 'alex12', '996700231546', 'data/images/ava.jpg', 'employer'),
-    (3, 'employerJohn', 'doe', 30, 'johndoe@example.com', 'john123', '996700987654', 'data/images/ava.jpg', 'employer');
+    ('applicantTom', 'maksimov', 20, 'tommaksimov@gmail.com', 'qw12', '996707123456', 'data/images/ava.jpg'),
+    ('employerAlex', 'ashimov', 19, 'alexashimov@gmail.com', 'alex12', '996700231546', 'data/images/ava.jpg'),
+    ('employerJohn', 'doe', 30, 'johndoe@example.com', 'john123', '996700987654', 'data/images/ava.jpg');
 
 
 
-insert into RESUME( applicant_id, name, category_id, salary, is_active, created_date, update_time)
-values (1, 'java junior', 2 , 60000, true, now(), now()),
-       (2, 'senior backend developer', 2, 200000, true, now(), now()),
-       (2, 'frontend developer', 1, 90000, true,now(), now());
+insert into RESUME( applicant_id, name, category_id, salary, is_active)
+values (1, 'java junior', 2 , 60000, true),
+       (2, 'senior backend developer', 2, 200000, true),
+       (2, 'frontend developer', 1, 90000, true);
 
 
 insert into VACANCYUSR(name, description, category_id, salary, exp_from, exp_to, is_active, author_id)

@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 003_create_table_user_images
-      author: admin
+      author: Sezima Turdubekova
       changes:
         - createTable:
             tableName: user_images
