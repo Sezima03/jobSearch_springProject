@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005_add_column_to_table_users
+      author: Sezima Turdubekova
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: enabled
+                  type: boolean
+              - column:
+                  name: authority_id
+                  type: long
+                  constraints:
+                    foreignKeyName: fk_authority_id
+                    references: authority(id)
