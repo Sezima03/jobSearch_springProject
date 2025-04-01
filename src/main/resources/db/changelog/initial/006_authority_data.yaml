@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006_insert some authorites
+      author: Sezima Turdubekova
+      changes:
+        - sql:
+            comment: Insert data into authority table
+            sql: |
+              insert into authority(authority)
+              values('APPLICANT'), 
+              ('EMPLOYER');
