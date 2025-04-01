@@ -4,7 +4,9 @@ import kg.attractor.job_search_project.dto.EducationInfoDto;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
+import kg.attractor.job_search_project.model.EducationInfo;
 import kg.attractor.job_search_project.model.Resume;
+import kg.attractor.job_search_project.model.WorkExperienceInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -37,7 +39,7 @@ public class ResumeDao {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class));
     }
 
-    public void getUpdateResume(Long resumeId, ResumeDto resume){
+    public void getUpdateResume(Long resumeId, Resume resume){
         String sql ="select count(*) from resume where id = ?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class,resumeId);
         if(count<=0){
@@ -48,12 +50,10 @@ public class ResumeDao {
                 "name = ?, " +
                 "category_id = ?, " +
                 "salary = ?, " +
-                "is_active = ?, " +
-                "created_date = ?, " +
-                "update_time = ? " +
+                "is_active = ? " +
                 "where id = ?";
 
-        jdbcTemplate.update(sql2, resume.getApplicantId(), resume.getName(), resume.getCategoryId(), resume.getSalary(), resume.isActive(), resume.getCreatedDate(), resume.getUpdateTime(), resumeId);
+        jdbcTemplate.update(sql2, resume.getApplicantId(), resume.getName(), resume.getCategoryId(), resume.getSalary(), resume.isActive(), resumeId);
     }
 
 
@@ -81,7 +81,7 @@ public class ResumeDao {
         }
     }
 
-    public void getCreateResume(ResumeDto resume) {
+    public void getCreateResume(Resume resume) {
         String sql="insert into resume(applicant_id, name, category_id, salary, is_active, created_date, update_time)" +
                 "values(?,?,?,?,?,?,?)";
 
@@ -112,7 +112,7 @@ public class ResumeDao {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Resume.class), applicantId);
     }
 
-    public void getCreateEduInfo(EducationInfoDto educationInfo){
+    public void getCreateEduInfo(EducationInfo educationInfo){
         String sql = "insert into education_info (" +
                 "RESUME_ID, " +
                 "institution, " +
@@ -124,10 +124,10 @@ public class ResumeDao {
         jdbcTemplate.update(sql, educationInfo.getResumeId(), educationInfo.getInstitution(), educationInfo.getProgram(), educationInfo.getStartDate(), educationInfo.getEndDate(), educationInfo.getDegree());
     }
 
-    public void getCreateWorkExperienceInfo(WorkExperienceInfoDto workExperienceInfo){
+    public void getCreateWorkExperienceInfo(WorkExperienceInfo workExperienceInfo){
         String sql = "insert into work_experience_info (resume_id, years, company_name, position, responsibilites)" +
                 "values (?,?,?,?,?)";
 
-        jdbcTemplate.update(sql, workExperienceInfo.getResumeId(), workExperienceInfo.getYear(), workExperienceInfo.getCompanyName(), workExperienceInfo.getPosition(), workExperienceInfo.getResponsibility());
+        jdbcTemplate.update(sql, workExperienceInfo.getResumeId(), workExperienceInfo.getYear(), workExperienceInfo.getCompanyName(), workExperienceInfo.getPosition(), workExperienceInfo.getResponsibilities());
     }
 }

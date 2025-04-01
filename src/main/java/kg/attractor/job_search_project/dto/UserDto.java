@@ -28,26 +28,16 @@ public class UserDto {
         private String email;
 
         @NotBlank(message = "Пароль не должно быть пустым")
-        @Size(min = 5, max = 15, message = "lenght must be>5 and <=15")
-        @Pattern(
-                regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-z]).+$",
-                message = "Пароль должен содержать хотя бы одну цифру, одну строчную и одну заглавную букву"
-        )
+        @Size(min = 3, max = 15, message = "lenght must be>5 and <=15")
         private String password;
 
         @NotBlank(message = "Номер телефона не должен быть пустым")
-        @Pattern(
-                regexp = "^\\+?[1-9]\\d{1,12}$",
-                message = "Неверный формат номера телефона"
-        )
         private String phoneNumber;
 
         private String avatar;
 
-        @NotBlank(message = "Выберите тип аккаунта")
-        @Pattern(
-                regexp = "^(applicant|employer)$",
-                message = "Тип аккаунта должен быть 'applicant' или 'employer'"
-        )
-        private String accountType;
+        private Boolean enabled;
+
+        @NotNull(message = "Укажите ID")
+        private Long authorityId;
 }

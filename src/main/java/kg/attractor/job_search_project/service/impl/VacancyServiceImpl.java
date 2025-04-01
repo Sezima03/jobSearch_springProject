@@ -9,11 +9,13 @@ import kg.attractor.job_search_project.model.RespondedApplicant;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.service.VacancyService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class VacancyServiceImpl implements VacancyService {
 
     private final VacancyDao vacancyDao;
@@ -21,7 +23,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public void createdVacancy(VacancyDto vacancyDto) {
-
+        log.info("Creating Vacancy : {}", vacancyDto.getName());
         boolean authorsExist = existenceCheckDao.existsByAuthorId(vacancyDto.getAuthorId());
 
         if (!authorsExist) {
@@ -41,15 +43,30 @@ public class VacancyServiceImpl implements VacancyService {
         vacancy.setSalary(vacancyDto.getSalary());
         vacancy.setExpFrom(vacancyDto.getExpFrom());
         vacancy.setExpTo(vacancyDto.getExpTo());
-        vacancy.setIsActive(vacancyDto.isActive());
+        vacancy.setIsActive(vacancyDto.getIsActive());
         vacancy.setAuthorId(vacancyDto.getAuthorId());
 
         vacancyDao.getCreateVacancy(vacancy);
+        log.info("Vacancy Created : {}", vacancy.getName());
     }
 
     @Override
     public void getUpdateVacancy(VacancyDto vacancyDto, Long id) {
-        vacancyDao.getUpdateVacancy(vacancyDto, id);
+        log.info("Updating Vacancy with id : {}", id);
+
+        Vacancy vacancy = new  Vacancy();
+        vacancy.setId(id);
+        vacancy.setName(vacancyDto.getName());
+        vacancy.setDescription(vacancyDto.getDescription());
+        vacancy.setCategoryId(vacancyDto.getCategoryId());
+        vacancy.setSalary(vacancyDto.getSalary());
+        vacancy.setExpFrom(vacancyDto.getExpFrom());
+        vacancy.setExpTo(vacancyDto.getExpTo());
+        vacancy.setIsActive(vacancyDto.getIsActive());
+        vacancy.setAuthorId(vacancyDto.getAuthorId());
+        vacancyDao.getUpdateVacancy(vacancy, id);
+
+        log.info("Vacancy Updated : {}", id);
     }
 
     @Override
@@ -59,10 +76,13 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public List<VacancyDto> getVacancyByCategory(Long category_id) {
+        log.info("Getting Vacancy by category : {}", category_id);
         List<Vacancy> vacancies=vacancyDao.getVacancyByCategory(category_id);
         if (vacancies.isEmpty()){
             throw new JobSearchException("Vacancy Not Found");
         }
+
+        log.info("Vacancies found for category Id {}", category_id);
         return vacancies.stream()
                 .map(vacancy -> VacancyDto.builder()
                         .id(vacancy.getId())
@@ -78,14 +98,18 @@ public class VacancyServiceImpl implements VacancyService {
                         .updateTime(vacancy.getUpdateTime())
                         .build())
                 .toList();
+
     }
 
     @Override
     public List<VacancyDto> getVacancy(){
+        log.info("Getting Vacancy");
         List<Vacancy> vacancies = vacancyDao.getVacancies();
         if (vacancies.isEmpty()) {
             throw new JobSearchException("Vacancy Not Found");
         }
+
+        log.info("Vacancies found : {}", vacancies.size());
         return vacancies.stream()
                 .map(vacancy -> VacancyDto.builder()
                         .id(vacancy.getId())
@@ -104,10 +128,12 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public List<RespondedApplicantDto>  getRespondedApplicantByVacancyId(Long vacancyId) {
+        log.info("Getting RespondedApplicant by Vacancy Id : {}", vacancyId);
         List<RespondedApplicant> respondedApplicants = vacancyDao.getFindRespondedApplicantByVacancyId(vacancyId);
         if ((respondedApplicants == null) || (respondedApplicants.isEmpty())) {
             throw new JobSearchException("No applicants found");
         }
+        log.info("Found RespondedApplicant by Vacancy Id : {}", vacancyId);
         return respondedApplicants.stream()
                 .map(respondedApplicant -> RespondedApplicantDto.builder()
                         .id(respondedApplicant.getId())
@@ -120,10 +146,13 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public List<VacancyDto> getAllActiveVacancies() {
+        log.info("Getting Vacancies");
         List<Vacancy> vacancies = vacancyDao.getAllActiveVacancies();
         if (vacancies.isEmpty() || vacancies == null) {
             throw new JobSearchException("Vacancy Not Found");
         }
+
+        log.info("Found Vacancies : {}", vacancies.size());
         return vacancies.stream()
                 .map(vacancy -> VacancyDto.builder()
                         .id(vacancy.getId())

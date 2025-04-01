@@ -7,7 +7,7 @@ import java.time.LocalDate;
 @Data
 public class EducationInfoDto {
     private Long id;
-
+    @NotNull(message = "Укажите id резюме")
     private Long resumeId;
 
     @NotBlank(message = "Учебное заведение не может быть пустым")

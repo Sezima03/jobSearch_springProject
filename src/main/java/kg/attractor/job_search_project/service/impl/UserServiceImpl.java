@@ -8,33 +8,64 @@ import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private User convertToUser(UserDto userDto){
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setName(userDto.getName());
+        user.setSurname(userDto.getSurname());
+        user.setAge(userDto.getAge());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        user.setPhoneNumber(userDto.getPhoneNumber());
+        user.setAvatar(userDto.getAvatar());
+        user.setEnabled(userDto.getEnabled());
+        user.setAuthorityId(userDto.getAuthorityId());
+        return user;
+    }
 
     @Override
     public String registerUser(UserDto userDto){
 
+        log.info("Starting registration for User with Email : {}", userDto.getEmail());
+
         if (userDao.isEmailTaken(userDto.getEmail())!=null){
+            log.warn("Email Already Exists: {}", userDto.getEmail());
             return "Email уже существует";
         }
-        userDao.saveUser(userDto);
+
+        String encodedPassword = bCryptPasswordEncoder.encode(userDto.getPassword());
+        userDto.setPassword(encodedPassword);
+
+        User user = convertToUser(userDto);
+
+        userDao.saveUser(user);
+        log.info("User with Email registered successfully: {}", userDto.getEmail());
         return "успешно";
     }
 
     @Override
     public List<UserDto> getSearchByName(String name){
+        log.info("Searching Users by name : {}", name);
         List<User> users= userDao.getSearchByName(name);
 
         if (users==null || users.isEmpty()) {
+            log.warn("Users not found with name: {}", name);
             throw new JobSearchException("НЕт пользователя с таким именем");
         }
+        log.info("Users found : {}", users);
         return users.stream()
                 .map(user -> UserDto.builder()
                         .id(user.getId())
@@ -45,17 +76,20 @@ public class UserServiceImpl implements UserService {
                         .password(user.getPassword())
                         .phoneNumber(user.getPhoneNumber())
                         .avatar(user.getAvatar())
-                        .accountType(user.getAccountType())
                         .build())
                 .toList();
     }
 
+
     @Override
     public List<UserDto> getSearchByNumber(String number){
+        log.info("Searching Users by number : {}", number);
         List<User> users= userDao.getSearchByNumber(number);
         if (users == null || users.isEmpty()) {
+            log.warn("Users not found for this phone number: {}", number);
             throw new JobSearchException("Phone Number Not Found");
         }
+        log.info("Users found by this number: {}", number);
         return users.stream()
                 .map(user -> UserDto.builder()
                         .id(user.getId())
@@ -66,17 +100,19 @@ public class UserServiceImpl implements UserService {
                         .password(user.getPassword())
                         .phoneNumber(user.getPhoneNumber())
                         .avatar(user.getAvatar())
-                        .accountType(user.getAccountType())
                         .build())
                 .toList();
     }
 
     @Override
     public List<UserDto> getSearchByEmail(String email){
+        log.info("Searching Users by email : {}", email);
         List<User> users=userDao.getSearchByEmail(email);
         if (users == null || users.isEmpty()) {
+            log.warn("Users with email {} not found", email);
             throw new JobSearchException("Email not Found");
         }
+        log.info("Users found by email: {}", email);
         return users.stream()
                 .map(user -> UserDto.builder()
                         .id(user.getId())
@@ -87,16 +123,18 @@ public class UserServiceImpl implements UserService {
                         .password(user.getPassword())
                         .phoneNumber(user.getPhoneNumber())
                         .avatar(user.getAvatar())
-                        .accountType(user.getAccountType())
                         .build())
                 .toList();
     }
     @Override
     public List<VacancyDto> getRespondedToVacancy(Long applicantId) {
+        log.info("Searching Users by applicant id : {}", applicantId);
         List <Vacancy> vacancies = userDao.responseToVacancies(applicantId);
         if (vacancies==null || vacancies.isEmpty()) {
+            log.warn("Vacancies not found for applicant id : {}", applicantId);
             throw new JobSearchException("Vacancy Not Found");
         }
+        log.info("Vacancies found : {}", vacancies);
         return vacancies.stream()
                 .map(vacancy -> VacancyDto.builder()
                         .id(vacancy.getId())

@@ -1,7 +1,11 @@
 package kg.attractor.job_search_project.model;
+import jakarta.validation.Valid;
+import kg.attractor.job_search_project.dto.EducationInfoDto;
+import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,5 +18,9 @@ public class Resume {
     private boolean isActive;
     private LocalDateTime createdDate;
     private LocalDateTime updateTime;
+
+    private List<EducationInfoDto> educationInfo;
+
+    private List<WorkExperienceInfoDto> workExperienceInfo;
 
 }

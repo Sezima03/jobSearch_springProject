@@ -38,10 +38,8 @@ public class ResumeDto {
     private LocalDateTime updateTime;
 
     @Valid
-//    @NotEmpty(message = "Список образовательной информации не может быть пустым")
     private List<EducationInfoDto> educationInfo;
 
     @Valid
-//    @NotEmpty(message = "Список информации о рабочем опыте не может быть пустым")
     private List<WorkExperienceInfoDto> workExperienceInfo;
 }

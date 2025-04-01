@@ -29,7 +29,7 @@ public class VacancyDao {
         jdbcTemplate.update(sql, vacancy.getName(), vacancy.getDescription(), vacancy.getCategoryId(), vacancy.getSalary(), vacancy.getExpFrom(), vacancy.getExpTo(), vacancy.getIsActive(), vacancy.getAuthorId());
     }
 
-    public void getUpdateVacancy(VacancyDto vacancy, Long id) {
+    public void getUpdateVacancy(Vacancy vacancy, Long id) {
 
         String sql = "select COUNT(*) from vacancyusr where id = ?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class, id);
@@ -49,7 +49,7 @@ public class VacancyDao {
                     "where id = ?";
             jdbcTemplate.update(sql2, vacancy.getName(), vacancy.getDescription(), vacancy.getCategoryId(),
                     vacancy.getSalary(), vacancy.getExpFrom(), vacancy.getExpTo(),
-                    vacancy.isActive(), vacancy.getAuthorId(),
+                    vacancy.getIsActive(), vacancy.getAuthorId(),
                     vacancy.getCreatedDate(), vacancy.getUpdateTime(), id);
         }else {
             throw new JobSearchException("Vacancy with ID " + id + " not found.");

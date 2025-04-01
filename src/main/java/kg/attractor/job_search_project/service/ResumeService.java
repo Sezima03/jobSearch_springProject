@@ -10,7 +10,7 @@ import java.util.List;
 public interface ResumeService {
 
 
-    void getCreateResume(ResumeDto resumeDto);
+    void getCreateResume(ResumeDto resume);
 
     void getUpdateResume(Long resumeId, ResumeDto updateResume);
 

@@ -29,7 +29,7 @@ public class VacancyDto {
 
     private Integer expTo;
 
-    private boolean isActive;
+    private Boolean isActive;
 
     @Min(value = 1, message = "Должен быть больше 0")
     private Long authorId;

@@ -8,6 +8,7 @@ public class WorkExperienceInfoDto {
 
     private Long id;
 
+    @NotNull(message = "Укажите id резюме")
     private Long resumeId;
 
     @NotNull(message = "Год работы не может быть null")
@@ -16,9 +17,7 @@ public class WorkExperienceInfoDto {
     @NotBlank(message = "Название компании не может быть пустым")
     private String companyName;
 
-    @NotBlank(message = "Должность не может быть пустой")
     private String position;
 
-    @NotBlank(message = "Обязанности не могут быть пустыми")
     private String responsibility;
 }

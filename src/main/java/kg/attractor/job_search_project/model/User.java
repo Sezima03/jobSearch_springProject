@@ -1,6 +1,5 @@
 package kg.attractor.job_search_project.model;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -13,5 +12,6 @@ public class User {
     private String password;
     private String phoneNumber;
     private String avatar;
-    private String accountType;
+    private Boolean enabled;
+    private Long authorityId;
 }
