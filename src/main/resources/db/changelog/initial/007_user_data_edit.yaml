@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 007 insert new data
+      author: Sezima Turdubekova
+      changes:
+        - sql:
+            comment: Insert new data into users table
+            sql: |
+              insert into users(name, surname, age, email, password, phone_number, avatar, enabled, authority_id)
+              values
+              ('qwee', 'qwe', 28, 'qw@qwe.qwe', '$2a$12$WB2YUbFcCN0tm44SBcKUjua9yiFBsfB3vW02IjuwzY7HGtlQIKzy2', '+996701234567', 'data/images/alex.jpg', true, (select id from authority where authority = 'APPLICANT')),
+              ('maria', 'mariaeva', 30, 'mariaeva@gmail.com', '$2a$12$WB2YUbFcCN0tm44SBcKUjua9yiFBsfB3vW02IjuwzY7HGtlQIKzy2', '+996705678901', 'data/images/maria.jpg', true, (select id from authority where authority = 'EMPLOYER'));
