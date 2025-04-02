@@ -28,7 +28,7 @@ public class UserDto {
         private String email;
 
         @NotBlank(message = "Пароль не должно быть пустым")
-        @Size(min = 3, max = 15, message = "lenght must be>5 and <=15")
+        @Size(min = 3, max = 15, message = "lenght must be>3 and <=15")
         private String password;
 
         @NotBlank(message = "Номер телефона не должен быть пустым")

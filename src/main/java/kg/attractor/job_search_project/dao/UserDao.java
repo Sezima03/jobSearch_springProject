@@ -1,5 +1,4 @@
 package kg.attractor.job_search_project.dao;
-import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import lombok.RequiredArgsConstructor;
@@ -44,9 +43,7 @@ public class UserDao {
         String sql="insert into users(name, surname, age, email, password, phone_number, avatar, enabled, authority_id) " +
                 "values(?,?,?,?,?,?,?,?,?)";
 
-        String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
-
-        jdbcTemplate.update(sql, user.getName(), user.getSurname(), user.getAge(), user.getEmail(), encodedPassword, user.getPhoneNumber(), user.getAvatar(), user.getEnabled(), user.getAuthorityId());
+        jdbcTemplate.update(sql, user.getName(), user.getSurname(), user.getAge(), user.getEmail(), user.getPassword(), user.getPhoneNumber(), user.getAvatar(), user.getEnabled(), user.getAuthorityId());
     }
 
     public List<Vacancy> responseToVacancies(Long applicantId) {

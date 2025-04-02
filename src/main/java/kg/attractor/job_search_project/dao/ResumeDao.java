@@ -1,8 +1,4 @@
 package kg.attractor.job_search_project.dao;
-
-import kg.attractor.job_search_project.dto.EducationInfoDto;
-import kg.attractor.job_search_project.dto.ResumeDto;
-import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.EducationInfo;
 import kg.attractor.job_search_project.model.Resume;
