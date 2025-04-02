@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final DataSource dataSource;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Autowired
@@ -40,7 +41,7 @@ public class SecurityConfig {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery(fetchUser)
-                .passwordEncoder(new BCryptPasswordEncoder())
+                .passwordEncoder(bCryptPasswordEncoder)
                 .authoritiesByUsernameQuery(fetchRoles);
     }
 

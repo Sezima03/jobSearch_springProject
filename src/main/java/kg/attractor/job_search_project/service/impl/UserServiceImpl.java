@@ -46,9 +46,7 @@ public class UserServiceImpl implements UserService {
             return "Email уже существует";
         }
 
-        String encodedPassword = bCryptPasswordEncoder.encode(userDto.getPassword());
-        userDto.setPassword(encodedPassword);
-
+        userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         User user = convertToUser(userDto);
 
         userDao.saveUser(user);

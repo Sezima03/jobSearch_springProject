@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -44,9 +43,7 @@ public class UserDao {
         String sql="insert into users(name, surname, age, email, password, phone_number, avatar, enabled, authority_id) " +
                 "values(?,?,?,?,?,?,?,?,?)";
 
-        String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
-
-        jdbcTemplate.update(sql, user.getName(), user.getSurname(), user.getAge(), user.getEmail(), encodedPassword, user.getPhoneNumber(), user.getAvatar(), user.getEnabled(), user.getAuthorityId());
+        jdbcTemplate.update(sql, user.getName(), user.getSurname(), user.getAge(), user.getEmail(), user.getPassword(), user.getPhoneNumber(), user.getAvatar(), user.getEnabled(), user.getAuthorityId());
     }
 
     public List<Vacancy> responseToVacancies(Long applicantId) {

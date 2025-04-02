@@ -1,6 +1,4 @@
 package kg.attractor.job_search_project.dao;
-
-import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.RespondedApplicant;
 import kg.attractor.job_search_project.model.Vacancy;

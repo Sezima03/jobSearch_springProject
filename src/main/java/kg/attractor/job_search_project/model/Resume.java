@@ -1,5 +1,4 @@
 package kg.attractor.job_search_project.model;
-import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.EducationInfoDto;
 import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
 import lombok.Getter;
