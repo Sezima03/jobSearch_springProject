@@ -1,5 +1,6 @@
 package kg.attractor.job_search_project.service.impl;
 
+import kg.attractor.job_search_project.config.AppConfig;
 import kg.attractor.job_search_project.dao.UserDao;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
@@ -9,7 +10,6 @@ import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final AppConfig appConfig;
 
     private User convertToUser(UserDto userDto){
         User user = new User();
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
         user.setSurname(userDto.getSurname());
         user.setAge(userDto.getAge());
         user.setEmail(userDto.getEmail());
-        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        user.setPassword(userDto.getPassword());
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setAvatar(userDto.getAvatar());
         user.setEnabled(userDto.getEnabled());
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
             return "Email уже существует";
         }
 
-        userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        userDto.setPassword(appConfig.bCryptPasswordEncoder().encode(userDto.getPassword()));
 
         User user = convertToUser(userDto);
 
