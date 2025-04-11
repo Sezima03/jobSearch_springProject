@@ -24,11 +24,11 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public void getCreateResume(ResumeDto resumeDto) {
-        log.info("Creating Resume with name {}",  resumeDto.getName());
+        log.info("Creating ResumeControllerApi with name {}",  resumeDto.getName());
 
         boolean existsCategory = existenceCheckDao.existaCategoryId(resumeDto.getCategoryId());
         if (!existsCategory) {
-            log.warn("Creating Resume with name {} but category id not found", resumeDto.getName());
+            log.warn("Creating ResumeControllerApi with name {} but category id not found", resumeDto.getName());
             throw new JobSearchException("Категория с таким id не существует");
         }
         Resume resume1=new Resume();
@@ -41,7 +41,7 @@ public class ResumeServiceImpl implements ResumeService {
         resume1.setUpdateTime(resumeDto.getUpdateTime());
 
          resumeDao.getCreateResume(resume1);
-         log.info("Created Resume with name {}",  resumeDto.getName());
+         log.info("Created ResumeControllerApi with name {}",  resumeDto.getName());
 
         for (EducationInfoDto educationInfoDto:resumeDto.getEducationInfo()) {
             EducationInfo educationInfo = new EducationInfo();
@@ -71,7 +71,7 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public void getUpdateResume(Long resumeId, ResumeDto updateResume) {
-        log.info("Updating Resume with id {}",  resumeId);
+        log.info("Updating ResumeControllerApi with id {}",  resumeId);
 
         Resume resume = new Resume();
         resume.setId(resumeId);
@@ -82,7 +82,7 @@ public class ResumeServiceImpl implements ResumeService {
         resume.setActive(updateResume.isActive());
 
         resumeDao.getUpdateResume(resumeId, resume);
-        log.info("Resume with id {} updated successfully",  resumeId);
+        log.info("ResumeControllerApi with id {} updated successfully",  resumeId);
     }
 
     @Override
@@ -92,14 +92,14 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public List<ResumeDto> getAllResumeByCategory(String category) {
-        log.info("Getting All Resume by category {}", category);
+        log.info("Getting All ResumeControllerApi by category {}", category);
 
         List<Resume> resumes=resumeDao.getAllResumeByCategory(category);
         if (resumes==null||resumes.isEmpty()){
-            log.warn("All Resume by category {} is empty",category);
-            throw new JobSearchException("Resume Not Found");
+            log.warn("All ResumeControllerApi by category {} is empty",category);
+            throw new JobSearchException("ResumeControllerApi Not Found");
         }
-        log.info("All Resume {} found successfully", category);
+        log.info("All ResumeControllerApi {} found successfully", category);
         return resumes.stream()
                 .map(resume -> ResumeDto.builder()
                         .id(resume.getId())
@@ -117,10 +117,10 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public ResumeDto getFindResumeById(Long resumeId){
-        log.info("Retrieving Resume with id {}", resumeId);
+        log.info("Retrieving ResumeControllerApi with id {}", resumeId);
 
         Resume resume = resumeDao.findResumeById(resumeId)
-                .orElseThrow(()->new JobSearchException("Resume Not Found"));
+                .orElseThrow(()->new JobSearchException("ResumeControllerApi Not Found"));
 
         log.info("Found resume with Id: {}", resumeId);
         return ResumeDto.builder()
@@ -139,7 +139,7 @@ public class ResumeServiceImpl implements ResumeService {
     public List<ResumeDto> getAllResume() {
         List<Resume> resumeList = resumeDao.getResume();
         if (resumeList==null || resumeList.isEmpty()){
-            throw new JobSearchException("Resume Not Found");
+            throw new JobSearchException("ResumeControllerApi Not Found");
         }
         return resumeList.stream()
                 .map(resume -> ResumeDto.builder()
@@ -160,7 +160,7 @@ public class ResumeServiceImpl implements ResumeService {
         log.info("Retrieving Resumes by applicantId {}", applicantId);
         List<Resume> resumes = resumeDao.getAllResumeByApplicantId(applicantId);
         if (resumes==null||resumes.isEmpty()){
-            throw new JobSearchException("Resume Not Found");
+            throw new JobSearchException("ResumeControllerApi Not Found");
         }
         log.info("Found resumes for applicant Id: {}", applicantId);
         return resumes.stream()

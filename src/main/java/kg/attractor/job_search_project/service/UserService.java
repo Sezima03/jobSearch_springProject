@@ -18,4 +18,6 @@ public interface UserService {
     List<UserDto> getSearchByEmail(String email);
 
     List<VacancyDto> getRespondedToVacancy(Long applicantId);
+
+    User getById(Long id);
 }

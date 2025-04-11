@@ -52,11 +52,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/users/register", "vacancy", "images").permitAll()
-                        .requestMatchers("resume/add", "vacancy/add").authenticated()
-                        .requestMatchers("/resume/update/**", "/resume/delete/**").hasAuthority("APPLICANT")
+//                        .requestMatchers("/users/register", "vacancy", "images").permitAll()
+//                        .requestMatchers("resume/add", "vacancy/add").authenticated()
+//                        .requestMatchers("/resume/update/**", "/resume/delete/**").hasAuthority("APPLICANT")
                         .requestMatchers("/vacancy/update/**", "/vacancy/delete/**").hasAuthority("EMPLOYER")
-                        .anyRequest().authenticated());
+                        .anyRequest().permitAll());
 
         return http.build();
     }
