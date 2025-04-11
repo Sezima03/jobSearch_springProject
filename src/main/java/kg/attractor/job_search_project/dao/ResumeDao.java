@@ -43,7 +43,7 @@ public class ResumeDao {
         String sql ="select count(*) from resume where id = ?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class,resumeId);
         if(count<=0){
-            throw new JobSearchException("Resume not found");
+            throw new JobSearchException("ResumeControllerApi not found");
         }
         String sql2 = "update resume set " +
                 "applicant_id = ?, " +
@@ -77,7 +77,7 @@ public class ResumeDao {
 
             return res > 0;
         }else {
-            throw new JobSearchException("Resume not found");
+            throw new JobSearchException("ResumeControllerApi not found");
         }
     }
 

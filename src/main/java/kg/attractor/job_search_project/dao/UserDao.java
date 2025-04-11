@@ -57,4 +57,9 @@ public class UserDao {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), applicantId);
     }
 
+    public User getById(Long id){
+        String sql = "select * from users where id = ?";
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), id);
+    }
+
 }
