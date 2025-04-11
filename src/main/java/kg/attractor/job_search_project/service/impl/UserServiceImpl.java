@@ -10,7 +10,6 @@ import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -149,5 +148,10 @@ public class UserServiceImpl implements UserService {
                         .updateTime(vacancy.getUpdateTime())
                         .build())
                 .toList();
+    }
+
+    @Override
+    public User getById(Long id){
+        return userDao.getById(id);
     }
 }
