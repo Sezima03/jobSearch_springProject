@@ -1,4 +1,4 @@
-package kg.attractor.job_search_project.controller;
+package kg.attractor.job_search_project.controller.api;
 import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("users")
 @RequiredArgsConstructor
-public class UserController {
+public class UserControllerApi {
     private final UserService userService;
 
     @PostMapping("register")
