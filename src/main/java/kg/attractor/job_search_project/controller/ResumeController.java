@@ -21,17 +21,18 @@ public class ResumeController {
     private final UserService userService;
     private final ResumeService resumeService;
 
-    @GetMapping("update/{id}")
-    public String updateResume(@PathVariable Long id, Model model){
-        User userDto = userService.getById(id);
-        model.addAttribute("user", userDto);
-        return "temp/update";
-    }
 
     @GetMapping("allResume")
     public String allResume(Model model){
         List<ResumeDto> resumeDtos =resumeService.getAllResume();
         model.addAttribute("resumes", resumeDtos);
         return "list/allresume";
+    }
+
+    @GetMapping("update/{id}")
+    public String updateResume(@PathVariable Long id, Model model){
+        User userDto = userService.getById(id);
+        model.addAttribute("user", userDto);
+        return "temp/update";
     }
 }

@@ -11,8 +11,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,21 +86,40 @@ public class ResumeDao {
         }
     }
 
-    public void getCreateResume(Resume resume) {
-        String sql="insert into resume(applicant_id, name, category_id, salary, is_active, created_date, update_time)" +
-                "values(?,?,?,?,?,?,?)";
+    public Long createResume(Resume resume) {
+        String sql = "insert into resume(applicant_id, name, category_id, salary, is_active) " +
+                "values(?,?,?,?,?)";
 
-        jdbcTemplate.update(
-                sql,
-                resume.getApplicantId(),
-                resume.getName(),
-                resume.getCategoryId(),
-                resume.getSalary(),
-                resume.isActive(),
-                resume.getCreatedDate(),
-                resume.getUpdateTime());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(con -> {
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setLong(1, resume.getApplicantId());
+            ps.setString(2, resume.getName());
+            ps.setLong(3, resume.getCategoryId());
+            ps.setDouble(4, resume.getSalary());
+            ps.setBoolean(5, resume.isActive());
+            return ps;
+        }, keyHolder);
 
+        Number id = (Number) keyHolder.getKeys().get("ID");
+        return id.longValue();
     }
+
+//    public void getCreateResume(Resume resume) {
+//        String sql="insert into resume(applicant_id, name, category_id, salary, is_active, created_date, update_time)" +
+//                "values(?,?,?,?,?,?,?)";
+//
+//        jdbcTemplate.update(
+//                sql,
+//                resume.getApplicantId(),
+//                resume.getName(),
+//                resume.getCategoryId(),
+//                resume.getSalary(),
+//                resume.isActive(),
+//                resume.getCreatedDate(),
+//                resume.getUpdateTime());
+//
+//    }
 
     public List<Resume> getAllResumeByCategory(String category){
         String sql = "select r.* " +

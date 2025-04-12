@@ -33,20 +33,19 @@ public class ResumeServiceImpl implements ResumeService {
         }
         Resume resume1=new Resume();
         resume1.setId(resumeDto.getId());
+        resume1.setApplicantId(resumeDto.getApplicantId());
         resume1.setName(resumeDto.getName());
         resume1.setCategoryId(resumeDto.getCategoryId());
         resume1.setSalary(resumeDto.getSalary());
         resume1.setActive(resumeDto.isActive());
-        resume1.setCreatedDate(resumeDto.getCreatedDate());
-        resume1.setUpdateTime(resumeDto.getUpdateTime());
 
-         resumeDao.getCreateResume(resume1);
+         Long resumeID = resumeDao.createResume(resume1);
          log.info("Created ResumeControllerApi with name {}",  resumeDto.getName());
 
         for (EducationInfoDto educationInfoDto:resumeDto.getEducationInfo()) {
             EducationInfo educationInfo = new EducationInfo();
             educationInfo.setId(educationInfoDto.getId());
-            educationInfo.setResumeId(resumeDto.getId());
+            educationInfo.setResumeId(resumeID);
             educationInfo.setInstitution(educationInfoDto.getInstitution());
             educationInfo.setProgram(educationInfoDto.getProgram());
             educationInfo.setStartDate(educationInfoDto.getStartDate());
@@ -58,7 +57,7 @@ public class ResumeServiceImpl implements ResumeService {
 
         for (WorkExperienceInfoDto workExperienceInfoDto:resumeDto.getWorkExperienceInfo()) {
             WorkExperienceInfo workExperienceInfo1 = new WorkExperienceInfo();
-            workExperienceInfo1.setResumeId(resumeDto.getId());
+            workExperienceInfo1.setResumeId(resumeID);
             workExperienceInfo1.setYear(workExperienceInfoDto.getYear());
             workExperienceInfo1.setCompanyName(workExperienceInfoDto.getCompanyName());
             workExperienceInfo1.setPosition(workExperienceInfoDto.getPosition());

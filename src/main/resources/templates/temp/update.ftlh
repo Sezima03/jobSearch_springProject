@@ -2,7 +2,7 @@
 <@main.layout>
     <h3 class="mb-4 text-center text-primary">Редактировать профиль</h3>
 
-    <form method="post" action="/applicant/update/${user.id}">
+    <form method="post" action="/update/${user.id}">
         <div class="mb-3">
             <label for="name" class="form-label">Имя</label>
             <input type="text" id="name" name="name" value="${user.name}" class="form-control" required>

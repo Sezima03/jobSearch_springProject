@@ -2,6 +2,7 @@ package kg.attractor.job_search_project.controller;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.service.ResumeService;
+import kg.attractor.job_search_project.service.UserService;
 import kg.attractor.job_search_project.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import java.util.List;
 public class UsersController {
     private final ResumeService resumeService;
     private final VacancyService vacancyService;
+    private final UserService userService;
 
     @GetMapping
     public String login(){

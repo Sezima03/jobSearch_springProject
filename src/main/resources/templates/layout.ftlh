@@ -37,19 +37,19 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="profileApp">Страница соискателя</a>
+                        <a class="nav-link active" aria-current="page" href="/profileApp">Страница соискателя</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="profileEmp">Страница работодателя</a>
+                        <a class="nav-link active" aria-current="page" href="/profileEmp">Страница работодателя</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="resume/update/1">Обновить страницу</a>
+                        <a class="nav-link" href="/resume/update/1">Обновить страницу</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="resume/allResume">Список всех резюме</a>
+                        <a class="nav-link" href="/resume/allResume">Список всех резюме</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="vacancy/allVacancy">Список вакансий</a>
+                        <a class="nav-link" href="/vacancy/allVacancy">Список вакансий</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
