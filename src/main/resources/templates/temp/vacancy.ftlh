@@ -9,10 +9,12 @@
             </div>
             <div class="col-4">
                 <h5>Company name</h5>
-                <a href="/update/1" class="btn btn-edit">Редактировать</a>
+                <a href="/vacancy/update" class="btn btn-edit">Редактировать</a>
             </div>
             <div class="col-4">
-                <button class="btn btn-red rounded-pill p-3">+<br>Создать<br>резюме</button>
+                <a href="/vacancy/created" class="btn btn-red rounded-pill p-3">
+                    +<br>Создать<br>вакансию
+                </a>
             </div>
         </div>
 
@@ -23,7 +25,8 @@
                     <p>${vacancy.name}</p>
                     <p>Дата обновления:<br>vacancy.updateTime</p>
                     <button class="btn btn-primary btn-sm">Обновить</button>
-                    <button class="btn btn-edit btn-sm">Ред.</button>
+                    <a href="/vacancy/edit/${vacancy.id}" class="btn btn-edit btn-sm">Ред.</a>
+
                 </div>
             </#list>
         </div>

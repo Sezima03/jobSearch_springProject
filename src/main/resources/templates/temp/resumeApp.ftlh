@@ -13,7 +13,7 @@
                 <a href="/resume/update/1" class="btn btn-edit">Редактировать</a>
             </div>
             <div class="col-2">
-                <button class="btn btn-create rounded-3">+<br>Создать<br>резюме</button>
+                <a href="/resume/created" class="btn btn-create rounded-3">+<br>Создать<br>резюме</a>
             </div>
             <div class="col-2 position-relative">
                 <button class="btn btn-response rounded-3">Отклики</button>
@@ -29,7 +29,7 @@
                         <p>${resume.name}</p>
                         <p>Дата обновления:<br>${resume.updateTime}</p>
                         <button class="btn btn-primary btn-sm">Обновить</button>
-                        <button class="btn btn-edit btn-sm">Ред.</button>
+                        <a href="/resume/editResume/${resume.id}" class="btn btn-edit btn-sm">Ред.</a>
                     </div>
             </div>
             </#list>
