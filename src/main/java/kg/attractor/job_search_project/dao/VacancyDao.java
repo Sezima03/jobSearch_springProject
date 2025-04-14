@@ -1,13 +1,16 @@
 package kg.attractor.job_search_project.dao;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.RespondedApplicant;
+import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.Vacancy;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -89,5 +92,19 @@ public class VacancyDao {
     public List<Vacancy> getAllActiveVacancies() {
         String sql = "select * from vacancyusr where IS_ACTIVE = true";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Vacancy.class));
+    }
+
+
+    public Optional<Vacancy> getFindVacancyById(Long vacancyId) {
+        String sql = "select * from vacancyusr where id = ?";
+        return Optional.ofNullable(
+                        DataAccessUtils.singleResult(
+                                jdbcTemplate.query(
+                                        sql,
+                                        new BeanPropertyRowMapper<>(Vacancy.class),
+                                        vacancyId
+                                )
+                        )
+        );
     }
 }

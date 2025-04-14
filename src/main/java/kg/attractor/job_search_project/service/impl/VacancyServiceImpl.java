@@ -1,5 +1,4 @@
 package kg.attractor.job_search_project.service.impl;
-import kg.attractor.job_search_project.dao.UserDao;
 import kg.attractor.job_search_project.dao.VacancyDao;
 import kg.attractor.job_search_project.dao.existenceCheck.ExistenceCheckDao;
 import kg.attractor.job_search_project.dto.RespondedApplicantDto;
@@ -169,5 +168,29 @@ public class VacancyServiceImpl implements VacancyService {
                         .build())
                 .toList();
     }
+
+    @Override
+    public VacancyDto getFindVacancyById(Long vacancyId){
+        log.info("Retrieving VacancyControllerApi with id {}", vacancyId);
+        Vacancy vacancy = vacancyDao.getFindVacancyById(vacancyId)
+                .orElseThrow(()->new JobSearchException("Vacancy Not Found"));
+
+        log.info("Found Vacancy with Id: {}", vacancyId);
+
+        return VacancyDto.builder()
+                .id(vacancy.getId())
+                .name(vacancy.getName())
+                .description(vacancy.getDescription())
+                .categoryId(vacancy.getCategoryId())
+                .salary(vacancy.getSalary())
+                .expFrom(vacancy.getExpFrom())
+                .expTo(vacancy.getExpTo())
+                .isActive(vacancy.getIsActive())
+                .authorId(vacancy.getAuthorId())
+                .createdDate(vacancy.getCreatedDate())
+                .updateTime(vacancy.getUpdateTime())
+                .build();
+    }
+
 
 }
