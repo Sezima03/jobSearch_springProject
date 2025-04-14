@@ -1,13 +1,18 @@
 package kg.attractor.job_search_project.controller;
+import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.ResumeDto;
+import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
+import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.service.ResumeService;
 import kg.attractor.job_search_project.service.UserService;
 import kg.attractor.job_search_project.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -21,9 +26,26 @@ public class UsersController {
     private final UserService userService;
 
     @GetMapping
-    public String login(){
+    public String registerForm(Model model) {
+        model.addAttribute("userDto", new UserDto());
+        return "temp/register";
+    }
 
-        return "temp/login";
+    //TODO валидация  работает но не сохраняется в базе должна добавить ао умолчанию enabled true
+    //TODO Должна была быть проверка что резюме может создавать только пользователь с ролью  applicant
+    //TODO Добавить номера телефона
+
+    @PostMapping
+    public String registerForm(@Valid UserDto userDto,
+                               BindingResult bindingResult,
+                               Model model){
+        if (!bindingResult.hasErrors()) {
+            userService.registerUser(userDto);
+            return "redirect:/";
+
+        }
+        model.addAttribute("userDto", userDto);
+        return "temp/register";
     }
 
     @GetMapping("profileApp")
