@@ -1,0 +1,138 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.form-container {
+    width: 600px;
+    margin: 0 auto;
+    border: 2px solid #000;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.form-title {
+    color: red;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 70px;
+    resize: vertical;
+}
+
+.block-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.block-section {
+    border: 1px solid #aaa;
+    border-radius: 20px;
+    padding: 10px;
+    padding-right: 70px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.square-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    font-weight: bold;
+    border: 2px solid #333;
+    border-radius: 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-image: repeating-linear-gradient(45deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.3) 5px,
+    transparent 5px,
+    transparent 10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.square-btn.green {
+    background-color: #b8e8e8;
+}
+
+.square-btn.blue {
+    background-color: #d0d8f8;
+}
+
+.social-section {
+    margin: 30px 0;
+}
+
+.social-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.social-row input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+    margin-left: 10px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.checkbox-group {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.publish-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #b8e8d0;
+    border: 2px solid #333;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
