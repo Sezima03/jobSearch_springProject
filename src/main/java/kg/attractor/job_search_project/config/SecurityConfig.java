@@ -55,7 +55,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/users/register", "vacancy", "images").permitAll()
 //                        .requestMatchers("resume/add", "vacancy/add").authenticated()
 //                        .requestMatchers("/resume/update/**", "/resume/delete/**").hasAuthority("APPLICANT")
-                        .requestMatchers("/vacancy/update/**", "/vacancy/delete/**").hasAuthority("EMPLOYER")
+//                        .requestMatchers("/vacancy/update/**", "/vacancy/delete/**").hasAuthority("EMPLOYER")
                         .anyRequest().permitAll());
 
         return http.build();

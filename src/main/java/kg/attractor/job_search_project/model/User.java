@@ -12,6 +12,6 @@ public class User {
     private String password;
     private String phoneNumber;
     private String avatar;
-    private Boolean enabled;
+    private Boolean enabled = true;
     private Long authorityId;
 }

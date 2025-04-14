@@ -36,7 +36,7 @@ public class UserDto {
 
         private String avatar;
 
-        private Boolean enabled;
+        private Boolean enabled = true;
 
         @NotNull(message = "Укажите ID")
         private Long authorityId;

@@ -48,8 +48,8 @@ public class ResumeServiceImpl implements ResumeService {
             educationInfo.setResumeId(resumeID);
             educationInfo.setInstitution(educationInfoDto.getInstitution());
             educationInfo.setProgram(educationInfoDto.getProgram());
-            educationInfo.setStartDate(educationInfoDto.getStartDate());
-            educationInfo.setEndDate(educationInfoDto.getEndDate());
+//            educationInfo.setStartDate(educationInfoDto.getStartDate());
+//            educationInfo.setEndDate(educationInfoDto.getEndDate());
             educationInfo.setDegree(educationInfoDto.getDegree());
             resumeDao.getCreateEduInfo(educationInfo);
             log.info("Education info for resume Id {}", resumeDto.getId());
@@ -82,6 +82,29 @@ public class ResumeServiceImpl implements ResumeService {
 
         resumeDao.getUpdateResume(resumeId, resume);
         log.info("ResumeControllerApi with id {} updated successfully",  resumeId);
+
+        for (EducationInfoDto eduDto:updateResume.getEducationInfo()) {
+            EducationInfo educationInfo = new EducationInfo();
+            educationInfo.setId(eduDto.getId());
+            educationInfo.setResumeId(resumeId);
+            educationInfo.setInstitution(eduDto.getInstitution());
+            educationInfo.setProgram(eduDto.getProgram());
+            educationInfo.setStartDate(eduDto.getStartDate());
+            educationInfo.setEndDate(eduDto.getEndDate());
+            educationInfo.setDegree(eduDto.getDegree());
+            resumeDao.getUpdateEduInfo(educationInfo, resumeId);
+        }
+
+        for (WorkExperienceInfoDto wei:updateResume.getWorkExperienceInfo()){
+            WorkExperienceInfo workExperienceInfo = new WorkExperienceInfo();
+            workExperienceInfo.setId(wei.getId());
+            workExperienceInfo.setResumeId(resumeId);
+            workExperienceInfo.setYear(wei.getYear());
+            workExperienceInfo.setCompanyName(wei.getCompanyName());
+            workExperienceInfo.setPosition(wei.getPosition());
+            workExperienceInfo.setResponsibilities(wei.getResponsibility());
+            resumeDao.updateWorkExperienceInfo(workExperienceInfo, resumeId);
+        }
     }
 
     @Override
