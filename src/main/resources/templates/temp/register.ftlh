@@ -1,0 +1,49 @@
+<#import "../layout.ftlh" as main>
+<@main.layout ; spring>
+    <h2 class="mt-5">Регистрация нового пользователя</h2>
+
+    <form action="/" method="POST" class="mt-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">Имя</label>
+            <@spring.formInput "userDto.name" 'id="name" class="form-control form-control-lg"' />
+            <@spring.showErrors "userDto.name" "error text-danger" />
+        </div>
+        <div class="mb-3">
+            <label for="surname" class="form-label">Фамилия</label>
+            <@spring.formInput "userDto.surname" 'id="surname" class="form-control form-control-lg"' />
+            <@spring.showErrors "userDto.surname" "error text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="age" class="form-label">Возраст</label>
+            <@spring.formInput "userDto.age" 'id="age" class="form-control form-control-lg"' />
+            <@spring.showErrors "userDto.age" "error text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <@spring.formInput "userDto.email" 'id="form3Example3cg" class="form-control form-control-lg"' />
+            <@spring.showErrors "<br>" "error text-danger" />
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Пароль</label>
+            <@spring.formPasswordInput "userDto.password" 'id="password" class="form-control form-control-lg"' />
+            <@spring.showErrors "userDto.password" "text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Номер телефона</label>
+            <@spring.formInput "userDto.phoneNumber" 'id="phoneNumber" class="form-control form-control-lg"' />
+            <@spring.showErrors "userDto.phoneNumber" "error text-danger" />
+        </div>
+
+        <div class="mb-3">
+            <label for="authorityId" class="form-label">Тип учетной записи</label>
+            <select class="form-control" id="role" name="authorityId">
+                <option value="APPLICANT">Соискатель</option>
+                <option value="EMPLOYER">Работодатель</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    </form>
+</@main.layout>
