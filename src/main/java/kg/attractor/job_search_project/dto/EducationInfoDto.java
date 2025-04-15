@@ -15,10 +15,10 @@ public class EducationInfoDto {
     @NotBlank(message = "Программа обучения не может быть пустой")
     private String program;
 
-    @NotNull(message = "Дата начала не может быть null")
+//    @NotNull(message = "Дата начала не может быть null")
     private LocalDate startDate;
 
-    @NotNull(message = "Дата окончания не может быть null")
+//    @NotNull(message = "Дата окончания не может быть null")
     private LocalDate endDate;
 
     private String degree;

@@ -42,29 +42,32 @@ public class ResumeServiceImpl implements ResumeService {
          Long resumeID = resumeDao.createResume(resume1);
          log.info("Created ResumeControllerApi with name {}",  resumeDto.getName());
 
-        for (EducationInfoDto educationInfoDto:resumeDto.getEducationInfo()) {
-            EducationInfo educationInfo = new EducationInfo();
-            educationInfo.setId(educationInfoDto.getId());
-            educationInfo.setResumeId(resumeID);
-            educationInfo.setInstitution(educationInfoDto.getInstitution());
-            educationInfo.setProgram(educationInfoDto.getProgram());
-//            educationInfo.setStartDate(educationInfoDto.getStartDate());
-//            educationInfo.setEndDate(educationInfoDto.getEndDate());
-            educationInfo.setDegree(educationInfoDto.getDegree());
-            resumeDao.getCreateEduInfo(educationInfo);
-            log.info("Education info for resume Id {}", resumeDto.getId());
+         if (resumeDto.getEducationInfo() != null) {
+             for (EducationInfoDto educationInfoDto:resumeDto.getEducationInfo()) {
+                 EducationInfo educationInfo = new EducationInfo();
+                 educationInfo.setId(educationInfoDto.getId());
+                 educationInfo.setResumeId(resumeID);
+                 educationInfo.setInstitution(educationInfoDto.getInstitution());
+                 educationInfo.setProgram(educationInfoDto.getProgram());
+
+                 educationInfo.setDegree(educationInfoDto.getDegree());
+                 resumeDao.getCreateEduInfo(educationInfo);
+                 log.info("Education info for resume Id {}", resumeDto.getId());
+         }
         }
 
-        for (WorkExperienceInfoDto workExperienceInfoDto:resumeDto.getWorkExperienceInfo()) {
-            WorkExperienceInfo workExperienceInfo1 = new WorkExperienceInfo();
-            workExperienceInfo1.setResumeId(resumeID);
-            workExperienceInfo1.setYear(workExperienceInfoDto.getYear());
-            workExperienceInfo1.setCompanyName(workExperienceInfoDto.getCompanyName());
-            workExperienceInfo1.setPosition(workExperienceInfoDto.getPosition());
-            workExperienceInfo1.setResponsibilities(workExperienceInfoDto.getResponsibility());
+         if (resumeDto.getWorkExperienceInfo() != null) {
+             for (WorkExperienceInfoDto workExperienceInfoDto:resumeDto.getWorkExperienceInfo()) {
+                 WorkExperienceInfo workExperienceInfo1 = new WorkExperienceInfo();
+                 workExperienceInfo1.setResumeId(resumeID);
+                 workExperienceInfo1.setYear(workExperienceInfoDto.getYear());
+                 workExperienceInfo1.setCompanyName(workExperienceInfoDto.getCompanyName());
+                 workExperienceInfo1.setPosition(workExperienceInfoDto.getPosition());
+                 workExperienceInfo1.setResponsibilities(workExperienceInfoDto.getResponsibility());
 
-            resumeDao.getCreateWorkExperienceInfo(workExperienceInfo1);
-            log.info("WorkExperience info for resume Id {}", resumeDto.getId());
+                 resumeDao.getCreateWorkExperienceInfo(workExperienceInfo1);
+                 log.info("WorkExperience info for resume Id {}", resumeDto.getId());
+         }
         }
     }
 

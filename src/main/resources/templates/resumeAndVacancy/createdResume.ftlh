@@ -10,18 +10,17 @@
         <@spring.formInput "resumeDto.name" 'id="name" class="form-control form-control-lg" placeholder="Введите название"' />
         <@spring.showErrors "resumeDto.name" "error text-danger" />
 
-        <label>Категория:</label>
-        <select id="category" name="category" required>
-            <option value="" disabled selected>Выберите категорию</option>
-            <option value="js">js</option>
-            <option value="java">java</option>
-            <option value="python">python</option>
-            <option value="project manager">project manager</option>
-        </select>
+        <label for="applicantId">applicantId</label>
+        <@spring.formInput "resumeDto.applicantId" 'id="applicantId" class="form-control form-control-lg" placeholder="Введите пользователя"' />
+        <@spring.showErrors "resumeDto.applicantId" "error text-danger" />
+
+        <label for="categoryId">Категория (ID):</label>
+        <@spring.formInput "resumeDto.categoryId" 'id="categoryId" class="form-control"' />
         <@spring.showErrors "resumeDto.categoryId" "error text-danger" />
 
         <label for="salary">Ожидаемая зарплата (сом):</label>
-        <input type="number" id="salary" name="salary" placeholder="Введите сумму" required>
+        <@spring.formInput "resumeDto.salary" 'id="salary" class="form-control"' />
+        <@spring.showErrors "resumeDto.salary" "error text-danger" />
 
         <fieldset>
             <legend>Образование</legend>
@@ -47,7 +46,8 @@
             <@spring.showErrors "work.companyName" "error text-danger" />
 
             <label for="position">Должность:</label>
-            <input type="text" id="position" name="position" placeholder="Программист">
+            <@spring.formInput "work.position" 'id="position" class="form-control form-control-lg" placeholder="Введите должность"' />
+            <@spring.showErrors "work.position" "error text-danger" />
 
             <label for="responsibilities">Обязанности:</label>
             <textarea id="responsibilities" name="responsibilities"
