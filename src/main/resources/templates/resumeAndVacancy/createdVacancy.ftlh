@@ -1,42 +1,42 @@
-    <#import "../layout.ftlh" as main>
-    <@main.layout ; spring>
-        <link rel="stylesheet" href="/static/css/createdVacancy.css">
-        <h2>Создание вакансии</h2>
-        <form action="/vacancy/created" method="POST">
-            <label for="name">Название вакансии:</label>
-        <@spring.formInput "vacancy.name" 'id="name" class="form-control"'/>
-        <@spring.showErrors "vacancy.name" "error text-danger"/>
+<#import "../layout.ftlh" as main>
+<@main.layout ; spring>
+    <link rel="stylesheet" href="/static/css/createdVacancy.css">
+    <h2>Создание вакансии</h2>
+
+    <form action="/vacancy/created" method="POST">
+        <label for="name">Название вакансии:</label>
+        <@spring.formInput "vacancy.name" 'id="name" class="form-control"' />
+        <@spring.showErrors "vacancy.name" "error text-danger" />
 
         <label for="description">Описание:</label>
-        <textarea id="description" name="description" placeholder="Опиши обязанности и требования..."
-                  required></textarea>
+        <@spring.formTextarea "vacancy.description" 'id="description" class="form-control" placeholder="Опиши обязанности и требования..." required' />
+        <@spring.showErrors "vacancy.description" "error text-danger" />
 
-        <label for="categoryId">Категория:</label>
-        <select id="categoryId" name="categoryId" required>
-            <option disabled selected value="">Выберите категорию</option>
-            <option value="java">Java</option>
-            <option value="python">Python</option>
-            <option value="frontend">Frontend</option>
-            <option value="pm">Project Manager</option>
-        </select>
+        <label for="categoryId">Категория (ID):</label>
+        <@spring.formInput "vacancy.categoryId" 'id="categoryId" class="form-control"' />
+        <@spring.showErrors "vacancy.categoryId" "error text-danger" />
 
         <label for="salary">Зарплата (сом):</label>
-        <input type="number" id="salary" name="salary" required placeholder="Пример: 100000">
+        <@spring.formInput "vacancy.salary" 'id="salary" class="form-control" type="number" required placeholder="Пример: 100000"' />
+        <@spring.showErrors "vacancy.salary" "error text-danger" />
 
         <label for="expFrom">Опыт от (лет):</label>
-        <input type="number" id="expFrom" name="expFrom" min="0">
+        <@spring.formInput "vacancy.expFrom" 'id="expFrom" class="form-control" type="number" min="0"' />
+        <@spring.showErrors "vacancy.expFrom" "error text-danger" />
 
         <label for="expTo">Опыт до (лет):</label>
-        <input type="number" id="expTo" name="expTo" min="0">
+        <@spring.formInput "vacancy.expTo" 'id="expTo" class="form-control" type="number" min="0"' />
+        <@spring.showErrors "vacancy.expTo" "error text-danger" />
 
         <label for="authorId">ID автора:</label>
-        <input type="text" id="authorId" name="authorId" required>
-
+        <@spring.formInput "vacancy.authorId" 'id="authorId" class="form-control" required' />
+        <@spring.showErrors "vacancy.authorId" "error text-danger" />
 
         <label>
-            <input type="checkbox" name="isActive" checked> Активна
+            <input type="hidden" name="vacancy.isActive" value="false" />
+            <@spring.formCheckbox "vacancy.isActive" 'checked' /> Активна
         </label>
 
-        <button type="submit">Создать вакансию</button>
-        </form>
-    </@main.layout>
+        <button type="submit" class="btn btn-primary mt-3">Создать вакансию</button>
+    </form>
+</@main.layout>

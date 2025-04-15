@@ -56,15 +56,15 @@ public class VacancyController {
     @PostMapping("edit/{vacancyId}")
     public String updateVacancy(@PathVariable Long vacancyId,
                                 @ModelAttribute("vacancy") @Valid VacancyDto vacancyDto,
-                                 BindingResult bindingResult,
-                                 Model model) {
+                                BindingResult bindingResult,
+                                Model model) {
 
         model.addAttribute("vacancy", vacancyService.getFindVacancyById(vacancyId));
 
         if (bindingResult.hasErrors()) {
             return "resumeAndVacancy/editVacancy";
         }
-        vacancyService.createdVacancy(vacancyDto);
+        vacancyService.getUpdateVacancy(vacancyDto, vacancyId);
         return "redirect:/";
     }
 
