@@ -134,7 +134,7 @@ databaseChangeLog:
                   name: category_id
                   type: long
                   constraints:
-                    nullable: false
+#                    nullable: false
                     foreignKeyName: fk_category_id_vacancy
                     references: categories(id)
               - column:

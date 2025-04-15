@@ -31,10 +31,6 @@ public class UsersController {
         return "temp/register";
     }
 
-    //TODO валидация  работает но не сохраняется в базе должна добавить ао умолчанию enabled true
-    //TODO Должна была быть проверка что резюме может создавать только пользователь с ролью  applicant
-    //TODO Добавить номера телефона
-
     @PostMapping
     public String registerForm(@Valid UserDto userDto,
                                BindingResult bindingResult,

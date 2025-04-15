@@ -31,8 +31,14 @@ public class UserServiceImpl implements UserService {
         user.setPassword(userDto.getPassword());
         user.setPhoneNumber(userDto.getPhoneNumber());
         user.setAvatar(userDto.getAvatar());
-        user.setEnabled(userDto.getEnabled());
+        user.setEnabled(true);
         user.setAuthorityId(userDto.getAuthorityId());
+
+        if ("APPLICANT".equals(userDto.getAuthorityId())) {
+            user.setAuthorityId(1L);
+        } else if ("EMPLOYER".equals(userDto.getAuthorityId())) {
+            user.setAuthorityId(2L);
+        }
         return user;
     }
 
