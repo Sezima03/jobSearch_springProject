@@ -1,5 +1,6 @@
 package kg.attractor.job_search_project.dao;
-import kg.attractor.job_search_project.dto.UserDto;
+import kg.attractor.job_search_project.exceptions.JobSearchException;
+
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +61,15 @@ public class UserDao {
     public User getById(Long id){
         String sql = "select * from users where id = ?";
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), id);
+    }
+
+    public User getLoginWithPAssAndEmail(String email){
+        String sql = "select * from users where email = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), email);
+        }catch (JobSearchException jse){
+            return null;
+        }
     }
 
 }

@@ -37,13 +37,14 @@
             <@spring.showErrors "userDto.phoneNumber" "error text-danger" />
         </div>
 
-        <div class="mb-3">
-            <label for="authorityId" class="form-label">Тип учетной записи</label>
-            <select class="form-control" id="role" name="authorityId">
-                <option value="APPLICANT">Соискатель</option>
-                <option value="EMPLOYER">Работодатель</option>
-            </select>
-        </div>
+        <label for="authorityId">Тип учетной записи</label>
+        <@spring.formInput "userDto.authorityId" 'id="authorityId" class="form-control"' />
+        <@spring.showErrors "userDto.authorityId" "error text-danger" />
+
         <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
     </form>
+
+    <div class="text-center mt-3">
+        Уже зарегистрированы? <a href="/auth/login">Войти</a>
+    </div>
 </@main.layout>

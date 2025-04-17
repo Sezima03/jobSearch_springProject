@@ -2,14 +2,17 @@ package kg.attractor.job_search_project.service.impl;
 
 import kg.attractor.job_search_project.config.AppConfig;
 import kg.attractor.job_search_project.dao.UserDao;
+import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
+import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +23,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final AppConfig  appConfig;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private User convertToUser(UserDto userDto){
         User user = new User();
@@ -160,4 +164,26 @@ public class UserServiceImpl implements UserService {
     public User getById(Long id){
         return userDao.getById(id);
     }
+
+    @Override
+    public String loginUser(String email, String password){
+        log.info("Logining Users by email : {}", email);
+
+        User user = userDao.getLoginWithPAssAndEmail(email);
+        if (user == null){
+            return "Пользователь не найден";
+        }
+        BCryptPasswordEncoder encoder = bCryptPasswordEncoder;
+        if (!encoder.matches(password, user.getPassword())){
+            return "Неверный пароль";
+        }
+
+        if (!user.getEnabled()){
+            return "Пользователь не активирован";
+        }
+
+        log.info("Успешный вход");
+        return "успешно";
+    }
+
 }

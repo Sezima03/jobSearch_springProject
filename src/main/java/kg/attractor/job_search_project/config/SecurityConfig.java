@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 import javax.sql.DataSource;
 
 @Configuration
@@ -46,16 +48,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(AbstractHttpConfigurer::disable)
-                .logout(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .formLogin(login -> login
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/auth/login")
+                        .defaultSuccessUrl("/")
+                        .failureUrl("/auth/login?error=true")
+                        .permitAll())
+
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-//                        .requestMatchers("/users/register", "vacancy", "images").permitAll()
-//                        .requestMatchers("resume/add", "vacancy/add").authenticated()
-//                        .requestMatchers("/resume/update/**", "/resume/delete/**").hasAuthority("APPLICANT")
-//                        .requestMatchers("/vacancy/update/**", "/vacancy/delete/**").hasAuthority("EMPLOYER")
+                        .requestMatchers("/users/register", "/vacancy/allVacancy").permitAll()
+                        .requestMatchers("/resume/**", "/profileApp", "vacancy/allVacancy").hasAuthority("APPLICANT")
+                        .requestMatchers("/resume/allResume","/profileEmp", "vacancy/**").hasAuthority("EMPLOYER")
                         .anyRequest().permitAll());
 
         return http.build();

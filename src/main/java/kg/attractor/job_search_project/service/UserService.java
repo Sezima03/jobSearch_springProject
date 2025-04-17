@@ -1,5 +1,4 @@
 package kg.attractor.job_search_project.service;
-
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.model.User;
@@ -20,4 +19,7 @@ public interface UserService {
     List<VacancyDto> getRespondedToVacancy(Long applicantId);
 
     User getById(Long id);
+
+    String loginUser(String email, String password);
+
 }
