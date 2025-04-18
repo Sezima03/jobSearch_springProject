@@ -1,6 +1,5 @@
 package kg.attractor.job_search_project.model;
-import kg.attractor.job_search_project.dto.EducationInfoDto;
-import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
@@ -8,18 +7,39 @@ import java.util.List;
 
 @Getter
 @Setter
+@Entity
+@Table(name = "resume")
 public class Resume {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+
+    @Column(name = "applicant_id")
     private Long applicantId;
+
     private String name;
-    private Long categoryId;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category categoryId;
     private Double salary;
+
+    @Column(name = "is_active")
     private boolean isActive;
+
+    @Column(name = "created_date")
     private LocalDateTime createdDate;
+
+    @Column(name = "update_time")
     private LocalDateTime updateTime;
 
-    private List<EducationInfoDto> educationInfo;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resume")
+    private List<EducationInfo> educationInfo;
 
-    private List<WorkExperienceInfoDto> workExperienceInfo;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resume")
+    private List<WorkExperienceInfo> workExperienceInfo;
 
 }
