@@ -9,6 +9,7 @@ import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
+import kg.attractor.job_search_project.repository.UserRepository;
 import kg.attractor.job_search_project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,14 +17,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
-    private final UserDao userDao;
+
     private final AppConfig  appConfig;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepository;
 
     private User convertToUser(UserDto userDto){
         User user = new User();
@@ -38,11 +41,6 @@ public class UserServiceImpl implements UserService {
         user.setEnabled(true);
         user.setAuthorityId(userDto.getAuthorityId());
 
-        if ("APPLICANT".equals(userDto.getAuthorityId())) {
-            user.setAuthorityId(1L);
-        } else if ("EMPLOYER".equals(userDto.getAuthorityId())) {
-            user.setAuthorityId(2L);
-        }
         return user;
     }
 
@@ -51,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
         log.info("Starting registration for User with Email : {}", userDto.getEmail());
 
-        if (userDao.isEmailTaken(userDto.getEmail())!=null){
+        if (userRepository.existsByEmail(userDto.getEmail())){
             log.warn("Email Already Exists: {}", userDto.getEmail());
             return "Email уже существует";
         }
@@ -59,7 +57,7 @@ public class UserServiceImpl implements UserService {
         userDto.setPassword(appConfig.bCryptPasswordEncoder().encode(userDto.getPassword()));
         User user = convertToUser(userDto);
 
-        userDao.saveUser(user);
+        userRepository.save(user);
         log.info("User with Email registered successfully: {}", userDto.getEmail());
         return "успешно";
     }
@@ -67,7 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getSearchByName(String name){
         log.info("Searching Users by name : {}", name);
-        List<User> users= userDao.getSearchByName(name);
+        List<User> users = userRepository.findAllByName(name);
 
         if (users==null || users.isEmpty()) {
             log.warn("Users not found with name: {}", name);
@@ -92,7 +90,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getSearchByNumber(String number){
         log.info("Searching Users by number : {}", number);
-        List<User> users= userDao.getSearchByNumber(number);
+        List<User> users= userRepository.searchByPhoneNumber(number);
         if (users == null || users.isEmpty()) {
             log.warn("Users not found for this phone number: {}", number);
             throw new JobSearchException("Phone Number Not Found");
@@ -115,7 +113,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getSearchByEmail(String email){
         log.info("Searching Users by email : {}", email);
-        List<User> users=userDao.getSearchByEmail(email);
+        List<User> users=userRepository.searchByEmail(email);
         if (users == null || users.isEmpty()) {
             log.warn("Users with email {} not found", email);
             throw new JobSearchException("Email not Found");
@@ -137,7 +135,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<VacancyDto> getRespondedToVacancy(Long applicantId) {
         log.info("Searching Users by applicant id : {}", applicantId);
-        List <Vacancy> vacancies = userDao.responseToVacancies(applicantId);
+        List <Vacancy> vacancies = userRepository.findAllRespondedByApplicantId(applicantId);
         if (vacancies==null || vacancies.isEmpty()) {
             log.warn("Vacancies not found for applicant id : {}", applicantId);
             throw new JobSearchException("Vacancy Not Found");
@@ -162,14 +160,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById(Long id){
-        return userDao.getById(id);
+
+        return userRepository.findById(id)
+                .orElseThrow(() -> new JobSearchException("User not found with id : " + id));
     }
 
     @Override
     public String loginUser(String email, String password){
         log.info("Logining Users by email : {}", email);
 
-        User user = userDao.getLoginWithPAssAndEmail(email);
+        User user = userRepository.findByEmail(email);
         if (user == null){
             return "Пользователь не найден";
         }
