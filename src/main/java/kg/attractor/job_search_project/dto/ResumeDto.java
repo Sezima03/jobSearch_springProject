@@ -17,8 +17,6 @@ import java.util.List;
 public class ResumeDto {
     private Long id;
 
-//    @NotNull
-//    @Min(value = 1, message = "Должен быть больше 0")
     private Long applicantId;
 
     @NotBlank(message = "Имя резюме не должно быть пустым")

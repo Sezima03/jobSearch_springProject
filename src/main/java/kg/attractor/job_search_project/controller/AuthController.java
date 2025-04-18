@@ -1,7 +1,4 @@
 package kg.attractor.job_search_project.controller;
-
-
-import kg.attractor.job_search_project.service.UserService;
 import kg.attractor.job_search_project.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

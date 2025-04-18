@@ -19,7 +19,6 @@ public class VacancyDto {
 
     private String description;
 
-//    @Min(value = 1, message = "Категория должно быть больше 0")
     private Long categoryId;
 
     private Double salary;
