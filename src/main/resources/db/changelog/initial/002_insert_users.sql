@@ -43,3 +43,7 @@ VALUES
     (1, 'MIT', 'Data Science', '2017-09-01', '2021-06-30', 'PhD'),
     (2, 'University of Oxford', 'Mechanical Engineering', '2014-10-01', '2018-06-30', 'Master'),
     (1, 'University of Cambridge', 'Physics', '2015-09-01', '2019-06-30', 'Bachelor');
+
+
+insert into WORK_EXPERIENCE_INFO("RESUME_ID", "YEARS", "COMPANY_NAME", "POSITION", "RESPONSIBILITES")
+values ( 1, 2, 'juple', 'младший специалист', 'husjcj');
