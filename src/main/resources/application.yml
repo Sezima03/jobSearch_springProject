@@ -17,3 +17,6 @@ spring:
 #      mode: always
   liquibase:
     change-log: classpath:db/changelog/master.yml
+  jpa:
+    hibernate:
+      ddl-auto: validate
