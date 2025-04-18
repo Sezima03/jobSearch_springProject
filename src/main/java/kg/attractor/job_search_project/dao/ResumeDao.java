@@ -95,7 +95,7 @@ public class ResumeDao {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, resume.getApplicantId());
             ps.setString(2, resume.getName());
-            ps.setLong(3, resume.getCategoryId());
+//            ps.setLong(3, resume.getCategoryId());
             ps.setDouble(4, resume.getSalary());
             ps.setBoolean(5, resume.isActive());
             return ps;
@@ -128,14 +128,14 @@ public class ResumeDao {
                 "program, " +
                 "degree)" +
                 "values (?,?,?,?)";
-        jdbcTemplate.update(sql, educationInfo.getResumeId(), educationInfo.getInstitution(), educationInfo.getProgram(), educationInfo.getDegree());
+        jdbcTemplate.update(sql, educationInfo.getResume(), educationInfo.getInstitution(), educationInfo.getProgram(), educationInfo.getDegree());
     }
 
     public void getCreateWorkExperienceInfo(WorkExperienceInfo workExperienceInfo){
         String sql = "insert into work_experience_info (resume_id, years, company_name, position, responsibilites)" +
                 "values (?,?,?,?,?)";
 
-        jdbcTemplate.update(sql, workExperienceInfo.getResumeId(), workExperienceInfo.getYear(), workExperienceInfo.getCompanyName(), workExperienceInfo.getPosition(), workExperienceInfo.getResponsibilities());
+        jdbcTemplate.update(sql, workExperienceInfo.getResume(), workExperienceInfo.getYear(), workExperienceInfo.getCompanyName(), workExperienceInfo.getPosition(), workExperienceInfo.getResponsibilities());
     }
 
     public void getUpdateEduInfo(EducationInfo educationInfo, Long resumeId){
@@ -147,7 +147,7 @@ public class ResumeDao {
                 "where resume_id = ?";
 
         jdbcTemplate.update(sql,
-                educationInfo.getResumeId(), educationInfo.getInstitution(), educationInfo.getProgram(), educationInfo.getDegree(), resumeId);
+                educationInfo.getResume(), educationInfo.getInstitution(), educationInfo.getProgram(), educationInfo.getDegree(), resumeId);
     }
 
     public void updateWorkExperienceInfo(WorkExperienceInfo workExperienceInfo, Long resumeId) {
@@ -160,7 +160,7 @@ public class ResumeDao {
                 "WHERE resume_id = ?";
 
         jdbcTemplate.update(sql,
-                workExperienceInfo.getResumeId(),
+                workExperienceInfo.getResume(),
                 workExperienceInfo.getYear(),
                 workExperienceInfo.getCompanyName(),
                 workExperienceInfo.getPosition(),

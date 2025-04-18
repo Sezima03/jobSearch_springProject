@@ -3,7 +3,6 @@ package kg.attractor.job_search_project.controller;
 import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.EducationInfoDto;
 import kg.attractor.job_search_project.dto.ResumeDto;
-import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.service.ResumeService;
