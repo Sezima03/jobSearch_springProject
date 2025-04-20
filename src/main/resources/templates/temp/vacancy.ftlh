@@ -9,7 +9,7 @@
             </div>
             <div class="col-4">
                 <h5>Company name</h5>
-                <a href="/vacancy/update" class="btn btn-edit">Редактировать</a>
+                <a href="/vacancies/update/1" class="btn btn-edit">Редактировать</a>
             </div>
             <div class="col-4">
                 <a href="/vacancy/created" class="btn btn-red rounded-pill p-3">

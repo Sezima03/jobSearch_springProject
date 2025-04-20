@@ -200,6 +200,4 @@ public class VacancyServiceImpl implements VacancyService {
                 .updateTime(vacancy.getUpdateTime())
                 .build();
     }
-
-
 }

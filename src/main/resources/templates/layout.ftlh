@@ -43,9 +43,6 @@
                         <a class="nav-link active" aria-current="page" href="/profileEmp">Страница работодателя</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/resume/update/1">Обновить страницу</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="/resume/allResume">Список всех резюме</a>
                     </li>
                     <li class="nav-item">
