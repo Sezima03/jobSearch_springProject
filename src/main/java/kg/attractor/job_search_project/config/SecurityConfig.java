@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/users/register", "/vacancy/allVacancy").permitAll()
+                        .requestMatchers("/users/register", "/vacancy/allVacancy", " /vacancy/info").permitAll()
                         .requestMatchers("/resume/**", "/profileApp", "vacancy/allVacancy").hasAuthority("APPLICANT")
                         .requestMatchers("/resume/allResume","/profileEmp", "vacancy/**").hasAuthority("EMPLOYER")
                         .anyRequest().permitAll());

@@ -22,31 +22,32 @@ public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
 
     @Override
-    public String saveImage(UserImageDto userImageDto){
-        log.info("Starting image upload for user Id: {}", userImageDto.getUserId());
+    public String saveImage(UserImageDto userImageDto) {
+        log.info("Uploading image for user ID: {}", userImageDto.getUserId());
+
         String fileName = FileUtil.saveUploadFile(userImageDto.getFile(), "images/");
-        log.info("Image upload for user Id: {}", userImageDto.getUserId());
         UserImage userImage = new UserImage();
         userImage.setUserId(userImageDto.getUserId());
         userImage.setFileName(fileName);
+
         imageRepository.save(userImage);
-        log.info("File name saved for user Id: {}", userImageDto.getUserId());
+        log.info("Image saved: {}", fileName);
+
         return fileName;
     }
 
     @Override
-    public ResponseEntity<?> getByName(String imageName){
-        log.info("Retrieving user image with name: {}", imageName);
+    public ResponseEntity<?> getByName(String imageName) {
+        log.info("Fetching image by name: {}", imageName);
         return FileUtil.getOutputFile(imageName, "images/", MediaType.IMAGE_JPEG);
     }
 
     @Override
-    public ResponseEntity<?> findById(long id){
-        log.info("Retrieving user image with id: {}", id);
-        UserImage image =imageRepository.findById(id)
-                .orElseThrow(()-> new JobSearchException("Image not found"));
-        String fileName = image.getFileName();
-        log.info("Found image with ID: {} file name: {}", id, fileName);
-        return FileUtil.getOutputFile(fileName, "images/", MediaType.IMAGE_JPEG);
+    public ResponseEntity<?> findById(long id) {
+        UserImage image = imageRepository.findById(id)
+                .orElseThrow(() -> new JobSearchException("Image not found"));
+
+        return FileUtil.getOutputFile(image.getFileName(), "images/", MediaType.IMAGE_JPEG);
     }
 }
+

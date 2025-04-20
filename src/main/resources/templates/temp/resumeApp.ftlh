@@ -5,7 +5,7 @@
         <h3 class="text-danger mb-4">Личный кабинет Соискателя</h3>
         <div class="row align-items-center justify-content-center mb-4">
             <div class="col-2">
-                <img src="api/images/images/1" alt="User" class="img-fluid">
+                <a href="images/upload">Загрузить фото</a>
             </div>
             <div class="col-4 text-start">
                 <h5>Иван ИВанов</h5>

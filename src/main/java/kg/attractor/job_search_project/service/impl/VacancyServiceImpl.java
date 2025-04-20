@@ -1,6 +1,4 @@
 package kg.attractor.job_search_project.service.impl;
-import kg.attractor.job_search_project.dao.VacancyDao;
-import kg.attractor.job_search_project.dao.existenceCheck.ExistenceCheckDao;
 import kg.attractor.job_search_project.dto.RespondedApplicantDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
@@ -24,7 +22,6 @@ public class VacancyServiceImpl implements VacancyService {
     private final UserRepository userRepository;
     private final RespondedApplicantRepository respondedApplicantRepository;
 
-    //TODO использовать интерфейс для проверки время не сохраняется
     @Override
     public void createdVacancy(VacancyDto vacancyDto) {
         log.info("Creating Vacancy : {}", vacancyDto.getName());
@@ -49,15 +46,12 @@ public class VacancyServiceImpl implements VacancyService {
         vacancy.setExpTo(vacancyDto.getExpTo());
         vacancy.setIsActive(vacancyDto.getIsActive());
         vacancy.setAuthorId(vacancyDto.getAuthorId());
-        vacancy.setCategoryId(vacancyDto.getCategoryId());
-        vacancy.setUpdateTime(vacancyDto.getUpdateTime());
 
         vacancyRepository.save(vacancy);
         log.info("Vacancy Created : {}", vacancy.getName());
     }
 
 
-    //TODO время не сохраняется
     @Override
     public void getUpdateVacancy(VacancyDto vacancyDto, Long id) {
         log.info("Updating Vacancy with id : {}", id);

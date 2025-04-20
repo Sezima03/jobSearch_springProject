@@ -2,6 +2,9 @@ package kg.attractor.job_search_project.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -34,7 +37,11 @@ public class Vacancy {
     @Column(name = "author_id")
     private Long authorId;
 
-    @Column(name = "created_date")
+    @CreationTimestamp
+    @Column(name = "created_date", updatable = false)
     private LocalDateTime createdDate;
+
+    @UpdateTimestamp
+    @Column(name = "update_time")
     private LocalDateTime updateTime;
 }

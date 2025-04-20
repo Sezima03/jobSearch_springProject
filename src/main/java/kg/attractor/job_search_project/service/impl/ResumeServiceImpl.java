@@ -33,12 +33,6 @@ public class ResumeServiceImpl implements ResumeService {
     public void getCreateResume(ResumeDto resumeDto) {
         log.info("Creating ResumeControllerApi with name {}",  resumeDto.getName());
 
-//        boolean existsCategory = categoryRepository.existsById(resumeDto.getCategoryId());
-//        if (!existsCategory) {
-//            log.warn("Creating ResumeControllerApi with name {} but category id not found", resumeDto.getName());
-//            throw new JobSearchException("Категория с таким id не существует");
-//        }
-
         Category category = categoryRepository.findById(resumeDto.getCategoryId())
                 .orElseThrow(() -> new JobSearchException("Категория с таким id не существует"));
         Resume resume1=new Resume();
@@ -49,14 +43,14 @@ public class ResumeServiceImpl implements ResumeService {
         resume1.setSalary(resumeDto.getSalary());
         resume1.setActive(resumeDto.isActive());
 
-         Resume saveResume = resumeRepository.save(resume1);
+         resumeRepository.save(resume1);
          log.info("Created ResumeControllerApi with name {}",  resumeDto.getName());
 
          if (resumeDto.getEducationInfo() != null) {
              for (EducationInfoDto educationInfoDto:resumeDto.getEducationInfo()) {
                  EducationInfo educationInfo = new EducationInfo();
                  educationInfo.setId(educationInfoDto.getId());
-                 educationInfo.setResume(saveResume);
+                 educationInfo.setResume(resume1);
                  educationInfo.setInstitution(educationInfoDto.getInstitution());
                  educationInfo.setProgram(educationInfoDto.getProgram());
 
@@ -70,7 +64,7 @@ public class ResumeServiceImpl implements ResumeService {
          if (resumeDto.getWorkExperienceInfo() != null) {
              for (WorkExperienceInfoDto workExperienceInfoDto:resumeDto.getWorkExperienceInfo()) {
                  WorkExperienceInfo workExperienceInfo1 = new WorkExperienceInfo();
-                 workExperienceInfo1.setResume(saveResume);
+                 workExperienceInfo1.setResume(resume1);
                  workExperienceInfo1.setYear(workExperienceInfoDto.getYear());
                  workExperienceInfo1.setCompanyName(workExperienceInfoDto.getCompanyName());
                  workExperienceInfo1.setPosition(workExperienceInfoDto.getPosition());
@@ -164,7 +158,6 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
 
-    //TODO реализован
     @Override
     public ResumeDto getFindResumeById(Long resumeId){
         log.info("Retrieving ResumeControllerApi with id {}", resumeId);

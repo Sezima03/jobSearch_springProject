@@ -25,11 +25,19 @@ public class VacancyController {
         return "list/allvacancy";
     }
 
+    @GetMapping("info/{id}")
+    public String vacancyInfo(@PathVariable Long id, Model model) {
+        VacancyDto vacancyDto = vacancyService.getFindVacancyById(id);
+        model.addAttribute("vacancy", vacancyDto);
+        return "list/vacancyInfo";
+    }
+
     @GetMapping("created")
     public String createdVacancy(Model model) {
         model.addAttribute("vacancy", new VacancyDto());
         return "resumeAndVacancy/createdVacancy";
     }
+
 
     @PostMapping("created")
     public String createdVacancy(@ModelAttribute("vacancy") @Valid VacancyDto vacancyDto,

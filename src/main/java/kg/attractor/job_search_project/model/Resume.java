@@ -2,6 +2,9 @@ package kg.attractor.job_search_project.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,16 +33,19 @@ public class Resume {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @Column(name = "created_date")
+    @CreationTimestamp
+    @Column(name = "created_date", updatable = false)
     private LocalDateTime createdDate;
 
+    @UpdateTimestamp
     @Column(name = "update_time")
     private LocalDateTime updateTime;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resume")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EducationInfo> educationInfo;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resume")
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkExperienceInfo> workExperienceInfo;
 
 }
