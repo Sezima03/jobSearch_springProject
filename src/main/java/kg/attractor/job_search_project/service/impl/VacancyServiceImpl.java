@@ -5,7 +5,6 @@ import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.RespondedApplicant;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.repository.RespondedApplicantRepository;
-import kg.attractor.job_search_project.repository.ResponseRepository;
 import kg.attractor.job_search_project.repository.UserRepository;
 import kg.attractor.job_search_project.repository.VacancyRepository;
 import kg.attractor.job_search_project.service.VacancyService;
@@ -22,7 +21,6 @@ public class VacancyServiceImpl implements VacancyService {
     private final VacancyRepository vacancyRepository;
     private final UserRepository userRepository;
     private final RespondedApplicantRepository respondedApplicantRepository;
-    private final ResponseRepository responseRepository;
 
     @Override
     public void createdVacancy(VacancyDto vacancyDto) {
