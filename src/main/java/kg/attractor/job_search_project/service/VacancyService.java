@@ -17,9 +17,12 @@ public interface VacancyService {
 
     List<VacancyDto> getVacancy();
 
+    List<VacancyDto> getVacancyByResponses();
+
     List<RespondedApplicantDto>  getRespondedApplicantByVacancyId(Long vacancyId);
 
     List<VacancyDto> getAllActiveVacancies();
 
     VacancyDto getFindVacancyById(Long vacancyId);
+
 }
