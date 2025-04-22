@@ -21,4 +21,12 @@ public class RespondedApplicant {
     @Column(name = "vacancy_id")
     private Long vacancyId;
     private boolean confirmation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vacancy_id", insertable = false, updatable = false)
+    private Vacancy vacancy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resume_id", insertable = false, updatable = false)
+    private Resume resume;
 }
