@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -44,4 +45,7 @@ public class Vacancy {
     @UpdateTimestamp
     @Column(name = "update_time")
     private LocalDateTime updateTime;
+
+    @OneToMany(mappedBy = "vacancy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RespondedApplicant> response;
 }
