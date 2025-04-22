@@ -48,4 +48,7 @@ public class Resume {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkExperienceInfo> workExperienceInfo;
 
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RespondedApplicant> response;
+
 }
