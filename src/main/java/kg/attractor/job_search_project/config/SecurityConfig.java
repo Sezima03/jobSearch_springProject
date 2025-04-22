@@ -59,9 +59,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/users/register", "/vacancy/allVacancy", " /vacancy/info").permitAll()
-                        .requestMatchers("/resume/**", "/profileApp", "vacancy/allVacancy").hasAuthority("APPLICANT")
-                        .requestMatchers("/resume/allResume","/profileEmp", "vacancy/**").hasAuthority("EMPLOYER")
+                        .requestMatchers("/users/register", "/vacancy/allVacancy", " /vacancy/info/{id}").permitAll()
+                        .requestMatchers("/resume/allResume", "resume/update/{id}", "resume/created", "resume/editResume/{resumeId}", "/profileApp", "vacancy/allVacancy").hasAuthority("APPLICANT")
+                        .requestMatchers("/resume/allResume","/profileEmp", "vacancy/created", "vacancy/edit/{vacancyId}").hasAuthority("EMPLOYER")
                         .anyRequest().permitAll());
 
         return http.build();

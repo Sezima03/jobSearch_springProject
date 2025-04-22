@@ -59,7 +59,6 @@ public class ResumeController {
         }
 
         resumeDto.setEducationInfo(List.of(educationInfoDto));
-        resumeDto.setWorkExperienceInfo(List.of(workExperienceInfoDto));
         resumeService.getCreateResume(resumeDto);
         return "redirect:/";
 

@@ -1,12 +1,9 @@
 package kg.attractor.job_search_project.service.impl;
 
 import kg.attractor.job_search_project.config.AppConfig;
-import kg.attractor.job_search_project.dao.UserDao;
-import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
-import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.repository.UserRepository;
@@ -17,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +42,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String registerUser(UserDto userDto){
-
         log.info("Starting registration for User with Email : {}", userDto.getEmail());
 
         if (userRepository.existsByEmail(userDto.getEmail())){
@@ -185,5 +180,6 @@ public class UserServiceImpl implements UserService {
         log.info("Успешный вход");
         return "успешно";
     }
+
 
 }

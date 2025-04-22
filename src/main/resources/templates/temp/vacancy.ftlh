@@ -15,7 +15,11 @@
                 <a href="/vacancy/created" class="btn btn-red rounded-pill p-3">
                     +<br>Создать<br>вакансию
                 </a>
-            </div>
+
+                <a href="/vacancy/allResume" class="btn btn-red rounded-pill p-3">
+                    <br>Перейти к <br>просмотру резюме
+                </a>
+
         </div>
 
         <h5 class="text-start">Созданные вакансии:</h5>
