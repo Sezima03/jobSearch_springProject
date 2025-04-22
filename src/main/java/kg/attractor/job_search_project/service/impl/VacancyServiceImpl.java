@@ -5,6 +5,7 @@ import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.RespondedApplicant;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.repository.RespondedApplicantRepository;
+import kg.attractor.job_search_project.repository.ResponseRepository;
 import kg.attractor.job_search_project.repository.UserRepository;
 import kg.attractor.job_search_project.repository.VacancyRepository;
 import kg.attractor.job_search_project.service.VacancyService;
@@ -21,6 +22,7 @@ public class VacancyServiceImpl implements VacancyService {
     private final VacancyRepository vacancyRepository;
     private final UserRepository userRepository;
     private final RespondedApplicantRepository respondedApplicantRepository;
+    private final ResponseRepository responseRepository;
 
     @Override
     public void createdVacancy(VacancyDto vacancyDto) {
@@ -112,7 +114,7 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public List<VacancyDto> getVacancy(){
         log.info("Getting Vacancy");
-        List<Vacancy> vacancies = vacancyRepository.findAll();
+        List<Vacancy> vacancies = vacancyRepository.findAllByOrderByCreatedDateDesc()  ;
         if (vacancies.isEmpty()) {
             throw new JobSearchException("Vacancy Not Found");
         }
@@ -132,6 +134,35 @@ public class VacancyServiceImpl implements VacancyService {
                         .createdDate(vacancy.getCreatedDate())
                         .updateTime(vacancy.getUpdateTime())
                         .build()).toList();
+    }
+
+
+
+    @Override
+    public List<VacancyDto> getVacancyByResponses(){
+
+        List<Vacancy> vacancyResponse = vacancyRepository.findAllOrderByResponseCount();
+
+        if (vacancyResponse.isEmpty()) {
+            throw new JobSearchException("Vacancy Not Found");
+        }
+
+        return vacancyResponse.stream()
+                .map(vacancy -> VacancyDto.builder()
+                        .id(vacancy.getId())
+                        .name(vacancy.getName())
+                        .description(vacancy.getDescription())
+                        .categoryId(vacancy.getCategoryId())
+                        .salary(vacancy.getSalary())
+                        .expFrom(vacancy.getExpFrom())
+                        .expTo(vacancy.getExpTo())
+                        .isActive(vacancy.getIsActive())
+                        .authorId(vacancy.getAuthorId())
+                        .createdDate(vacancy.getCreatedDate())
+                        .updateTime(vacancy.getUpdateTime())
+                        .response(vacancy.getResponse())
+                        .build()).toList();
+
     }
 
     @Override
@@ -200,4 +231,5 @@ public class VacancyServiceImpl implements VacancyService {
                 .updateTime(vacancy.getUpdateTime())
                 .build();
     }
+
 }
