@@ -32,12 +32,15 @@ public class UserDto {
         private String password;
 
         @NotBlank(message = "Номер телефона не должен быть пустым")
+        @Pattern(regexp = "^996\\d{9}$", message = "Неверный формат номера телефона")
         private String phoneNumber;
 
         private String avatar;
 
         private Boolean enabled = true;
 
-        @NotNull(message = "Укажите ID")
+        @NotNull(message = "Укажите ID  1-Соискатель, 2-Работодатель")
+        @Min(value = 1, message = "ID не может быть меньше 1")
+        @Max(value = 2, message = "ID не может быть больше 2")
         private Long authorityId;
 }

@@ -17,6 +17,8 @@ import java.util.List;
 public class ResumeDto {
     private Long id;
 
+    @NotNull
+    @Min(value = 1)
     private Long applicantId;
 
     @NotBlank(message = "Имя резюме не должно быть пустым")
@@ -26,6 +28,7 @@ public class ResumeDto {
     @Min(value = 1, message = "Должен быть больше 0")
     private Long categoryId;
 
+    @NotNull
     private Double salary;
 
     @NotNull(message = "Поле 'isActive' не может быть null")

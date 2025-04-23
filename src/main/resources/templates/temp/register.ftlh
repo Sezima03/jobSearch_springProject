@@ -41,7 +41,7 @@
         <@spring.formInput "userDto.authorityId" 'id="authorityId" class="form-control"' />
         <@spring.showErrors "userDto.authorityId" "error text-danger" />
 
-        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        <button type="submit" class="btn btn-primary mt-4">Зарегистрироваться</button>
     </form>
 
     <div class="text-center mt-3">
