@@ -8,6 +8,8 @@ import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.service.ResumeService;
 import kg.attractor.job_search_project.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,18 +51,24 @@ public class ResumeController {
     @PostMapping("created")
     public String createdResume(@ModelAttribute("resumeDto") @Valid ResumeDto resumeDto,
                                 BindingResult bindingResultResume,
-                                @ModelAttribute("educationfoDto") @Valid EducationInfoDto educationInfoDto,
-                                BindingResult edu,
-                                @ModelAttribute("work") @Valid WorkExperienceInfoDto workExperienceInfoDto,
-                                BindingResult bindingResult){
+                                EducationInfoDto educationInfoDto,
+                                WorkExperienceInfoDto workExperienceInfoDto){
 
-        if (bindingResultResume.hasErrors() || edu.hasErrors() || bindingResult.hasErrors()) {
+        if (bindingResultResume.hasErrors()) {
             return "resumeAndVacancy/createdResume";
         }
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        User user = userService.findUserByUsername(username);
+
+        resumeDto.setApplicantId(user.getId());
+
         resumeDto.setEducationInfo(List.of(educationInfoDto));
+        resumeDto.setWorkExperienceInfo(List.of(workExperienceInfoDto));
         resumeService.getCreateResume(resumeDto);
-        return "redirect:/";
+        return "redirect:/users/profileApp";
 
 
     }
