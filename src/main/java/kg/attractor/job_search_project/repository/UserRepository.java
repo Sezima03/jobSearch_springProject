@@ -1,5 +1,4 @@
 package kg.attractor.job_search_project.repository;
-
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Repository
