@@ -62,7 +62,10 @@
                     </form>
                     <div class="mt-4 text-center">
                         <small>Нет аккаунта? <a href="/users">Зарегистрируйтесь</a></small>
+                        <br>
+                        <small>Забыли пароль?<a href="/auth/forgot_password">Восстановить пароль</a></small>
                     </div>
+
                 </div>
             </div>
         </div>
