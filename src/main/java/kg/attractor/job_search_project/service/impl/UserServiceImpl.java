@@ -1,6 +1,4 @@
 package kg.attractor.job_search_project.service.impl;
-
-import kg.attractor.job_search_project.config.AppConfig;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
@@ -19,8 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
-
-    private final AppConfig  appConfig;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
 
@@ -49,7 +45,7 @@ public class UserServiceImpl implements UserService {
             return "Email уже существует";
         }
 
-        userDto.setPassword(appConfig.bCryptPasswordEncoder().encode(userDto.getPassword()));
+        userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         User user = convertToUser(userDto);
 
         userRepository.save(user);
@@ -161,25 +157,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String loginUser(String email, String password){
-        log.info("Logining Users by email : {}", email);
-
-        User user = userRepository.findByEmail(email);
-        if (user == null){
-            return "Пользователь не найден";
-        }
-        BCryptPasswordEncoder encoder = bCryptPasswordEncoder;
-        if (!encoder.matches(password, user.getPassword())){
-            return "Неверный пароль";
-        }
-
-        if (!user.getEnabled()){
-            return "Пользователь не активирован";
-        }
-
-        log.info("Успешный вход");
-        return "успешно";
+    public User findUserByUsername(String username) {
+        return userRepository.findByEmail(username);
     }
-
 
 }

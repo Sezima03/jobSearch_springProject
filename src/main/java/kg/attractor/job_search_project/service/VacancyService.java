@@ -25,4 +25,6 @@ public interface VacancyService {
 
     VacancyDto getFindVacancyById(Long vacancyId);
 
+    List<VacancyDto> getAllVacancyByUserId(Long userId);
+
 }

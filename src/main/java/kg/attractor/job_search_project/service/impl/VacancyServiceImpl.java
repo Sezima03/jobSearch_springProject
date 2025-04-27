@@ -230,4 +230,24 @@ public class VacancyServiceImpl implements VacancyService {
                 .build();
     }
 
+    @Override
+    public List<VacancyDto> getAllVacancyByUserId(Long userId) {
+        return vacancyRepository.findByAuthorId(userId)
+                .stream()
+                .map(vacancy -> VacancyDto.builder()
+                        .id(vacancy.getId())
+                        .name(vacancy.getName())
+                        .description(vacancy.getDescription())
+                        .categoryId(vacancy.getCategoryId())
+                        .salary(vacancy.getSalary())
+                        .expFrom(vacancy.getExpFrom())
+                        .expTo(vacancy.getExpTo())
+                        .isActive(vacancy.getIsActive())
+                        .authorId(vacancy.getAuthorId())
+                        .createdDate(vacancy.getCreatedDate())
+                        .updateTime(vacancy.getUpdateTime())
+                        .build())
+                .toList();
+    }
+
 }

@@ -4,14 +4,8 @@ import kg.attractor.job_search_project.dto.EducationInfoDto;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
-import kg.attractor.job_search_project.model.Category;
-import kg.attractor.job_search_project.model.EducationInfo;
-import kg.attractor.job_search_project.model.Resume;
-import kg.attractor.job_search_project.model.WorkExperienceInfo;
-import kg.attractor.job_search_project.repository.CategoryRepository;
-import kg.attractor.job_search_project.repository.EducationInfoRepository;
-import kg.attractor.job_search_project.repository.ResumeRepository;
-import kg.attractor.job_search_project.repository.WorkExperienceInfoRepository;
+import kg.attractor.job_search_project.model.*;
+import kg.attractor.job_search_project.repository.*;
 import kg.attractor.job_search_project.service.ResumeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -221,6 +215,26 @@ public class ResumeServiceImpl implements ResumeService {
                         .updateTime(resume.getUpdateTime())
                         .build())
                 .toList();
+    }
+
+    @Override
+    public List<ResumeDto> getAllResumeByUserId(Long userId) {
+
+        List<Resume> resumeList =resumeRepository.findAllByApplicantId(userId);
+
+        return resumeList.stream()
+                .map(resume -> ResumeDto.builder()
+                        .id(resume.getId())
+                        .applicantId(resume.getApplicantId())
+                        .name(resume.getName())
+                        .categoryId(resume.getCategoryId().getId())
+                        .salary(resume.getSalary())
+                        .isActive(resume.isActive())
+                        .createdDate(resume.getCreatedDate())
+                        .updateTime(resume.getUpdateTime())
+                        .build())
+                .toList();
+
     }
 
 }
