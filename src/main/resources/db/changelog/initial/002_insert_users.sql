@@ -18,7 +18,7 @@ values (1, 'java junior', 2 , 60000, true),
        (2, 'frontend developer', 1, 90000, true);
 
 
-insert into VACANCYUSR(name, description, category_id, salary, exp_from, exp_to, is_active, author_id)
+insert into VACANCYUSR(VACANCY_NAME, description, category_id, salary, exp_from, exp_to, is_active, author_id)
 values
     ('junior java developer', 'looking for a junior java developer', 1, 50000, 0, 2, true, 1),
     ('senior javascript developer', 'looking for a senior javascript developer', 2, 80000, 3, 5, true, 2),

@@ -62,9 +62,9 @@ databaseChangeLog:
               - column:
                   name: avatar
                   type: varchar(255)
-#              - column:
-#                  name: account_type
-#                  type: varchar(100)
+              - column:
+                  name: account_type
+                  type: varchar(100)
   - changeSet:
       id: create_table_resume
       author: Sezima Turdubekova
@@ -125,7 +125,7 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
               - column:
-                  name: name
+                  name: vacancy_name
                   type: varchar(100)
               - column:
                   name: description
