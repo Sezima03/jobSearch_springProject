@@ -42,7 +42,7 @@ public class UsersController {
             return "redirect:/auth/login";
 
         }
-        return "temp/login";
+        return "temp/register";
     }
 
     @GetMapping("profileApp")
