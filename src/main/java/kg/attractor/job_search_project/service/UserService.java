@@ -1,8 +1,11 @@
 package kg.attractor.job_search_project.service;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.model.User;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface UserService {
@@ -21,4 +24,10 @@ public interface UserService {
     User getById(Long id);
 
     User findUserByUsername(String username);
+
+    User getByResetPasswordToken(String token);
+
+    void updatePassword(User user, String password);
+
+    void makeResetPasswdLnk(HttpServletRequest request) throws MessagingException, UnsupportedEncodingException;
 }
