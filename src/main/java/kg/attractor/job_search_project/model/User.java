@@ -22,6 +22,7 @@ public class User {
     private String phoneNumber;
     private String avatar;
     private Boolean enabled = true;
+    private String resetPasswordToken;
 
     @Column(name = "authority_id")
     private Long authorityId;
