@@ -8,18 +8,20 @@
                 <a href="images/upload">Загрузить фото</a>
             </div>
             <div class="col-4">
-                <h5>Company name</h5>
-                <a href="/vacancies/update/1" class="btn btn-edit">Редактировать</a>
+                <h5>название компании</h5>
+                <button type="button" class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#editCompanyModal">
+                    Редактировать
+                </button>
             </div>
             <div class="col-4">
-                <a href="/vacancy/created" class="btn btn-red rounded-pill p-3">
+                <a href="/created" class="btn btn-red rounded-pill p-3">
                     +<br>Создать<br>вакансию
                 </a>
 
-                <a href="/vacancy/allResume" class="btn btn-red rounded-pill p-3">
+                <a href="/allResume" class="btn btn-red rounded-pill p-3">
                     <br>Перейти к <br>просмотру резюме
                 </a>
-
+            </div>
         </div>
 
         <h5 class="text-start">Созданные вакансии:</h5>
@@ -27,13 +29,24 @@
             <#list vacancies as vacancy>
                 <div class="vacancy-card">
                     <p>${vacancy.name}</p>
-                    <p>Дата обновления:<br>vacancy.updateTime</p>
+                    <p>Дата обновления:<br>${vacancy.updateTime}</p>
                     <button class="btn btn-primary btn-sm">Обновить</button>
-                    <a href="/vacancy/edit/${vacancy.id}" class="btn btn-edit btn-sm">Ред.</a>
-
+                    <a href="/edit/${vacancy.id}" class="btn btn-edit btn-sm">Ред.</a>
                 </div>
             </#list>
         </div>
     </div>
+
+    <div class="modal fade" id="editCompanyModal" tabindex="-1" aria-labelledby="editCompanyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCompanyModalLabel">Редактировать название компании</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div>
 </@main.layout>
+
 

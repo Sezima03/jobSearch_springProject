@@ -18,7 +18,6 @@
             </thead>
             <tbody>
 
-            <#list vacancies as vacancy>
                 <tr>
                     <td>${vacancy.name}</td>
                     <td>${vacancy.description}</td>
@@ -30,7 +29,6 @@
                     <td>${vacancy.createdDate}</td>
                     <td>${vacancy.updateTime}</td>
                 </tr>
-            </#list>
             </tbody>
         </table>
     </div>

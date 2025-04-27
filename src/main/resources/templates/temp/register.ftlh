@@ -2,7 +2,14 @@
 <@main.layout ; spring>
     <h2 class="mt-5">Регистрация нового пользователя</h2>
 
-    <form action="/" method="POST" class="mt-4">
+    <form action="/users" method="POST" class="mt-4">
+
+        <#if _csrf??>
+            <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                   value="${(_csrf.token)!'csrf-token'}"/>
+        </#if>
+
+
         <div class="mb-3">
             <label for="name" class="form-label">Имя</label>
             <@spring.formInput "userDto.name" 'id="name" class="form-control form-control-lg"' />
@@ -38,7 +45,10 @@
         </div>
 
         <label for="authorityId">Тип учетной записи</label>
-        <@spring.formInput "userDto.authorityId" 'id="authorityId" class="form-control"' />
+        <select name="authorityId" id="authorityId" class="form-control">
+            <option value=1>соискатель</option>
+            <option value=2>работодатель</option>
+        </select>
         <@spring.showErrors "userDto.authorityId" "error text-danger" />
 
         <button type="submit" class="btn btn-primary mt-4">Зарегистрироваться</button>

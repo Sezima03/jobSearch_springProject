@@ -8,8 +8,8 @@
                 <a href="images/upload">Загрузить фото</a>
             </div>
             <div class="col-4 text-start">
-                <h5>Иван ИВанов</h5>
-                <p>30</p>
+                <h5>${user.name}</h5>
+                <p>${user.age}</p>
                 <a href="/resume/update/1" class="btn btn-edit">Редактировать</a>
             </div>
             <div class="col-2">

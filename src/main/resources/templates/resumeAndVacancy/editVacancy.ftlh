@@ -2,11 +2,9 @@
 <@main.layout ; spring>
     <link rel="stylesheet" href="/static/css/createdVacancy.css">
 
-
-
     <h2>Редактирование вакансии</h2>
 
-    <form action="/vacancy/edit/${vacancy.id}" method="POST" class="mb-4">
+    <form action="/edit/${vacancy.id}" method="POST" class="mb-4">
 
         <label for="name">Название вакансии:</label>
         <@spring.formInput "vacancy.name" 'id="name" class="form-control"' />
