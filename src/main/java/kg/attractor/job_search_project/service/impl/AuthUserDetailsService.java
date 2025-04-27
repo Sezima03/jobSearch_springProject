@@ -1,4 +1,5 @@
 package kg.attractor.job_search_project.service.impl;
+import kg.attractor.job_search_project.exceptions.UserNotFoundException;
 import kg.attractor.job_search_project.model.Authority;
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.repository.AuthorityRepository;
@@ -21,7 +22,8 @@ public class AuthUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(UserNotFoundException::new);
 
         Authority authority = authorityRepository.findById(user.getAuthorityId())
                 .orElseThrow(() -> new UsernameNotFoundException("Authority not found for ID: " + user.getAuthorityId()));
