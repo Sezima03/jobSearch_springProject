@@ -198,4 +198,17 @@ public class UserServiceImpl implements UserService {
         String resetPasswordLnk = CommonUtilities.getSiteUrl(request) + "/auth/reset_password?token=" + token;
         emailService.sendEmail(email, resetPasswordLnk);
     }
+
+    @Override
+    public void updateProfile(UserDto userDto){
+        User usr = userRepository.findById(userDto.getId())
+                        .orElseThrow(UserNotFoundException::new);
+        usr.setName(userDto.getName());
+        usr.setSurname(userDto.getSurname());
+        usr.setAge(userDto.getAge());
+        usr.setEmail(userDto.getEmail());
+        usr.setPhoneNumber(userDto.getPhoneNumber());
+
+        userRepository.save(usr);
+    }
 }

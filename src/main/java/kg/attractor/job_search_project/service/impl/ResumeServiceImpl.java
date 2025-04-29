@@ -10,6 +10,8 @@ import kg.attractor.job_search_project.service.ResumeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -80,7 +82,6 @@ public class ResumeServiceImpl implements ResumeService {
         Category category = categoryRepository.findById(updateResume.getCategoryId())
                 .orElseThrow(() -> new JobSearchException("Category not found"));
 
-        resume.setApplicantId(updateResume.getApplicantId());
         resume.setName(updateResume.getName());
         resume.setCategoryId(category);
         resume.setSalary(updateResume.getSalary());
@@ -90,8 +91,12 @@ public class ResumeServiceImpl implements ResumeService {
         log.info("Resume with id {} updated successfully",  resumeId);
 
         for (EducationInfoDto eduDto:updateResume.getEducationInfo()) {
+            if (eduDto.getId() == null) {
+                throw new IllegalArgumentException("Education Info ID must not be null");
+            }
             EducationInfo educationInfo = educationInfoRepository.findById(eduDto.getId())
                             .orElseThrow(()->new JobSearchException("Education not found"));
+            educationInfo.setId(eduDto.getId());
             educationInfo.setResume(resume);
             educationInfo.setInstitution(eduDto.getInstitution());
             educationInfo.setProgram(eduDto.getProgram());
@@ -104,9 +109,12 @@ public class ResumeServiceImpl implements ResumeService {
         }
 
         for (WorkExperienceInfoDto wei : updateResume.getWorkExperienceInfo()) {
+            if (wei.getId() == null) {
+                throw new IllegalArgumentException("Work Experience Info ID must not be null");
+            }
             WorkExperienceInfo workExperienceInfo = workExperienceInfoRepository.findById(wei.getId())
                     .orElseThrow(()->new JobSearchException("WorkExperience info not found"));
-
+            workExperienceInfo.setId(wei.getId());
             workExperienceInfo.setResume(resume);
             workExperienceInfo.setYear(wei.getYear());
             workExperienceInfo.setCompanyName(wei.getCompanyName());
@@ -234,6 +242,19 @@ public class ResumeServiceImpl implements ResumeService {
                         .updateTime(resume.getUpdateTime())
                         .build())
                 .toList();
+
+    }
+
+
+    @Override
+    public void getResumeUpdateDate(Long resumeId){
+        log.info("Retrieving Resume with id {}", resumeId);
+        Resume resume = resumeRepository.findById(resumeId)
+                .orElseThrow(() -> new JobSearchException("Resume Not Found"));
+
+        resume.setUpdateTime(LocalDateTime.now());
+        resumeRepository.save(resume);
+        log.info("Updated Resume with Id: {}", resumeId);
 
     }
 

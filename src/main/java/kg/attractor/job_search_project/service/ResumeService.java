@@ -23,4 +23,6 @@ public interface ResumeService {
     List<ResumeDto> getAllResumeByApplicantId(Long applicantId);
 
     List<ResumeDto> getAllResumeByUserId(Long userId);
+
+    void getResumeUpdateDate(Long resumeId);
 }

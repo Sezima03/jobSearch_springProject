@@ -27,4 +27,5 @@ public interface VacancyService {
 
     List<VacancyDto> getAllVacancyByUserId(Long userId);
 
+    void getUpdateVacancyDate(Long vacancyId);
 }

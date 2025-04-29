@@ -30,4 +30,6 @@ public interface UserService {
     void updatePassword(User user, String password);
 
     void makeResetPasswdLnk(HttpServletRequest request) throws MessagingException, UnsupportedEncodingException;
+
+    void updateProfile(UserDto userDto);
 }

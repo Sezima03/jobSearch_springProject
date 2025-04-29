@@ -11,6 +11,7 @@ import kg.attractor.job_search_project.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -249,5 +250,16 @@ public class VacancyServiceImpl implements VacancyService {
                         .build())
                 .toList();
     }
+
+
+    @Override
+    public void getUpdateVacancyDate(Long vacancyId){
+        Vacancy vacancy = vacancyRepository.findById(vacancyId)
+                .orElseThrow(()->new JobSearchException("Vacancy Not Found"));
+
+        vacancy.setUpdateTime(vacancy.getUpdateTime());
+        vacancyRepository.save(vacancy);
+    }
+
 
 }
