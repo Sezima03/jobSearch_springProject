@@ -1,49 +1,18 @@
 package kg.attractor.job_search_project.config;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final DataSource dataSource;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        String fetchUser = """
-                select email, password, enabled 
-                from USERS 
-                where email = ?
-                """;
-
-        String fetchRoles = """
-                SELECT u.email, a.AUTHORITY
-                FROM users u
-                JOIN authority a ON u.authority_id = a.id
-                WHERE u.email = ?
-                """;
-
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery(fetchUser)
-                .passwordEncoder(bCryptPasswordEncoder)
-                .authoritiesByUsernameQuery(fetchRoles);
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -59,9 +28,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/users/register", "/vacancy/allVacancy", " /vacancy/info/{id}").permitAll()
-                        .requestMatchers("/resume/allResume", "resume/update/{id}", "resume/created", "resume/editResume/{resumeId}", "/profileApp", "vacancy/allVacancy").hasAuthority("APPLICANT")
-                        .requestMatchers("/resume/allResume","/profileEmp", "vacancy/created", "vacancy/edit/{vacancyId}").hasAuthority("EMPLOYER")
+                        .requestMatchers("/users", "/", "/info/{id}").permitAll()
+                        .requestMatchers("/resume/allResume", "/resume/update/{id}", "/resume/created", "resume/editResume/{resumeId}", "/users/profileApp", "/").hasAuthority("APPLICANT")
+                        .requestMatchers("/resume/allResume","users/profileEmp", "/created", "/edit/{vacancyId}").hasAuthority("EMPLOYER")
                         .anyRequest().permitAll());
 
         return http.build();

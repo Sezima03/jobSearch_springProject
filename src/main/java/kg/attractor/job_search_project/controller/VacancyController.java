@@ -3,9 +3,13 @@ package kg.attractor.job_search_project.controller;
 import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
+import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.service.ResumeService;
+import kg.attractor.job_search_project.service.UserService;
 import kg.attractor.job_search_project.service.VacancyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,22 +18,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("vacancy")
+@RequestMapping
 @RequiredArgsConstructor
 public class VacancyController {
     private final VacancyService vacancyService;
     private final ResumeService resumeService;
+    private final UserService userService;
 
 
-    @GetMapping("allVacancy")
+    @GetMapping
     public String allVacancies(Model model) {
         List<VacancyDto> vacancyDtos = vacancyService.getVacancy();
         model.addAttribute("vacancies", vacancyDtos);
         return "list/allvacancy";
     }
+
     @GetMapping("allResume")
-    public String allResume(Model model){
-        List<ResumeDto> resumeDtos =resumeService.getAllResume();
+    public String allResume(Model model) {
+        List<ResumeDto> resumeDtos = resumeService.getAllResume();
         model.addAttribute("resumes", resumeDtos);
         return "list/allresume";
     }
@@ -47,18 +53,25 @@ public class VacancyController {
         return "resumeAndVacancy/createdVacancy";
     }
 
-
     @PostMapping("created")
     public String createdVacancy(@ModelAttribute("vacancy") @Valid VacancyDto vacancyDto,
                                  BindingResult bindingResult,
                                  Model model) {
-        if (!bindingResult.hasErrors()) {
-            vacancyService.createdVacancy(vacancyDto);
-            return "redirect:/";
+        if (bindingResult.hasErrors()) {
+            return "resumeAndVacancy/createdVacancy";
         }
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        User user = userService.findUserByUsername(username);
+
+        vacancyDto.setAuthorId(user.getId());
+
         model.addAttribute("vacancy", vacancyDto);
-        return "resumeAndVacancy/createdVacancy";
+        vacancyService.createdVacancy(vacancyDto);
+        return "redirect:/users/profileEmp";
+
     }
 
     @GetMapping("edit/{vacancyId}")
@@ -82,15 +95,48 @@ public class VacancyController {
             return "resumeAndVacancy/editVacancy";
         }
         vacancyService.getUpdateVacancy(vacancyDto, vacancyId);
-        return "redirect:/";
+        return "redirect:/users/profileEmp";
     }
 
     @GetMapping("responded")
     public String vacancyRespond(Model model) {
-       List<VacancyDto> vacancyDto = vacancyService.getVacancyByResponses();
-       model.addAttribute("vacancies", vacancyDto);
+        List<VacancyDto> vacancyDto = vacancyService.getVacancyByResponses();
+        model.addAttribute("vacancies", vacancyDto);
         return "list/responseCountToVacancy";
     }
 
 
+    @GetMapping("update/{id}")
+    public String updateEmpVacancy(@PathVariable Long id, Model model) {
+        VacancyDto vacancy = vacancyService.getFindVacancyById(id);
+        model.addAttribute("vacancy", vacancy);
+        return "temp/updateEmpVacancy";
+    }
+
+    @PostMapping("update/{id}")
+    public String updateEmpVacancy(@PathVariable Long id,
+                                   @ModelAttribute("vacancy") @Valid VacancyDto vacancyDto,
+                                   BindingResult bindingResult,
+                                   Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("vacancy", vacancyDto);
+            return "temp/updateEmpVacancy";
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        User user = userService.findUserByUsername(username);
+
+        vacancyDto.setAuthorId(user.getId());
+
+        vacancyService.getUpdateVacancy(vacancyDto, id);
+        return "redirect:/users/profileEmp";
+    }
+
+    @PostMapping("updateDate/{vacancyId}")
+    public String updateDate(@PathVariable Long vacancyId){
+        vacancyService.getUpdateVacancyDate(vacancyId);
+        return "redirect:/users/profileEmp";
+    }
 }

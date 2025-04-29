@@ -11,6 +11,7 @@ import kg.attractor.job_search_project.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -229,5 +230,36 @@ public class VacancyServiceImpl implements VacancyService {
                 .updateTime(vacancy.getUpdateTime())
                 .build();
     }
+
+    @Override
+    public List<VacancyDto> getAllVacancyByUserId(Long userId) {
+        return vacancyRepository.findByAuthorId(userId)
+                .stream()
+                .map(vacancy -> VacancyDto.builder()
+                        .id(vacancy.getId())
+                        .name(vacancy.getName())
+                        .description(vacancy.getDescription())
+                        .categoryId(vacancy.getCategoryId())
+                        .salary(vacancy.getSalary())
+                        .expFrom(vacancy.getExpFrom())
+                        .expTo(vacancy.getExpTo())
+                        .isActive(vacancy.getIsActive())
+                        .authorId(vacancy.getAuthorId())
+                        .createdDate(vacancy.getCreatedDate())
+                        .updateTime(vacancy.getUpdateTime())
+                        .build())
+                .toList();
+    }
+
+
+    @Override
+    public void getUpdateVacancyDate(Long vacancyId){
+        Vacancy vacancy = vacancyRepository.findById(vacancyId)
+                .orElseThrow(()->new JobSearchException("Vacancy Not Found"));
+
+        vacancy.setUpdateTime(vacancy.getUpdateTime());
+        vacancyRepository.save(vacancy);
+    }
+
 
 }

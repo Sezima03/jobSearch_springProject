@@ -8,6 +8,8 @@ import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.service.ResumeService;
 import kg.attractor.job_search_project.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,13 +33,6 @@ public class ResumeController {
         return "list/allresume";
     }
 
-    @GetMapping("update/{id}")
-    public String updateResume(@PathVariable Long id, Model model){
-        User userDto = userService.getById(id);
-        model.addAttribute("user", userDto);
-        return "temp/update";
-    }
-
     @GetMapping("created")
     public String createdResume(Model model, ResumeDto resumeDto, EducationInfoDto educationInfoDto, WorkExperienceInfoDto workExperienceInfoDto){
         model.addAttribute("resumeDto", resumeDto);
@@ -49,23 +44,33 @@ public class ResumeController {
     @PostMapping("created")
     public String createdResume(@ModelAttribute("resumeDto") @Valid ResumeDto resumeDto,
                                 BindingResult bindingResultResume,
-                                @ModelAttribute("educationfoDto") @Valid EducationInfoDto educationInfoDto,
-                                BindingResult edu,
-                                @ModelAttribute("work") @Valid WorkExperienceInfoDto workExperienceInfoDto,
-                                BindingResult bindingResult){
+                                EducationInfoDto educationInfoDto,
+                                WorkExperienceInfoDto workExperienceInfoDto){
 
-        if (bindingResultResume.hasErrors() || edu.hasErrors() || bindingResult.hasErrors()) {
+        if (bindingResultResume.hasErrors()) {
             return "resumeAndVacancy/createdResume";
         }
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        User user = userService.findUserByUsername(username);
+
+        resumeDto.setApplicantId(user.getId());
+
         resumeDto.setEducationInfo(List.of(educationInfoDto));
+        resumeDto.setWorkExperienceInfo(List.of(workExperienceInfoDto));
         resumeService.getCreateResume(resumeDto);
-        return "redirect:/";
+        return "redirect:/users/profileApp";
 
 
     }
 
 
+    //TODO ошибка 500
+    //TODO реализовать отклики и функциональность откликнутся на вакансию
+    //TODO если резюме false не должно появляться
+    //TODO загрузка фотографий
     @GetMapping("editResume/{resumeId}")
     public String editResume(Model model,
                              @PathVariable Long resumeId,
@@ -83,14 +88,12 @@ public class ResumeController {
     public String editResume(@PathVariable Long resumeId,
                              @ModelAttribute("resumeDto") @Valid ResumeDto resumeDto,
                              BindingResult resumeBindingResult,
-                             @ModelAttribute("educationfoDto") @Valid EducationInfoDto educationInfoDto,
-                             BindingResult edu,
-                             @ModelAttribute("work") @Valid WorkExperienceInfoDto workExperienceInfoDto,
-                             BindingResult workBindingResult,
+                             EducationInfoDto educationInfoDto,
+                             WorkExperienceInfoDto workExperienceInfoDto,
                              Model model){
         model.addAttribute("resumes", resumeService.getFindResumeById(resumeId));
 
-        if (resumeBindingResult.hasErrors() || edu.hasErrors() || workBindingResult.hasErrors()){
+        if (resumeBindingResult.hasErrors()){
             return "resumeAndVacancy/editResume";
         }
 
@@ -98,6 +101,13 @@ public class ResumeController {
         resumeDto.setWorkExperienceInfo(List.of(workExperienceInfoDto));
 
         resumeService.getUpdateResume(resumeId, resumeDto);
-        return "redirect:/";
+        return "redirect:/users/profileApp";
     }
+
+    @PostMapping("updateDate/{resumeId}")
+    public String updateDate(@PathVariable Long resumeId){
+        resumeService.getResumeUpdateDate(resumeId);
+        return "redirect:/users/profileApp";
+    }
+
 }

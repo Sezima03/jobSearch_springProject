@@ -12,6 +12,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "company_name")
+    private String companyName;
     private String name;
     private String surname;
     private Integer age;
@@ -22,6 +25,7 @@ public class User {
     private String phoneNumber;
     private String avatar;
     private Boolean enabled = true;
+    private String resetPasswordToken;
 
     @Column(name = "authority_id")
     private Long authorityId;

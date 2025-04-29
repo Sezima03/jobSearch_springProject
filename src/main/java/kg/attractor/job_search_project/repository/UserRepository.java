@@ -1,5 +1,4 @@
 package kg.attractor.job_search_project.repository;
-
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,5 +26,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
             "where applicant_id = ?)", nativeQuery = true)
     List<Vacancy> findAllRespondedByApplicantId(Long applicantId);
 
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
+
+    Optional<User> findByResetPasswordToken(String resetPasswordToken);
 }

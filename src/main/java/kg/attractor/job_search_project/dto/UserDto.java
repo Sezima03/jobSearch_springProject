@@ -21,6 +21,7 @@ public class UserDto {
 
         @NotNull(message = "Возраст не должно быть пустой")
         @Min(value = 18, message = "Возраст не должно быть не менее 18 лет")
+        @Max(value = 90, message = "Возраст не должен превышать 90 лет")
         private Integer age;
 
         @Email

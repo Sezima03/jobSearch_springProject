@@ -1,28 +1,31 @@
 package kg.attractor.job_search_project.service.impl;
-
-import kg.attractor.job_search_project.config.AppConfig;
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
+import kg.attractor.job_search_project.exceptions.UserNotFoundException;
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.repository.UserRepository;
 import kg.attractor.job_search_project.service.UserService;
+import kg.attractor.job_search_project.util.CommonUtilities;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
-
-    private final AppConfig  appConfig;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     private User convertToUser(UserDto userDto){
         User user = new User();
@@ -49,7 +52,7 @@ public class UserServiceImpl implements UserService {
             return "Email уже существует";
         }
 
-        userDto.setPassword(appConfig.bCryptPasswordEncoder().encode(userDto.getPassword()));
+        userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         User user = convertToUser(userDto);
 
         userRepository.save(user);
@@ -161,25 +164,51 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String loginUser(String email, String password){
-        log.info("Logining Users by email : {}", email);
-
-        User user = userRepository.findByEmail(email);
-        if (user == null){
-            return "Пользователь не найден";
-        }
-        BCryptPasswordEncoder encoder = bCryptPasswordEncoder;
-        if (!encoder.matches(password, user.getPassword())){
-            return "Неверный пароль";
-        }
-
-        if (!user.getEnabled()){
-            return "Пользователь не активирован";
-        }
-
-        log.info("Успешный вход");
-        return "успешно";
+    public User findUserByUsername(String username) {
+        return userRepository.findByEmail(username)
+                .orElseThrow(()->new JobSearchException("User not found"));
     }
 
+    private void updateResetPasswordToken(String token, String email) {
+        User user =userRepository.findByEmail(email)
+                .orElseThrow(()->new JobSearchException("User not found"));
+        user.setResetPasswordToken(token);
+        userRepository.saveAndFlush(user);
+    }
 
+    @Override
+    public User getByResetPasswordToken(String token) {
+        return userRepository.findByResetPasswordToken(token)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public void updatePassword(User user, String password){
+        String encodedPassword = bCryptPasswordEncoder.encode(password);
+        user.setPassword(encodedPassword);
+        user.setResetPasswordToken(null);
+        userRepository.saveAndFlush(user);
+    }
+
+   @Override
+   public void makeResetPasswdLnk(HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
+        String email = request.getParameter("email");
+        String token = UUID.randomUUID().toString();
+        updateResetPasswordToken(token, email);
+        String resetPasswordLnk = CommonUtilities.getSiteUrl(request) + "/auth/reset_password?token=" + token;
+        emailService.sendEmail(email, resetPasswordLnk);
+    }
+
+    @Override
+    public void updateProfile(UserDto userDto){
+        User usr = userRepository.findById(userDto.getId())
+                        .orElseThrow(UserNotFoundException::new);
+        usr.setName(userDto.getName());
+        usr.setSurname(userDto.getSurname());
+        usr.setAge(userDto.getAge());
+        usr.setEmail(userDto.getEmail());
+        usr.setPhoneNumber(userDto.getPhoneNumber());
+
+        userRepository.save(usr);
+    }
 }

@@ -17,30 +17,24 @@ import java.util.List;
 public class ResumeDto {
     private Long id;
 
-    @NotNull
-    @Min(value = 1)
     private Long applicantId;
 
     @NotBlank(message = "Имя резюме не должно быть пустым")
     private String name;
 
     @NotNull
-    @Min(value = 1, message = "Должен быть больше 0")
     private Long categoryId;
 
     @NotNull
     private Double salary;
 
-    @NotNull(message = "Поле 'isActive' не может быть null")
     private boolean isActive;
 
     private LocalDateTime createdDate;
 
     private LocalDateTime updateTime;
 
-    @Valid
     private List<EducationInfoDto> educationInfo;
 
-    @Valid
     private List<WorkExperienceInfoDto> workExperienceInfo;
 }

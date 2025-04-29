@@ -1,0 +1,42 @@
+package kg.attractor.job_search_project.service.impl;
+import kg.attractor.job_search_project.exceptions.UserNotFoundException;
+import kg.attractor.job_search_project.model.Authority;
+import kg.attractor.job_search_project.model.User;
+import kg.attractor.job_search_project.repository.AuthorityRepository;
+import kg.attractor.job_search_project.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+
+@Service
+@RequiredArgsConstructor
+public class AuthUserDetailsService implements UserDetailsService {
+    private final UserRepository userRepository;
+    private final AuthorityRepository authorityRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(UserNotFoundException::new);
+
+        Authority authority = authorityRepository.findById(user.getAuthorityId())
+                .orElseThrow(() -> new UsernameNotFoundException("Authority not found for ID: " + user.getAuthorityId()));
+
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(authority.getAuthorityName());
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                user.getEnabled(),
+                true, true, true,
+                Collections.singletonList(grantedAuthority)
+        );
+
+    }
+
+}

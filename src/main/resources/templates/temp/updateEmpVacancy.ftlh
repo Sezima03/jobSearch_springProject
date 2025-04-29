@@ -1,14 +1,18 @@
 <#import "../layout.ftlh" as main>
 <@main.layout ; spring>
     <link rel="stylesheet" href="/static/css/createdVacancy.css">
-    <h2>Создание вакансии</h2>
+    <h2>Изменение вакансии</h2>
 
-    <form action="/created" method="POST" modelAttribute="vacancy">
+    <form action="/update/${vacancy.id}" method="POST">
 
         <#if _csrf??>
             <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
                    value="${(_csrf.token)!'csrf-token'}"/>
         </#if>
+
+        <label for="companyName">Название компании:</label>
+        <@spring.formInput "vacancy.companyName" 'id="vacancy.companyName" class="form-control"' />
+        <@spring.showErrors "vacancy.companyName" "error text-danger" />
 
         <label for="name">Название вакансии:</label>
         <@spring.formInput "vacancy.name" 'id="name" class="form-control"' />

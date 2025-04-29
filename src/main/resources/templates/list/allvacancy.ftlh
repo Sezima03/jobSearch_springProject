@@ -19,7 +19,7 @@
                         </p>
                     </div>
                     <div class="text-end">
-                        <a href="/vacancy/info/${vacancy.id}" class="btn btn-outline-primary">
+                        <a href="/info/${vacancy.id}" class="btn btn-outline-primary">
                             Подробнее
                         </a>
                     </div>

@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 008_createTable users_aut
+      author: Sezima Turdubekova
+      changes:
+        - createTable:
+            tableName: users_authorites
+            columns:
+              - column:
+                  name: id
+                  type: long
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: long
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_user_user_id
+                    references: users(id)
+              - column:
+                  name: authority_id
+                  type: long
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_aut_author_id
+                    references: authority(id)

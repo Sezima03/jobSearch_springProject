@@ -25,4 +25,7 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
             order by count(r.id) desc
             """)
     List<Vacancy> findAllOrderByResponseCount();
+
+    List<Vacancy> findByAuthorId(Long author_id);
+
 }

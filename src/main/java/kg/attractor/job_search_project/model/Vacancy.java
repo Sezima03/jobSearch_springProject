@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class Vacancy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "vacancy_name")
     private String name;
     private String description;
 
@@ -40,11 +43,11 @@ public class Vacancy {
 
     @CreationTimestamp
     @Column(name = "created_date", updatable = false)
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
     @UpdateTimestamp
     @Column(name = "update_time")
-    private LocalDateTime updateTime;
+    private LocalDate updateTime;
 
     @OneToMany(mappedBy = "vacancy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RespondedApplicant> response;
