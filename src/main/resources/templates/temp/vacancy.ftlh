@@ -5,7 +5,7 @@
         <h3 class="text-danger mb-4">Личный кабинет Работодателя</h3>
         <div class="row align-items-center justify-content-center mb-4">
             <div class="col-2">
-                <a href="images/upload">Загрузить фото</a>
+                <a href="/images/img">Загрузить фото</a>
             </div>
             <div class="col-4">
                 <h5>название компании</h5>
@@ -24,14 +24,20 @@
             </div>
         </div>
 
+
+
         <h5 class="text-start">Созданные вакансии:</h5>
         <div class="d-flex justify-content-around flex-wrap gap-3 mt-3">
             <#list vacancies as vacancy>
-                <div class="vacancy-card">
-                    <p>${vacancy.name}</p>
-                    <p>Дата обновления:<br>${vacancy.updateTime}</p>
-                    <button class="btn btn-primary btn-sm">Обновить</button>
-                    <a href="/edit/${vacancy.id}" class="btn btn-edit btn-sm">Ред.</a>
+                <div class="vacancy-card p-3">
+                    <p class="fw-bold mb-2">${vacancy.name}</p>
+                    <p class="text-muted mb-3">Дата обновления:<br><span>${vacancy.updateTime}</span></p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <form action="/updateDate/${vacancy.id}" method="post">
+                            <button type="submit" class="btn btn-primary btn-sm px-4">Обновить</button>
+                        </form>
+                        <a href="/edit/${vacancy.id}" class="btn btn-edit btn-sm px-4">Редактировать</a>
+                    </div>
                 </div>
             </#list>
         </div>

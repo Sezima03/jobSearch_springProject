@@ -12,6 +12,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "company_name")
+    private String companyName;
     private String name;
     private String surname;
     private Integer age;

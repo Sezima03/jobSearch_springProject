@@ -63,26 +63,6 @@
                             <li><a class="dropdown-item" href="/users/profileEmp">Профиль работодателя</a></li>
                         </ul>
                     </li>
-
-
-<#--                    <li class="nav-item">-->
-<#--                        <a class="nav-link" href="/users/profileApp">Страница соискателя</a>-->
-<#--                    </li>-->
-
-
-<#--                    <li class="nav-item">-->
-<#--                        <a class="nav-link" href="/profileEmp">Страница работодателя</a>-->
-<#--                    </li>-->
-
-
-<#--                    <li class="nav-item">-->
-<#--                        <a class="nav-link" href="/resume/allResume">Список всех резюме</a>-->
-<#--                    </li>-->
-
-
-<#--                    <li class="nav-item">-->
-<#--                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
-<#--                    </li>-->
                 </ul>
 
                 <div class="d-flex">

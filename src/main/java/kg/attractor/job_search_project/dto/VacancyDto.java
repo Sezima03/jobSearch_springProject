@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,8 +41,8 @@ public class VacancyDto {
 
     private Long authorId;
 
-    private LocalDateTime createdDate;
-    private LocalDateTime updateTime;
+    private LocalDate createdDate;
+    private LocalDate updateTime;
 
     private List<RespondedApplicant> response;
 }

@@ -2,20 +2,26 @@
 <@main.layout ; spring>
     <link rel="stylesheet" href="/static/css/editeResume.css">
 
-    <h2>Редактирование резюме</h2>
+    <h2>Создание резюме</h2>
 
     <form action="/resume/editResume/${resumes.id}" method="POST" class="mt-4">
+
+        <#if _csrf??>
+            <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
+                   value="${(_csrf.token)!'csrf-token'}"/>
+        </#if>
 
         <label for="name">Название резюме:</label>
         <@spring.formInput "resumeDto.name" 'id="name" class="form-control form-control-lg" placeholder="Введите название"' />
         <@spring.showErrors "resumeDto.name" "error text-danger" />
 
-        <label for="applicantId">applicantId</label>
-        <@spring.formInput "resumeDto.applicantId" 'id="applicantId" class="form-control form-control-lg" placeholder="Введите пользователя"' />
-        <@spring.showErrors "resumeDto.applicantId" "error text-danger" />
-
-        <label for="categoryId">Категория (ID):</label>
-        <@spring.formInput "resumeDto.categoryId" 'id="categoryId" class="form-control"' />
+        <label for="categoryId">Выберите категорию</label>
+        <select name="categoryId" id="categoryId" class="form-control">
+            <option value=1>java script</option>
+            <option value=2>java</option>
+            <option value=3>python</option>
+            <option value=4>project manager</option>
+        </select>
         <@spring.showErrors "resumeDto.categoryId" "error text-danger" />
 
         <label for="salary">Ожидаемая зарплата (сом):</label>
@@ -48,7 +54,6 @@
             <label for="position">Должность:</label>
             <@spring.formInput "work.position" 'id="position" class="form-control form-control-lg" placeholder="Введите должность"' />
             <@spring.showErrors "work.position" "error text-danger" />
-
 
             <label for="responsibilities">Обязанности:</label>
             <textarea id="responsibilities" name="responsibilities"

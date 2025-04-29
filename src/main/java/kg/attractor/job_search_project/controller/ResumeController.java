@@ -33,13 +33,6 @@ public class ResumeController {
         return "list/allresume";
     }
 
-    @GetMapping("update/{id}")
-    public String updateResume(@PathVariable Long id, Model model){
-        User userDto = userService.getById(id);
-        model.addAttribute("user", userDto);
-        return "temp/update";
-    }
-
     @GetMapping("created")
     public String createdResume(Model model, ResumeDto resumeDto, EducationInfoDto educationInfoDto, WorkExperienceInfoDto workExperienceInfoDto){
         model.addAttribute("resumeDto", resumeDto);
@@ -74,6 +67,10 @@ public class ResumeController {
     }
 
 
+    //TODO ошибка 500
+    //TODO реализовать отклики и функциональность откликнутся на вакансию
+    //TODO если резюме false не должно появляться
+    //TODO загрузка фотографий
     @GetMapping("editResume/{resumeId}")
     public String editResume(Model model,
                              @PathVariable Long resumeId,
@@ -91,14 +88,12 @@ public class ResumeController {
     public String editResume(@PathVariable Long resumeId,
                              @ModelAttribute("resumeDto") @Valid ResumeDto resumeDto,
                              BindingResult resumeBindingResult,
-                             @ModelAttribute("educationfoDto") @Valid EducationInfoDto educationInfoDto,
-                             BindingResult edu,
-                             @ModelAttribute("work") @Valid WorkExperienceInfoDto workExperienceInfoDto,
-                             BindingResult workBindingResult,
+                             EducationInfoDto educationInfoDto,
+                             WorkExperienceInfoDto workExperienceInfoDto,
                              Model model){
         model.addAttribute("resumes", resumeService.getFindResumeById(resumeId));
 
-        if (resumeBindingResult.hasErrors() || edu.hasErrors() || workBindingResult.hasErrors()){
+        if (resumeBindingResult.hasErrors()){
             return "resumeAndVacancy/editResume";
         }
 
@@ -106,6 +101,13 @@ public class ResumeController {
         resumeDto.setWorkExperienceInfo(List.of(workExperienceInfoDto));
 
         resumeService.getUpdateResume(resumeId, resumeDto);
-        return "redirect:/";
+        return "redirect:/users/profileApp";
     }
+
+    @PostMapping("updateDate/{resumeId}")
+    public String updateDate(@PathVariable Long resumeId){
+        resumeService.getResumeUpdateDate(resumeId);
+        return "redirect:/users/profileApp";
+    }
+
 }
