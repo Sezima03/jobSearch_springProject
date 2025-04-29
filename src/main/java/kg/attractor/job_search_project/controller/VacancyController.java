@@ -95,7 +95,7 @@ public class VacancyController {
             return "resumeAndVacancy/editVacancy";
         }
         vacancyService.getUpdateVacancy(vacancyDto, vacancyId);
-        return "redirect:/";
+        return "redirect:/users/profileEmp";
     }
 
     @GetMapping("responded")
@@ -131,6 +131,12 @@ public class VacancyController {
         vacancyDto.setAuthorId(user.getId());
 
         vacancyService.getUpdateVacancy(vacancyDto, id);
+        return "redirect:/users/profileEmp";
+    }
+
+    @PostMapping("updateDate/{vacancyId}")
+    public String updateDate(@PathVariable Long vacancyId){
+        vacancyService.getUpdateVacancyDate(vacancyId);
         return "redirect:/users/profileEmp";
     }
 }

@@ -3,6 +3,7 @@ import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
+import kg.attractor.job_search_project.exceptions.UserNotFoundException;
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.service.ResumeService;
 import kg.attractor.job_search_project.service.UserService;
@@ -13,10 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -87,5 +85,24 @@ public class UsersController {
 
         return "temp/vacancy";
     }
+
+    @GetMapping("updateProfile/{id}")
+    public String updateResume(@PathVariable Long id, Model model){
+        User userDto = userService.getById(id);
+        model.addAttribute("user", userDto);
+        return "temp/update";
+    }
+
+    @PostMapping("updateProfile/{id}")
+    public String updateResume(@PathVariable Long id, UserDto userDto){
+        User user = userService.getById(id);
+
+        if (user == null) {
+            return "redirect:/users/updateProfile/{id}";
+        }
+        userService.updateProfile(userDto);
+        return "redirect:/users/profileApp";
+    }
+
 
 }
