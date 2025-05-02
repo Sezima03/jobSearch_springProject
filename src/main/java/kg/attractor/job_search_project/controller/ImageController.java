@@ -17,8 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class ImageController {
 
-
-    //TODO изменить
     private final ImageService imageService;
 
     @GetMapping("upload")
