@@ -1,6 +1,7 @@
 package kg.attractor.job_search_project.controller.api;
 import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.UserImageDto;
+import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class ImageControllerApi {
     }
 
     @PostMapping
-    public String uploadImage(@Valid UserImageDto  userImageDto){
-        return imageService.saveImage(userImageDto);
+    public String uploadImage(@Valid UserImageDto  userImageDto, Long userID){
+        return imageService.saveImage(userImageDto, userID);
     }
 }

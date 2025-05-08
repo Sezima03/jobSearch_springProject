@@ -24,16 +24,20 @@
         </select>
         <@spring.showErrors "resumeDto.categoryId" "error text-danger" />
 
-        <label for="salary">Ожидаемая зарплата (сом):</label>
-        <@spring.formInput "resumeDto.salary" 'id="salary" class="form-control"' />
-        <@spring.showErrors "resumeDto.salary" "error text-danger" />
+        <div class="form-group">
+            <label for="salary">Ожидаемая зарплата (сом):</label>
+            <@spring.formInput "resumeDto.salary" 'id="salary" class="form-control"' />
+            <@spring.showErrors "resumeDto.salary" "error text-danger" />
+        </div>
 
         <fieldset>
             <legend>Образование</legend>
 
-            <label for="institution">Учебное заведение:</label>
-            <@spring.formInput "educationfoDto.institution" 'id="institution" class="form-control form-control-lg" placeholder="Введите название"' />
-            <@spring.showErrors "educationfoDto.institution" "error text-danger" />
+            <div class="form-group">
+                <label for="institution">Учебное заведение:</label>
+                <@spring.formInput "educationfoDto.institution" 'id="institution" class="form-control form-control-lg" placeholder="Введите название"' />
+                <@spring.showErrors "educationfoDto.institution" "error text-danger" />
+            </div>
 
             <label for="program">Program</label>
             <@spring.formInput "educationfoDto.program" 'id="program" class="form-control form-control-lg" placeholder="Введите название"' />

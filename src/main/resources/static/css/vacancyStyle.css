@@ -1,15 +1,14 @@
 .profile-box {
-    border: 2px solid black;
     border-radius: 20px;
     padding: 30px;
     margin-top: 30px;
     text-align: center;
 }
 .vacancy-card {
-    border: 2px solid black;
+    border: 2px solid #8b8000;
     border-radius: 15px;
     padding: 15px;
-    min-width: 200px;
+    width: 350px;
 }
 .btn-red {
     background-color: #f8d7da;
@@ -17,4 +16,15 @@
 }
 .btn-edit {
     background-color: #e0f0c0;
+    color: #333;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-edit:hover {
+    background-color: #88c88f;
+    color: black;
+}
+.vacancy-card:hover,
+.vacancy-card:active {
+    border-color: #ffd700;
 }

@@ -3,7 +3,6 @@ package kg.attractor.job_search_project.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @Getter
 @Setter
@@ -14,6 +13,9 @@ public class RespondedApplicant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "resume_id")
     private Long resumeId;

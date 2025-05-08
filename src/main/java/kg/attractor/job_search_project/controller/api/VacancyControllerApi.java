@@ -16,7 +16,7 @@ public class VacancyControllerApi {
     private final VacancyService vacancyService;
     @GetMapping
     public List<VacancyDto> vacancy(){
-        return vacancyService.getVacancy();
+        return vacancyService.getAllVacancy();
     }
 
     @PostMapping("add")

@@ -93,7 +93,7 @@ public class ResumeDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setLong(1, resume.getApplicantId());
+//            ps.setLong(1, resume.getApplicantId());
             ps.setString(2, resume.getName());
 //            ps.setLong(3, resume.getCategoryId());
             ps.setDouble(4, resume.getSalary());

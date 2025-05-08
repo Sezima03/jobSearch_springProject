@@ -3,6 +3,7 @@ import kg.attractor.job_search_project.dto.RespondedApplicantDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.RespondedApplicant;
+import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.repository.RespondedApplicantRepository;
 import kg.attractor.job_search_project.repository.UserRepository;
@@ -111,7 +112,26 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getVacancy(){
+    public List<VacancyDto> getAllVacancy(){
+        List<Vacancy> vacancies=vacancyRepository.allVacancies();
+        return vacancies.stream()
+                .map(vacancy -> VacancyDto.builder()
+                        .id(vacancy.getId())
+                        .name(vacancy.getName())
+                        .description(vacancy.getDescription())
+                        .categoryId(vacancy.getCategoryId())
+                        .salary(vacancy.getSalary())
+                        .expFrom(vacancy.getExpFrom())
+                        .expTo(vacancy.getExpTo())
+                        .isActive(vacancy.getIsActive())
+                        .authorId(vacancy.getAuthorId())
+                        .createdDate(vacancy.getCreatedDate())
+                        .updateTime(vacancy.getUpdateTime())
+                        .build()).toList();
+    }
+
+    @Override
+    public List<VacancyDto> getVacancySortDesc(){
         log.info("Getting Vacancy");
         List<Vacancy> vacancies = vacancyRepository.findAllByOrderByCreatedDateDesc()  ;
         if (vacancies.isEmpty()) {
@@ -119,6 +139,25 @@ public class VacancyServiceImpl implements VacancyService {
         }
 
         log.info("Vacancies found : {}", vacancies.size());
+        return vacancies.stream()
+                .map(vacancy -> VacancyDto.builder()
+                        .id(vacancy.getId())
+                        .name(vacancy.getName())
+                        .description(vacancy.getDescription())
+                        .categoryId(vacancy.getCategoryId())
+                        .salary(vacancy.getSalary())
+                        .expFrom(vacancy.getExpFrom())
+                        .expTo(vacancy.getExpTo())
+                        .isActive(vacancy.getIsActive())
+                        .authorId(vacancy.getAuthorId())
+                        .createdDate(vacancy.getCreatedDate())
+                        .updateTime(vacancy.getUpdateTime())
+                        .build()).toList();
+    }
+
+    @Override
+    public List<VacancyDto> getVacancySortAsc(){
+        List<Vacancy> vacancies = vacancyRepository.findAllByOrderByCreatedDateAsc();
         return vacancies.stream()
                 .map(vacancy -> VacancyDto.builder()
                         .id(vacancy.getId())
@@ -182,6 +221,27 @@ public class VacancyServiceImpl implements VacancyService {
                 .toList();
     }
 
+
+    @Override
+    public List<RespondedApplicantDto> getFindAllResponseApplicantsByUserId(Long userId) {
+        log.info("Вакансии по откликам по id user: {}", userId);
+        List<RespondedApplicant> respondedApplicantsByUserId = respondedApplicantRepository.findAllRespondedApplicantByUserId(userId);
+        if ((respondedApplicantsByUserId == null) || (respondedApplicantsByUserId.isEmpty())) {
+            throw new JobSearchException("No vacancy found");
+        }
+        log.info("Найдено вакансии по userID : {}", userId);
+        return respondedApplicantsByUserId.stream()
+                .map(respondedApplicant -> RespondedApplicantDto.builder()
+                        .id(respondedApplicant.getId())
+                        .resumeId(respondedApplicant.getResumeId())
+                        .vacancyId(respondedApplicant.getVacancyId())
+                        .confirmation(respondedApplicant.isConfirmation())
+                        .build())
+                .toList();
+
+
+    }
+
     @Override
     public List<VacancyDto> getAllActiveVacancies() {
         log.info("Getting Vacancies");
@@ -206,6 +266,12 @@ public class VacancyServiceImpl implements VacancyService {
                         .updateTime(vacancy.getUpdateTime())
                         .build())
                 .toList();
+    }
+
+    @Override
+    public User getFindUserByName(String name){
+        return userRepository.findByName(name)
+                .orElseThrow(() -> new JobSearchException("User Not Found"));
     }
 
     @Override
@@ -260,6 +326,5 @@ public class VacancyServiceImpl implements VacancyService {
         vacancy.setUpdateTime(vacancy.getUpdateTime());
         vacancyRepository.save(vacancy);
     }
-
 
 }

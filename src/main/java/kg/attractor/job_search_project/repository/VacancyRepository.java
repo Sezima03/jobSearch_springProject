@@ -16,6 +16,7 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
     List<Vacancy> findAllVacancyByIsActiveTrue();
 
     List<Vacancy> findAllByOrderByCreatedDateDesc();
+    List<Vacancy> findAllByOrderByCreatedDateAsc();
 
 
     @Query("""
@@ -27,5 +28,9 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
     List<Vacancy> findAllOrderByResponseCount();
 
     List<Vacancy> findByAuthorId(Long author_id);
+
+    @Query("SELECT v FROM Vacancy v")
+    List<Vacancy> allVacancies();
+
 
 }

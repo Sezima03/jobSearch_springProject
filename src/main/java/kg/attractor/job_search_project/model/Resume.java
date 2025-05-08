@@ -19,9 +19,9 @@ public class Resume {
     @Column(name = "id")
     private Long id;
 
-
-    @Column(name = "applicant_id")
-    private Long applicantId;
+    @ManyToOne
+    @JoinColumn(name = "applicant_id")
+    private User applicantId;
 
     private String name;
 
@@ -51,4 +51,8 @@ public class Resume {
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RespondedApplicant> response;
 
+    @Override
+    public String toString() {
+        return String.valueOf(applicantId);
+    }
 }

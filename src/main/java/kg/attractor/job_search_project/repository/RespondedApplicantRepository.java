@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface RespondedApplicantRepository extends JpaRepository<RespondedApplicant, Long> {
     List<RespondedApplicant> findAllByVacancyId(Long vacancyId);
+    int countRespondedApplicantByUserId(Long userId);
+    List<RespondedApplicant> findAllRespondedApplicantByUserId(Long userId);
 }

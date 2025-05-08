@@ -29,4 +29,5 @@ public class User {
 
     @Column(name = "authority_id")
     private Long authorityId;
+
 }

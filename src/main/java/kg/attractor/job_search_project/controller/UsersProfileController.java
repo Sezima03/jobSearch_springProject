@@ -1,19 +1,14 @@
 package kg.attractor.job_search_project.controller;
-import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
-import kg.attractor.job_search_project.exceptions.UserNotFoundException;
 import kg.attractor.job_search_project.model.User;
-import kg.attractor.job_search_project.service.ResumeService;
-import kg.attractor.job_search_project.service.UserService;
-import kg.attractor.job_search_project.service.VacancyService;
+import kg.attractor.job_search_project.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,69 +16,46 @@ import java.util.List;
 @Controller
 @RequestMapping("users")
 @RequiredArgsConstructor
-public class UsersController {
+public class UsersProfileController {
     private final ResumeService resumeService;
     private final VacancyService vacancyService;
     private final UserService userService;
+    private final ResponsesApplicantService responsesApplicantService;
 
-    @GetMapping
-    public String registerForm(Model model) {
-        model.addAttribute("userDto", new UserDto());
-        return "temp/register";
-    }
-
-    @PostMapping
-    public String registerForm(@ModelAttribute("userDto") @Valid UserDto userDto,
-                               BindingResult bindingResult){
-         if (!bindingResult.hasErrors()) {
-            userService.registerUser(userDto);
-            return "redirect:/auth/login";
-
-        }
-        return "temp/register";
-    }
-
-    @GetMapping("profileApp")
+    @GetMapping("profileApplicant")
     public String showProfileApplicant(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
         if (auth == null || !auth.isAuthenticated()) {
             return "redirect:/auth/login";
         }
         String username = auth.getName();
-
         User user =userService.findUserByUsername(username);
-
         if (user == null) {
             return "redirect:/auth/login";
         }
         List<ResumeDto> resumeDtos =resumeService.getAllResumeByUserId(user.getId());
-
+        int responded = responsesApplicantService.countRespondedApplicantByUserId(user.getId());
         model.addAttribute("user",user);
         model.addAttribute("resumes", resumeDtos);
-        return "temp/resumeApp";
+        model.addAttribute("count", responded);
+        return "personalAccount/profileApplicant";
     }
 
     @GetMapping("profileEmp")
     public String showProfileEmployer(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
         if (auth == null || !auth.isAuthenticated()) {
             return "redirect:/auth/login";
         }
-
         String username = auth.getName();
-
        User user = userService.findUserByUsername(username);
-
         if (user == null) {
             return "redirect:/auth/login";
         }
         List<VacancyDto> vacancies = vacancyService.getAllVacancyByUserId(user.getId());
-
+        model.addAttribute("user", user);
         model.addAttribute("vacancies", vacancies);
-
-        return "temp/vacancy";
+        return "personalAccount/profileEmployer";
     }
 
     @GetMapping("updateProfile/{id}")
@@ -96,13 +68,17 @@ public class UsersController {
     @PostMapping("updateProfile/{id}")
     public String updateResume(@PathVariable Long id, UserDto userDto){
         User user = userService.getById(id);
-
         if (user == null) {
             return "redirect:/users/updateProfile/{id}";
         }
         userService.updateProfile(userDto);
-        return "redirect:/users/profileApp";
+        return "redirect:/users/profileApplicant";
     }
 
-
+    @GetMapping("updateProfileEmployer/{id}")
+    public String updateProfileEmployer(@PathVariable Long id, Model model){
+        User userDto = userService.getById(id);
+        model.addAttribute("user", userDto);
+        return "personalAccount/updateProfileEmployer";
+    }
 }

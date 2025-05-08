@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private User convertToUser(UserDto userDto){
         User user = new User();
         user.setId(userDto.getId());
+        user.setCompanyName(userDto.getCompanyName());
         user.setName(userDto.getName());
         user.setSurname(userDto.getSurname());
         user.setAge(userDto.getAge());
@@ -210,5 +211,17 @@ public class UserServiceImpl implements UserService {
         usr.setPhoneNumber(userDto.getPhoneNumber());
 
         userRepository.save(usr);
+    }
+
+    @Override
+    public User getFindById(Long id){
+        return userRepository.findById(id)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public User findCompany(Long id){
+        return userRepository.findCompanyById(id)
+                .orElseThrow(()-> new JobSearchException("Компания не найден"));
     }
 }

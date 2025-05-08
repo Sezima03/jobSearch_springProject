@@ -32,4 +32,8 @@ public interface UserService {
     void makeResetPasswdLnk(HttpServletRequest request) throws MessagingException, UnsupportedEncodingException;
 
     void updateProfile(UserDto userDto);
+
+    User getFindById(Long id);
+
+    User findCompany(Long id);
 }

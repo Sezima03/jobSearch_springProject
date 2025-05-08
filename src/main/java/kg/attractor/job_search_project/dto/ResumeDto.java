@@ -1,6 +1,4 @@
 package kg.attractor.job_search_project.dto;
-
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,4 +35,5 @@ public class ResumeDto {
     private List<EducationInfoDto> educationInfo;
 
     private List<WorkExperienceInfoDto> workExperienceInfo;
+
 }

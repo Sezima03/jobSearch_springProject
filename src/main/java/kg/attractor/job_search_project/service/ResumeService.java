@@ -1,5 +1,6 @@
 package kg.attractor.job_search_project.service;
 import kg.attractor.job_search_project.dto.ResumeDto;
+import kg.attractor.job_search_project.model.Resume;
 
 
 import java.util.List;
@@ -25,4 +26,6 @@ public interface ResumeService {
     List<ResumeDto> getAllResumeByUserId(Long userId);
 
     void getResumeUpdateDate(Long resumeId);
+
+    Resume getFindResumeByID(Long resumeId);
 }

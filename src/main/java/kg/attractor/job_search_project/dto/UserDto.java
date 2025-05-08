@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 public class UserDto {
         private Long id;
 
+        private String companyName;
+
         @NotBlank(message = "Имя не должно быть пустым")
         private String name;
 
@@ -40,8 +42,5 @@ public class UserDto {
 
         private Boolean enabled = true;
 
-        @NotNull(message = "Укажите ID  1-Соискатель, 2-Работодатель")
-        @Min(value = 1, message = "ID не может быть меньше 1")
-        @Max(value = 2, message = "ID не может быть больше 2")
         private Long authorityId;
 }

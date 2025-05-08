@@ -4,9 +4,14 @@ import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.EducationInfoDto;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
+import kg.attractor.job_search_project.model.EducationInfo;
+import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.User;
+import kg.attractor.job_search_project.model.WorkExperienceInfo;
+import kg.attractor.job_search_project.service.EducationInfoService;
 import kg.attractor.job_search_project.service.ResumeService;
 import kg.attractor.job_search_project.service.UserService;
+import kg.attractor.job_search_project.service.WorkExperienceInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,31 +29,43 @@ public class ResumeController {
 
     private final UserService userService;
     private final ResumeService resumeService;
+    private final EducationInfoService educationInfoService;
+    private final WorkExperienceInfoService workExperienceInfoService;
 
-
-    @GetMapping("allResume")
+    @GetMapping("resumes")
     public String allResume(Model model){
         List<ResumeDto> resumeDtos =resumeService.getAllResume();
         model.addAttribute("resumes", resumeDtos);
-        return "list/allresume";
+        return "resume/resumes";
     }
 
-    @GetMapping("created")
+    @GetMapping("info/{id}")
+    public String info(@PathVariable Long id, Model model){
+        Resume resume = resumeService.getFindResumeByID(id);
+        List<EducationInfo> educationInfo = educationInfoService.getFindEducationInfoByResumeId(id);
+        List<WorkExperienceInfo> workExperienceInfo = workExperienceInfoService.getFindWorkExperienceInfoByResumeID(id);
+        model.addAttribute("resume", resume);
+        model.addAttribute("eduInfos", educationInfo);
+        model.addAttribute("weis", workExperienceInfo);
+        return "resume/info";
+    }
+
+    @GetMapping("create")
     public String createdResume(Model model, ResumeDto resumeDto, EducationInfoDto educationInfoDto, WorkExperienceInfoDto workExperienceInfoDto){
         model.addAttribute("resumeDto", resumeDto);
         model.addAttribute("educationfoDto", educationInfoDto);
         model.addAttribute("work", workExperienceInfoDto);
-        return "resumeAndVacancy/createdResume";
+        return "resume/createResume";
     }
 
-    @PostMapping("created")
+    @PostMapping("create")
     public String createdResume(@ModelAttribute("resumeDto") @Valid ResumeDto resumeDto,
                                 BindingResult bindingResultResume,
                                 EducationInfoDto educationInfoDto,
                                 WorkExperienceInfoDto workExperienceInfoDto){
 
         if (bindingResultResume.hasErrors()) {
-            return "resumeAndVacancy/createdResume";
+            return "resume/createResume";
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -61,16 +78,10 @@ public class ResumeController {
         resumeDto.setEducationInfo(List.of(educationInfoDto));
         resumeDto.setWorkExperienceInfo(List.of(workExperienceInfoDto));
         resumeService.getCreateResume(resumeDto);
-        return "redirect:/users/profileApp";
-
-
+        return "redirect:/users/profileApplicant";
     }
 
 
-    //TODO ошибка 500
-    //TODO реализовать отклики и функциональность откликнутся на вакансию
-    //TODO если резюме false не должно появляться
-    //TODO загрузка фотографий
     @GetMapping("editResume/{resumeId}")
     public String editResume(Model model,
                              @PathVariable Long resumeId,
@@ -109,5 +120,4 @@ public class ResumeController {
         resumeService.getResumeUpdateDate(resumeId);
         return "redirect:/users/profileApp";
     }
-
 }

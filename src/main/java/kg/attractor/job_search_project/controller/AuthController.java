@@ -24,12 +24,11 @@ public class AuthController {
 
     @GetMapping("login")
     public String login() {
-        return "temp/login";
+        return "registrations/login";
     }
 
     @GetMapping("forgot_password")
     public String showForgotPassword() {
-
         return "passTemp/forgot_password_form";
     }
 
@@ -43,7 +42,6 @@ public class AuthController {
         } catch (MessagingException e) {
             model.addAttribute("error", "error while sending email");
         }
-
         return "passTemp/forgot_password_form";
     }
 
@@ -55,7 +53,6 @@ public class AuthController {
         }catch (UserNotFoundException e){
             model.addAttribute("error", "invalid token");
         }
-
         return "passTemp/reset_password_form";
     }
 
@@ -72,5 +69,4 @@ public class AuthController {
         }
         return "passTemp/passMessage";
     }
-
 }

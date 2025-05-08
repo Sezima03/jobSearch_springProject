@@ -16,4 +16,9 @@ public class Category {
     private Long id;
     private Integer parentId;
     private String name;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

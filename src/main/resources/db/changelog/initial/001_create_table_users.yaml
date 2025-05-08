@@ -182,6 +182,12 @@ databaseChangeLog:
                     nullable: false
                     primaryKey: true
               - column:
+                  name: user_id
+                  type: long
+                  constraints:
+                    foreignKeyName: usrs_id
+                    references: users(id)
+              - column:
                   name: resume_id
                   type: long
                   constraints:

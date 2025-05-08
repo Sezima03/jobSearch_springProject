@@ -1,11 +1,9 @@
 package kg.attractor.job_search_project.service.impl;
 
-import kg.attractor.job_search_project.dao.UserImageDao;
 import kg.attractor.job_search_project.dto.UserImageDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.UserImage;
 import kg.attractor.job_search_project.repository.ImageRepository;
-import kg.attractor.job_search_project.repository.UserRepository;
 import kg.attractor.job_search_project.service.ImageService;
 import kg.attractor.job_search_project.util.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +20,12 @@ public class ImageServiceImpl implements ImageService {
     private final ImageRepository imageRepository;
 
     @Override
-    public String saveImage(UserImageDto userImageDto) {
+    public String saveImage(UserImageDto userImageDto, Long userId) {
         log.info("Uploading image for user ID: {}", userImageDto.getUserId());
 
         String fileName = FileUtil.saveUploadFile(userImageDto.getFile(), "images/");
         UserImage userImage = new UserImage();
-        userImage.setUserId(userImageDto.getUserId());
+        userImage.setUserId(userId);
         userImage.setFileName(fileName);
 
         imageRepository.save(userImage);
@@ -48,6 +46,12 @@ public class ImageServiceImpl implements ImageService {
                 .orElseThrow(() -> new JobSearchException("Image not found"));
 
         return FileUtil.getOutputFile(image.getFileName(), "images/", MediaType.IMAGE_JPEG);
+    }
+
+    @Override
+    public UserImage getImageByUserId(Long userId) {
+        return imageRepository.findByUserId(userId)
+                .orElseThrow(()-> new JobSearchException("Image not found"));
     }
 }
 

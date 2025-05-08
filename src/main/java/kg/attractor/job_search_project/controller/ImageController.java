@@ -1,16 +1,17 @@
 package kg.attractor.job_search_project.controller;
-
-
 import kg.attractor.job_search_project.dto.UserImageDto;
+import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.service.ImageService;
+import kg.attractor.job_search_project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("images")
@@ -18,25 +19,29 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ImageController {
 
     private final ImageService imageService;
+    private final UserService userService;
 
     @GetMapping("upload")
     public String getImage(@ModelAttribute("userImageDto") String filename, Model model) {
         model.addAttribute("userImageDto", filename);
-        return "images/img";
+        return "personalAccount/profileApplicant";
     }
 
     @PostMapping("upload")
     public String uploadImage(@ModelAttribute UserImageDto userImageDto,
                               BindingResult result,
-                              RedirectAttributes redirectAttributes) {
+                              RedirectAttributes redirectAttributes,
+                              Principal principal) {
 
         if (result.hasErrors()) {
-            return "images/img";
+            return "personalAccount/profileApplicant";
         }
 
-        String filename = imageService.saveImage(userImageDto);
+        User user = userService.findUserByUsername(principal.getName());
+        Long userID = user.getId();
+        String filename = imageService.saveImage(userImageDto, userID);
         redirectAttributes.addFlashAttribute("userImageDto", filename);
-        return "redirect:/images/upload";
+        return "redirect:/users/profileApp";
 
     }
 

@@ -7,6 +7,7 @@ import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.*;
 import kg.attractor.job_search_project.repository.*;
 import kg.attractor.job_search_project.service.ResumeService;
+import kg.attractor.job_search_project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class ResumeServiceImpl implements ResumeService {
     private final WorkExperienceInfoRepository workExperienceInfoRepository;
     private final ResumeDao resumeDao;
     private final CategoryRepository categoryRepository;
+    private final UserService userService;
 
 
     @Override
@@ -31,9 +33,13 @@ public class ResumeServiceImpl implements ResumeService {
 
         Category category = categoryRepository.findById(resumeDto.getCategoryId())
                 .orElseThrow(() -> new JobSearchException("Категория с таким id не существует"));
+
+        User user = userService.getFindById(resumeDto.getApplicantId());
+
+
         Resume resume1=new Resume();
         resume1.setId(resumeDto.getId());
-        resume1.setApplicantId(resumeDto.getApplicantId());
+        resume1.setApplicantId(user);
         resume1.setName(resumeDto.getName());
         resume1.setCategoryId(category);
         resume1.setSalary(resumeDto.getSalary());
@@ -148,7 +154,7 @@ public class ResumeServiceImpl implements ResumeService {
         return resumes.stream()
                 .map(resume -> ResumeDto.builder()
                         .id(resume.getId())
-                        .applicantId(resume.getApplicantId())
+                        .applicantId(resume.getApplicantId().getId())
                         .name(resume.getName())
                         .categoryId(resume.getCategoryId().getId())
                         .salary(resume.getSalary())
@@ -170,7 +176,7 @@ public class ResumeServiceImpl implements ResumeService {
         log.info("Found resume with Id: {}", resumeId);
         return ResumeDto.builder()
                 .id(resume.getId())
-                .applicantId(resume.getApplicantId())
+                .applicantId(resume.getApplicantId().getId())
                 .name(resume.getName())
                 .categoryId(resume.getCategoryId().getId())
                 .salary(resume.getSalary())
@@ -191,7 +197,7 @@ public class ResumeServiceImpl implements ResumeService {
         return resumeList.stream()
                 .map(resume -> ResumeDto.builder()
                                 .id(resume.getId())
-                        .applicantId(resume.getApplicantId())
+                        .applicantId(resume.getApplicantId().getId())
                         .name(resume.getName())
                         .categoryId(resume.getCategoryId().getId())
                         .salary(resume.getSalary())
@@ -214,7 +220,7 @@ public class ResumeServiceImpl implements ResumeService {
         return resumes.stream()
                 .map(resume -> ResumeDto.builder()
                         .id(resume.getId())
-                        .applicantId(resume.getApplicantId())
+                        .applicantId(resume.getApplicantId().getId())
                         .name(resume.getName())
                         .categoryId(resume.getCategoryId().getId())
                         .salary(resume.getSalary())
@@ -233,7 +239,7 @@ public class ResumeServiceImpl implements ResumeService {
         return resumeList.stream()
                 .map(resume -> ResumeDto.builder()
                         .id(resume.getId())
-                        .applicantId(resume.getApplicantId())
+                        .applicantId(resume.getApplicantId().getId())
                         .name(resume.getName())
                         .categoryId(resume.getCategoryId().getId())
                         .salary(resume.getSalary())
@@ -256,6 +262,27 @@ public class ResumeServiceImpl implements ResumeService {
         resumeRepository.save(resume);
         log.info("Updated Resume with Id: {}", resumeId);
 
+    }
+
+    private ResumeDto mapToDo(Resume dto){
+        return ResumeDto.builder()
+                .id(dto.getId())
+                .applicantId(dto.getApplicantId().getId())
+                .name(dto.getName())
+                .categoryId(dto.getCategoryId().getId())
+                .salary(dto.getSalary())
+                .isActive(dto.isActive())
+                .createdDate(dto.getCreatedDate())
+                .updateTime(dto.getUpdateTime())
+                .build();
+    }
+
+
+    @Override
+    public Resume getFindResumeByID(Long resumeId){
+        log.info("Поиск резюме по ID: {}", resumeId);
+        return resumeRepository.findResumeById(resumeId)
+                .orElseThrow(() -> new JobSearchException("Resume Not Found"));
     }
 
 }
