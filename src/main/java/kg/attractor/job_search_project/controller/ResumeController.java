@@ -61,23 +61,26 @@ public class ResumeController {
     @PostMapping("create")
     public String createdResume(@ModelAttribute("resumeDto") @Valid ResumeDto resumeDto,
                                 BindingResult bindingResultResume,
-                                EducationInfoDto educationInfoDto,
-                                WorkExperienceInfoDto workExperienceInfoDto){
+                                @ModelAttribute("educationfoDto") EducationInfoDto educationInfoDto,
+                                @ModelAttribute("work") WorkExperienceInfoDto workExperienceInfoDto,
+                                Model model) {
 
         if (bindingResultResume.hasErrors()) {
+            model.addAttribute("educationfoDto", educationInfoDto);
+            model.addAttribute("work", workExperienceInfoDto);
             return "resume/createResume";
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-
         User user = userService.findUserByUsername(username);
 
         resumeDto.setApplicantId(user.getId());
-
         resumeDto.setEducationInfo(List.of(educationInfoDto));
         resumeDto.setWorkExperienceInfo(List.of(workExperienceInfoDto));
+
         resumeService.getCreateResume(resumeDto);
+
         return "redirect:/users/profileApplicant";
     }
 
@@ -92,32 +95,34 @@ public class ResumeController {
         model.addAttribute("resumeDto", resumeDto);
         model.addAttribute("educationfoDto", educationInfoDto);
         model.addAttribute("work", workExperienceInfoDto);
-        return "resumeAndVacancy/editResume";
+        return "resume/editResume";
     }
 
     @PostMapping("editResume/{resumeId}")
     public String editResume(@PathVariable Long resumeId,
                              @ModelAttribute("resumeDto") @Valid ResumeDto resumeDto,
+                             @ModelAttribute("educationfoDto") EducationInfoDto educationInfoDto,
+                             @ModelAttribute("work") WorkExperienceInfoDto workExperienceInfoDto,
                              BindingResult resumeBindingResult,
-                             EducationInfoDto educationInfoDto,
-                             WorkExperienceInfoDto workExperienceInfoDto,
                              Model model){
         model.addAttribute("resumes", resumeService.getFindResumeById(resumeId));
 
         if (resumeBindingResult.hasErrors()){
-            return "resumeAndVacancy/editResume";
+            model.addAttribute("educationfoDto", educationInfoDto);
+            model.addAttribute("work", workExperienceInfoDto);
+            return "resume/editResume";
         }
 
         resumeDto.setEducationInfo(List.of(educationInfoDto));
         resumeDto.setWorkExperienceInfo(List.of(workExperienceInfoDto));
 
         resumeService.getUpdateResume(resumeId, resumeDto);
-        return "redirect:/users/profileApp";
+        return "redirect:/users/profileApplicant";
     }
 
     @PostMapping("updateDate/{resumeId}")
     public String updateDate(@PathVariable Long resumeId){
         resumeService.getResumeUpdateDate(resumeId);
-        return "redirect:/users/profileApp";
+        return "redirect:/users/profileApplicant";
     }
 }

@@ -8,13 +8,14 @@
 }
 
 .resume-card {
-    border: 2px solid #ffd700;
-    border-radius: 15px;
-    padding: 15px;
-    min-width: 200px;
+    width: 350px;
     background-color: #1a1a1a;
-    transition: border-color 0.3s ease;
+    border: 1px solid #ffd700;
+    border-radius: 8px;
+    box-sizing: border-box;
+    text-align: center;
 }
+
 
 .resume-card:hover {
     border-color: #c79c00;
@@ -97,6 +98,14 @@
 .upload-box span {
     color: #888;
     font-size: 14px;
+    text-align: center;
+}
+.btn-sm {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 100px;
+    max-width: 120px;
     text-align: center;
 }
 
