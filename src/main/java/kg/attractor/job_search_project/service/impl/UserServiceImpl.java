@@ -204,6 +204,7 @@ public class UserServiceImpl implements UserService {
     public void updateProfile(UserDto userDto){
         User usr = userRepository.findById(userDto.getId())
                         .orElseThrow(UserNotFoundException::new);
+        usr.setCompanyName(userDto.getCompanyName());
         usr.setName(userDto.getName());
         usr.setSurname(userDto.getSurname());
         usr.setAge(userDto.getAge());
@@ -218,10 +219,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
     }
-
     @Override
-    public User findCompany(Long id){
-        return userRepository.findCompanyById(id)
-                .orElseThrow(()-> new JobSearchException("Компания не найден"));
+    public User getFindUserByName(String name){
+        return userRepository.findByName(name)
+                .orElseThrow(() -> new JobSearchException("User Not Found"));
     }
 }

@@ -59,7 +59,7 @@ public class VacancyController {
         List<ResumeDto> resumeDto =resumeService.getAllResumeByUserId(user.getId());
         VacancyDto vacancyDto = vacancyService.getFindVacancyById(id);
         Category category = categoryService.categoryName(vacancyDto.getCategoryId());
-        model.addAttribute("vacancy", vacancyDto);
+        model.addAttribute("vacancyDto", vacancyDto);
         model.addAttribute("category", category);
         model.addAttribute("resumes", resumeDto);
         return "vacancy/vacancyInfo";
@@ -113,13 +113,6 @@ public class VacancyController {
         return "redirect:/users/profileEmp";
     }
 
-    @GetMapping("responded")
-    public String vacancyRespond(Model model) {
-        List<VacancyDto> vacancyDto = vacancyService.getVacancyByResponses();
-        model.addAttribute("vacancies", vacancyDto);
-        return "list/responseCountToVacancy";
-    }
-
 
     @GetMapping("update/{id}")
     public String updateEmpVacancy(@PathVariable Long id, Model model) {
@@ -164,7 +157,7 @@ public class VacancyController {
     @GetMapping("/responses")
     public String responsesToVacancy(Model model, Authentication authentication) {
         String username = authentication.getName();
-        User user = vacancyService.getFindUserByName(username);
+        User user = userService.getFindUserByName(username);
 
         List<RespondedApplicantDto> respondedApplicantDto = vacancyService.getFindAllResponseApplicantsByUserId(user.getId());
         model.addAttribute("respondedApplicant", respondedApplicantDto);

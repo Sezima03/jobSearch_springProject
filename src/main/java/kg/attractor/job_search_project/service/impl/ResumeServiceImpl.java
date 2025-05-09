@@ -6,8 +6,7 @@ import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.*;
 import kg.attractor.job_search_project.repository.*;
-import kg.attractor.job_search_project.service.ResumeService;
-import kg.attractor.job_search_project.service.UserService;
+import kg.attractor.job_search_project.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,20 +19,17 @@ import java.util.List;
 @Slf4j
 public class ResumeServiceImpl implements ResumeService {
     private final ResumeRepository resumeRepository;
-    private final EducationInfoRepository educationInfoRepository;
-    private final WorkExperienceInfoRepository workExperienceInfoRepository;
-    private final ResumeDao resumeDao;
-    private final CategoryRepository categoryRepository;
+    private final EducationInfoService educationInfoService;
     private final UserService userService;
+    private final WorkExperienceInfoService workExperienceInfoService;
+    private final CategoryService categoryService;
 
 
     @Override
     public void getCreateResume(ResumeDto resumeDto) {
         log.info("Creating ResumeControllerApi with name {}",  resumeDto.getName());
 
-        Category category = categoryRepository.findById(resumeDto.getCategoryId())
-                .orElseThrow(() -> new JobSearchException("Категория с таким id не существует"));
-
+        Category category = categoryService.findCategoryById(resumeDto.getCategoryId());
         User user = userService.getFindById(resumeDto.getApplicantId());
 
 
@@ -49,32 +45,11 @@ public class ResumeServiceImpl implements ResumeService {
          log.info("Created ResumeControllerApi with name {}",  resumeDto.getName());
 
          if (resumeDto.getEducationInfo() != null) {
-             for (EducationInfoDto educationInfoDto:resumeDto.getEducationInfo()) {
-                 EducationInfo educationInfo = new EducationInfo();
-                 educationInfo.setId(educationInfoDto.getId());
-                 educationInfo.setResume(resume1);
-                 educationInfo.setInstitution(educationInfoDto.getInstitution());
-                 educationInfo.setProgram(educationInfoDto.getProgram());
-
-                 educationInfo.setDegree(educationInfoDto.getDegree());
-
-                 educationInfoRepository.save(educationInfo);
-                 log.info("Education info for resume Id {}", resumeDto.getId());
-         }
+             educationInfoService.saveEducationInfo(resume1, resumeDto.getEducationInfo());
         }
 
          if (resumeDto.getWorkExperienceInfo() != null) {
-             for (WorkExperienceInfoDto workExperienceInfoDto:resumeDto.getWorkExperienceInfo()) {
-                 WorkExperienceInfo workExperienceInfo1 = new WorkExperienceInfo();
-                 workExperienceInfo1.setResume(resume1);
-                 workExperienceInfo1.setYear(workExperienceInfoDto.getYear());
-                 workExperienceInfo1.setCompanyName(workExperienceInfoDto.getCompanyName());
-                 workExperienceInfo1.setPosition(workExperienceInfoDto.getPosition());
-                 workExperienceInfo1.setResponsibilities(workExperienceInfoDto.getResponsibility());
-
-                 workExperienceInfoRepository.save(workExperienceInfo1);
-                 log.info("WorkExperience info for resume Id {}", resumeDto.getId());
-         }
+             workExperienceInfoService.saveWorkExperienceInfo(resume1, resumeDto.getWorkExperienceInfo());
         }
     }
 
@@ -85,9 +60,7 @@ public class ResumeServiceImpl implements ResumeService {
         Resume resume =resumeRepository.findById(resumeId)
                 .orElseThrow(()->new JobSearchException("Resume not found"));
 
-        Category category = categoryRepository.findById(updateResume.getCategoryId())
-                .orElseThrow(() -> new JobSearchException("Category not found"));
-
+        Category category = categoryService.findCategoryById(updateResume.getCategoryId());
         resume.setName(updateResume.getName());
         resume.setCategoryId(category);
         resume.setSalary(updateResume.getSalary());
@@ -96,39 +69,10 @@ public class ResumeServiceImpl implements ResumeService {
         resumeRepository.save(resume);
         log.info("Resume with id {} updated successfully",  resumeId);
 
-        for (EducationInfoDto eduDto:updateResume.getEducationInfo()) {
-            if (eduDto.getId() == null) {
-                throw new IllegalArgumentException("Education Info ID must not be null");
-            }
-            EducationInfo educationInfo = educationInfoRepository.findById(eduDto.getId())
-                            .orElseThrow(()->new JobSearchException("Education not found"));
-            educationInfo.setId(eduDto.getId());
-            educationInfo.setResume(resume);
-            educationInfo.setInstitution(eduDto.getInstitution());
-            educationInfo.setProgram(eduDto.getProgram());
-            educationInfo.setStartDate(eduDto.getStartDate());
-            educationInfo.setEndDate(eduDto.getEndDate());
-            educationInfo.setDegree(eduDto.getDegree());
+            educationInfoService.updateEducationInfo(resume, (EducationInfoDto) updateResume.getEducationInfo());
 
-            educationInfoRepository.save(educationInfo);
-            log.info("Education info for resume Id {} updated successfully", resumeId);
-        }
 
-        for (WorkExperienceInfoDto wei : updateResume.getWorkExperienceInfo()) {
-            if (wei.getId() == null) {
-                throw new IllegalArgumentException("Work Experience Info ID must not be null");
-            }
-            WorkExperienceInfo workExperienceInfo = workExperienceInfoRepository.findById(wei.getId())
-                    .orElseThrow(()->new JobSearchException("WorkExperience info not found"));
-            workExperienceInfo.setId(wei.getId());
-            workExperienceInfo.setResume(resume);
-            workExperienceInfo.setYear(wei.getYear());
-            workExperienceInfo.setCompanyName(wei.getCompanyName());
-            workExperienceInfo.setPosition(wei.getPosition());
-            workExperienceInfo.setResponsibilities(wei.getResponsibility());
-            workExperienceInfoRepository.save(workExperienceInfo);
-            log.info("WorkExperience info for resume Id {} updated successfully", resumeId);
-        }
+            workExperienceInfoService.updateWorkExperienceInfo(resume, (WorkExperienceInfoDto) updateResume.getWorkExperienceInfo());
 
     }
 
@@ -145,7 +89,7 @@ public class ResumeServiceImpl implements ResumeService {
     public List<ResumeDto> getAllResumeByCategory(String category) {
         log.info("Getting All ResumeControllerApi by category {}", category);
 
-        List<Resume> resumes = resumeDao.getAllResumeByCategory(category);
+        List<Resume> resumes = resumeRepository.findByCategoryId(category);
         if (resumes==null||resumes.isEmpty()){
             log.warn("All ResumeControllerApi by category {} is empty",category);
             throw new JobSearchException("ResumeControllerApi Not Found");
@@ -262,19 +206,6 @@ public class ResumeServiceImpl implements ResumeService {
         resumeRepository.save(resume);
         log.info("Updated Resume with Id: {}", resumeId);
 
-    }
-
-    private ResumeDto mapToDo(Resume dto){
-        return ResumeDto.builder()
-                .id(dto.getId())
-                .applicantId(dto.getApplicantId().getId())
-                .name(dto.getName())
-                .categoryId(dto.getCategoryId().getId())
-                .salary(dto.getSalary())
-                .isActive(dto.isActive())
-                .createdDate(dto.getCreatedDate())
-                .updateTime(dto.getUpdateTime())
-                .build();
     }
 
 

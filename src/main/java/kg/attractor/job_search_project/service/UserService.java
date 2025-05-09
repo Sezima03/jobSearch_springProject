@@ -35,5 +35,5 @@ public interface UserService {
 
     User getFindById(Long id);
 
-    User findCompany(Long id);
+    User getFindUserByName(String name);
 }

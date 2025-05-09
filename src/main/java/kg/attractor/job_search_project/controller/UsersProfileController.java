@@ -3,6 +3,7 @@ import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.model.User;
+import kg.attractor.job_search_project.model.UserImage;
 import kg.attractor.job_search_project.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ public class UsersProfileController {
     private final VacancyService vacancyService;
     private final UserService userService;
     private final ResponsesApplicantService responsesApplicantService;
+    private final ImageService imageService;
 
     @GetMapping("profileApplicant")
     public String showProfileApplicant(Model model) {
@@ -33,11 +35,14 @@ public class UsersProfileController {
         if (user == null) {
             return "redirect:/auth/login";
         }
+        UserImage userImage = imageService.getImageDtoByUserId(user.getId());
+        String imageName = userImage!=null? userImage.getFileName():null;
         List<ResumeDto> resumeDtos =resumeService.getAllResumeByUserId(user.getId());
         int responded = responsesApplicantService.countRespondedApplicantByUserId(user.getId());
         model.addAttribute("user",user);
         model.addAttribute("resumes", resumeDtos);
         model.addAttribute("count", responded);
+        model.addAttribute("userImageDto", imageName);
         return "personalAccount/profileApplicant";
     }
 
@@ -52,9 +57,13 @@ public class UsersProfileController {
         if (user == null) {
             return "redirect:/auth/login";
         }
+        UserImage userImage = imageService.getImageDtoByUserId(user.getId());
+
+        String imageName = userImage!=null? userImage.getFileName():null;
         List<VacancyDto> vacancies = vacancyService.getAllVacancyByUserId(user.getId());
         model.addAttribute("user", user);
         model.addAttribute("vacancies", vacancies);
+        model.addAttribute("userImageDto", imageName);
         return "personalAccount/profileEmployer";
     }
 
@@ -62,7 +71,7 @@ public class UsersProfileController {
     public String updateResume(@PathVariable Long id, Model model){
         User userDto = userService.getById(id);
         model.addAttribute("user", userDto);
-        return "temp/update";
+        return "personalAccount/updateProfileApplicant";
     }
 
     @PostMapping("updateProfile/{id}")
@@ -80,5 +89,15 @@ public class UsersProfileController {
         User userDto = userService.getById(id);
         model.addAttribute("user", userDto);
         return "personalAccount/updateProfileEmployer";
+    }
+
+    @PostMapping("updateProfileEmployer/{id}")
+    public String updateProfileEmployer(@PathVariable Long id, UserDto userDto){
+        User user = userService.getById(id);
+        if (user == null) {
+            return "redirect:/users/updateProfileEmployer/{id}";
+        }
+        userService.updateProfile(userDto);
+        return "redirect:/users/profileEmp";
     }
 }
