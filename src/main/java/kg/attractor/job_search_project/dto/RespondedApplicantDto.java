@@ -14,12 +14,10 @@ import lombok.NoArgsConstructor;
 public class RespondedApplicantDto {
     private Long id;
 
-    @NotNull(message = "id не может быть null")
-    @Min(value = 1, message = "Должен быть больше 0")
+    @NotNull
     private Long resumeId;
 
-    @NotNull(message = "id не может быть null")
-    @Min(value = 1, message = "Должен быть больше 0")
+    @NotNull
     private Long vacancyId;
 
     @NotBlank

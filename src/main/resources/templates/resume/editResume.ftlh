@@ -1,5 +1,6 @@
 <#import "../layout.ftlh" as main>
 <@main.layout ; spring>
+
     <style>
         :root {
             --soft-yellow: #ffd700;
@@ -107,17 +108,16 @@
         }
 
     </style>
-
     <div class="bg-image">
         <div class="overlay">
-            <form class="resume-form" action="/resume/create" method="POST">
+            <form class="resume-form"  action="/resume/editResume/${resumes.id}" method="POST">
 
                 <#if _csrf??>
                     <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
                            value="${(_csrf.token)!'csrf-token'}"/>
                 </#if>
 
-                <h2><@spring.message "createResume.create"/></h2>
+                <h2><@spring.message "editeResume.title"/></h2>
 
                 <div class="form-group">
                     <label for="name"><@spring.message "createResume.title"/></label>

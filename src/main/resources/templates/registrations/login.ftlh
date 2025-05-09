@@ -1,3 +1,4 @@
+<#import "/spring.ftl" as spring>
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -70,7 +71,7 @@
 <body>
 <div class="container">
     <div class="login-container">
-        <h2>Авторизация</h2>
+        <h2><@spring.message "login.login"/></h2>
         <form action="/auth/login" method="POST">
             <#if _csrf??>
                 <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
@@ -78,26 +79,26 @@
             </#if>
 
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="username" placeholder="Введите ваш email" required>
+                <label for="email" class="form-label"><@spring.message "login.email"/></label>
+                <input type="email" class="form-control" id="email" name="username" placeholder="<@spring.message 'login.emailPlaceholder' />" required>
             </div>
 
             <div class="mb-3">
-                <label for="password" class="form-label">Пароль</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Введите ваш пароль" required>
+                <label for="password" class="form-label"><@spring.message "login.password"/></label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="<@spring.message 'login.passwordPlaceholder' />" required>
             </div>
 
             <div class="d-grid">
-                <button type="submit" class="btn btn-yellow">Войти</button>
+                <button type="submit" class="btn btn-yellow"><@spring.message "login.in"/></button>
             </div>
         </form>
 
         <div class="text-center mt-3">
-            <a href="/">Еще нет аккаунта? Вернуться в главную страницу</a>
+            <a href="/"><@spring.message "login.account"/></a>
         </div>
 
         <div class="text-center mt-3">
-            <a href="/auth/forgot_password">Забыли пароль?</a>
+            <a href="/auth/forgot_password"><@spring.message "login.forgotPassword"/></a>
         </div>
     </div>
 </div>

@@ -76,47 +76,47 @@
                     <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
                     value="${(_csrf.token)!'csrf-token'}"/>
                 </#if>
-                <h2>Регистрация</h2>
+                <h2><@spring.message "registration.registration"/></h2>
                 <div class="mb-3">
-                    <label for="companyName" class="form-label">Название компании</label>
+                    <label for="companyName" class="form-label"><@spring.message "registration.nameCompany"/></label>
                     <@spring.formInput "userDto.companyName" 'id="companyName" class="form-control"' />
                     <@spring.showErrors "userDto.companyName" "text-danger small" />
                 </div>
                 <div class="mb-3">
-                    <label for="name" class="form-label">Имя</label>
+                    <label for="name" class="form-label"><@spring.message "registration.name"/></label>
                     <@spring.formInput "userDto.name" 'id="name" class="form-control"' />
                     <@spring.showErrors "userDto.name" "text-danger small" />
                 </div>
                 <div class="mb-3">
-                    <label for="surname" class="form-label">Фамилия</label>
+                    <label for="surname" class="form-label"><@spring.message "registration.lastName"/></label>
                     <@spring.formInput "userDto.surname" 'id="surname" class="form-control"' />
                     <@spring.showErrors "userDto.surname" "text-danger small" />
                 </div>
                 <div class="mb-3">
-                    <label for="age" class="form-label">Возраст</label>
+                    <label for="age" class="form-label"><@spring.message "registration.age"/></label>
                     <@spring.formInput "userDto.age" 'id="age" class="form-control"' />
                     <@spring.showErrors "userDto.age" "text-danger small" />
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
+                    <label for="email" class="form-label"><@spring.message "registration.email"/></label>
                     <@spring.formInput "userDto.email" 'id="email" class="form-control"' />
                     <@spring.showErrors "userDto.email" "text-danger small" />
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Пароль</label>
+                    <label for="password" class="form-label"><@spring.message "registration.password"/></label>
                     <@spring.formPasswordInput "userDto.password" 'id="password" class="form-control"' />
                     <@spring.showErrors "userDto.password" "text-danger small" />
                 </div>
                 <div class="mb-3">
-                    <label for="phoneNumber" class="form-label">Номер телефона</label>
+                    <label for="phoneNumber" class="form-label"><@spring.message "registration.phoneNumber"/></label>
                     <@spring.formInput "userDto.phoneNumber" 'id="phoneNumber" class="form-control"' />
                     <@spring.showErrors "userDto.phoneNumber" "text-danger small" />
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-yellow">Зарегистрироваться</button>
+                    <button type="submit" class="btn btn-yellow"><@spring.message "registration.register"/></button>
                 </div>
                 <div class="text-center mt-3">
-                    <a href="/auth/login" class="text-decoration-none already-registered">Уже зарегистрированы? Войти</a>
+                    <a href="/auth/login" class="text-decoration-none already-registered"><@spring.message "registration.alreadyRegister"/></a>
                 </div>
             </form>
         </div>

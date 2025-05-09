@@ -1,4 +1,5 @@
 package kg.attractor.job_search_project.dto;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,13 +18,12 @@ public class ResumeDto {
 
     private Long applicantId;
 
-    @NotBlank(message = "Имя резюме не должно быть пустым")
+    @NotBlank(message = "{resumeDto.title}")
     private String name;
 
-    @NotNull
     private Long categoryId;
 
-    @NotNull
+    @NotNull(message = "{resumeDto.salary}")
     private Double salary;
 
     private boolean isActive;

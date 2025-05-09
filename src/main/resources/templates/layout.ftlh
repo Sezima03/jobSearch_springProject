@@ -102,23 +102,25 @@
                 <a class="navbar-brand" href="/">Job Search</a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Вакансии</a>
+                        <a class="nav-link active" aria-current="page" href="/"><@spring.message "layout.nav.vacancy"/></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
-                            Личный кабинет
+                            <@spring.message "layout.nav.personalAccount"/>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark bg-dark border border-warning">
-                            <li><a class="dropdown-item text-light" href="/register/applicant">Соискатель</a></li>
-                            <li><a class="dropdown-item text-light" href="/register/employer">Работодатель</a></li>
+                            <li><a class="dropdown-item text-light" href="/register/applicant"><@spring.message "layout.nav.applicant"/></a></li>
+                            <li><a class="dropdown-item text-light" href="/register/employer"><@spring.message "layout.nav.employer"/></a></li>
                         </ul>
                     </li>
                 </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-outline-warning" type="submit">Search</button>
-                </form>
+                <a href="?lang=ru" class="ms-3 btn btn-dark text-light border-warning">
+                    <@spring.message "layout.nav.lang_ru"/>
+                </a>
+                <a href="?lang=en" class="ms-2 btn btn-dark text-light border-warning">
+                   <@spring.message "layout.nav.lang_en"/>
+                </a>
             </div>
         </div>
     </nav>
