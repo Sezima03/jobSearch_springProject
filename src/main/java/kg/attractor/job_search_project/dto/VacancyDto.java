@@ -1,6 +1,4 @@
 package kg.attractor.job_search_project.dto;
-
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import kg.attractor.job_search_project.model.RespondedApplicant;
 import lombok.AllArgsConstructor;
@@ -9,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -19,22 +16,21 @@ import java.util.List;
 public class VacancyDto {
     private Long id;
 
-    @NotBlank(message = "Название вакансии не должно быть пустым")
+    @NotBlank(message = "{vacancy.dto.name}")
     private String name;
 
-    @NotBlank(message = "Поле не может быть пустым")
+    @NotBlank(message = "{vacancy.dto}")
     private String description;
 
-    @NotNull(message = "Поле не может быть пустым")
+    @NotNull(message = "{vacancy.dto}")
     private Long categoryId;
 
-    @NotNull(message = "Укажите зарплату")
+    @NotNull(message = "{vacancy.dto.salary}")
     private Double salary;
 
-    @NotNull(message = "Поле не может быть пустым")
+    @NotNull(message = "{vacancy.dto}")
     private Integer expFrom;
 
-    @NotNull(message = "Поле не может быть пустым")
     private Integer expTo;
 
     private Boolean isActive;
