@@ -35,7 +35,7 @@ public class SecurityConfig {
                                 "/",
                                 "/register/employer",
                                 "/register/applicant",
-                                "/info/**").permitAll()
+                                "/infoForUnauthorized/{id}").permitAll()
                         .requestMatchers(
                                 "/resume/update/{id}",
                                 "/resume/create",

@@ -32,7 +32,7 @@
                 <a href="/resume/create" class="btn btn-create rounded-3" style="background: linear-gradient(135deg, #ff7b7b, #7b99ff);">+<br><@spring.message "profileApplicant.create"/><br><@spring.message "profileApplicant.resumes"/></a>
             </div>
             <div class="col-2 position-relative">
-                <a href="/" class="btn btn-response rounded-3" style="background: linear-gradient(135deg, #ff7b7b, #7b99ff);"><@spring.message "profileApplicant.responses"/></a>
+                <a href="/allVacanciesForAuth" class="btn btn-response rounded-3" style="background: linear-gradient(135deg, #ff7b7b, #7b99ff);"><@spring.message "profileApplicant.responses"/></a>
                 <span class="badge-response">${count}</span>
             </div>
         </div>

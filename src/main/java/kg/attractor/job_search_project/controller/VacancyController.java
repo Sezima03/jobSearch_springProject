@@ -37,6 +37,13 @@ public class VacancyController {
         return "vacancy/vacancies";
     }
 
+    @GetMapping("allVacanciesForAuth")
+    public String allVacanciesForAuth(Model model) {
+        List<VacancyDto> vacancyDtoList = vacancyService.getAllVacancy();
+        model.addAttribute("vacancies", vacancyDtoList);
+        return "vacancy/vacancyForAuth";
+    }
+
     @GetMapping("sortDesc")
     public String sortVacancy(Model model) {
         List<VacancyDto> vacancySort = vacancyService.getVacancySortDesc();
@@ -51,6 +58,17 @@ public class VacancyController {
         return "vacancy/vacancies";
     }
 
+    @GetMapping("infoForUnauthorized/{id}")
+    public String infoForUnauthorized( @PathVariable Long id, Model model) {
+        VacancyDto vacancyDto = vacancyService.getFindVacancyById(id);
+        Category category = categoryService.categoryName(vacancyDto.getCategoryId());
+
+        model.addAttribute("vacancyDto", vacancyDto);
+        model.addAttribute("category", category);
+
+        return "vacancy/vacancyInfo";
+    }
+
     @GetMapping("info/{id}")
     public String vacancyInfo(@PathVariable Long id, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -62,7 +80,7 @@ public class VacancyController {
         model.addAttribute("vacancyDto", vacancyDto);
         model.addAttribute("category", category);
         model.addAttribute("resumes", resumeDto);
-        return "vacancy/vacancyInfo";
+        return "vacancy/vacancyInfoForAuth";
     }
 
     @GetMapping("created")
@@ -113,31 +131,6 @@ public class VacancyController {
         return "redirect:/users/profileEmp";
     }
 
-
-    @GetMapping("update/{id}")
-    public String updateEmpVacancy(@PathVariable Long id, Model model) {
-        VacancyDto vacancy = vacancyService.getFindVacancyById(id);
-        model.addAttribute("vacancy", vacancy);
-        return "temp/updateEmpVacancy";
-    }
-
-    @PostMapping("update/{id}")
-    public String updateEmpVacancy(@PathVariable Long id,
-                                   @ModelAttribute("vacancy") @Valid VacancyDto vacancyDto,
-                                   BindingResult bindingResult,
-                                   Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("vacancy", vacancyDto);
-            return "temp/updateEmpVacancy";
-        }
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userService.findUserByUsername(username);
-        vacancyDto.setAuthorId(user.getId());
-        vacancyService.getUpdateVacancy(vacancyDto, id);
-        return "redirect:/users/profileEmp";
-    }
 
     @PostMapping("updateDate/{vacancyId}")
     public String updateDate(@PathVariable Long vacancyId){

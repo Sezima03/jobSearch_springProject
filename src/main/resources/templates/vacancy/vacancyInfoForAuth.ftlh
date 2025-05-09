@@ -84,5 +84,30 @@
         </div>
     </div>
 
+    <div class="modal fade" id="resumeModal" tabindex="-1" aria-labelledby="resumeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resumeModalLabel"><@spring.message "jobSearch.selectAResume"/></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/applyForVacancy/${vacancyDto.id}" method="post">
+                        <#list resumes as resume>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="resumeId" id="resume-${resume.id}" value="${resume.id}">
+                                <label class="form-check-label" for="resume-${resume.id}">
+                                    ${resume.name}
+                                </label>
+                            </div>
+                        </#list>
+                        <button type="submit" class="btn btn-primary"><@spring.message "jobSearch.submit"/></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 </@main.layout>

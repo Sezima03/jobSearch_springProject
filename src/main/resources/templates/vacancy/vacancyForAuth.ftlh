@@ -23,7 +23,7 @@
                 <span class="job-label"><@spring.message "layout.nav.publicationDate"/></span> ${vacancy.createdDate}
             </div>
             <div class="d-flex justify-content-end mt-3">
-                <a href="/infoForUnauthorized/${vacancy.id}" class="btn btn-warning">
+                <a href="/info/${vacancy.id}" class="btn btn-warning">
                     <@spring.message "layout.nav.info"/>
                 </a>
             </div>
