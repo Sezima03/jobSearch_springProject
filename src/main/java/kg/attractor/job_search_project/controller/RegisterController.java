@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RegisterController {
     private final UserService userService;
 
+    @GetMapping("select")
+    public String selectRole(){
+        return "registrations/selectRole";
+    }
+
     @GetMapping("employer")
     public String registerFormForEmployer(Model model) {
         UserDto userDto = new UserDto();

@@ -41,7 +41,25 @@ public class ImageController {
         Long userID = user.getId();
         String filename = imageService.saveImage(userImageDto, userID);
         redirectAttributes.addFlashAttribute("userImageDto", filename);
-        return "redirect:/users/profileApp";
+        return "redirect:/users/profileApplicant";
+
+    }
+
+    @PostMapping("uploadForEmployer")
+    public String uploadImageForEmployer(@ModelAttribute UserImageDto userImageDto,
+                              BindingResult result,
+                              RedirectAttributes redirectAttributes,
+                              Principal principal) {
+
+        if (result.hasErrors()) {
+            return "personalAccount/profileEmployer";
+        }
+
+        User user = userService.findUserByUsername(principal.getName());
+        Long userID = user.getId();
+        String filename = imageService.saveImage(userImageDto, userID);
+        redirectAttributes.addFlashAttribute("userImageDto", filename);
+        return "redirect:/users/profileEmp";
 
     }
 

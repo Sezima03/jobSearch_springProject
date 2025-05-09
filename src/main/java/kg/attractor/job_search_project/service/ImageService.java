@@ -11,5 +11,5 @@ public interface ImageService {
 
     ResponseEntity<?> findById(long id);
 
-    UserImage getImageByUserId(Long userId);
+    UserImage getImageDtoByUserId(Long userId);
 }
