@@ -94,7 +94,7 @@
         </form>
 
         <div class="text-center mt-3">
-            <a href="/"><@spring.message "login.account"/></a>
+            <a href="/register/select"><@spring.message "login.account"/></a>
         </div>
 
         <div class="text-center mt-3">

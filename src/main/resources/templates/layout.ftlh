@@ -104,15 +104,8 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/"><@spring.message "layout.nav.vacancy"/></a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            <@spring.message "layout.nav.personalAccount"/>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark bg-dark border border-warning">
-                            <li><a class="dropdown-item text-light" href="/register/applicant"><@spring.message "layout.nav.applicant"/></a></li>
-                            <li><a class="dropdown-item text-light" href="/register/employer"><@spring.message "layout.nav.employer"/></a></li>
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/register/select"><@spring.message "registration.registration"/></a>
                     </li>
                 </ul>
                 <a href="?lang=ru" class="ms-3 btn btn-dark text-light border-warning">
