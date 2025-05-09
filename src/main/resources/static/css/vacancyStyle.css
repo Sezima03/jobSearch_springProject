@@ -15,6 +15,9 @@
     border: 1px solid red;
 }
 .btn-edit {
+    width: auto;
+    text-align: center;
+    min-width: 130px;
     background-color: #e0f0c0;
     color: #333;
     transition: background-color 0.3s, border-color 0.3s;
