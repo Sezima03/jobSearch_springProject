@@ -49,9 +49,8 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public UserImage getImageByUserId(Long userId) {
-        return imageRepository.findByUserId(userId)
-                .orElseThrow(()-> new JobSearchException("Image not found"));
+    public UserImage getImageDtoByUserId(Long userId) {
+        return imageRepository.getImageByUserId(userId);
     }
 }
 

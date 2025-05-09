@@ -15,27 +15,25 @@ public class UserDto {
 
         private String companyName;
 
-        @NotBlank(message = "Имя не должно быть пустым")
+        @NotBlank(message = "{userDro.validation.name}")
         private String name;
 
-        @NotBlank(message = "Фамилия не должно быть пустой")
+        @NotBlank(message = "{userDro.validation.surname}")
         private String surname;
 
-        @NotNull(message = "Возраст не должно быть пустой")
-        @Min(value = 18, message = "Возраст не должно быть не менее 18 лет")
-        @Max(value = 90, message = "Возраст не должен превышать 90 лет")
+        @NotNull(message = "{userDro.validation.age}")
+        @Min(value = 18, message = "{userDro.validation.ageMin}")
+        @Max(value = 90, message = "{userDro.validation.ageMax}")
         private Integer age;
 
         @Email
-        @NotBlank(message = "Email не должно быть пустым")
+        @NotBlank(message = "{userDto.validation.email}")
         private String email;
 
-        @NotBlank(message = "Пароль не должно быть пустым")
-        @Size(min = 3, max = 15, message = "lenght must be>3 and <=15")
+        @Size(min = 3, max = 15, message = "{userSto.validation.password}")
         private String password;
 
-        @NotBlank(message = "Номер телефона не должен быть пустым")
-        @Pattern(regexp = "^996\\d{9}$", message = "Неверный формат номера телефона")
+        @Pattern(regexp = "^996\\d{9}$", message = "{userSto.validation.phoneNumber}")
         private String phoneNumber;
 
         private String avatar;

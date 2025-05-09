@@ -4,4 +4,6 @@ import kg.attractor.job_search_project.model.Category;
 
 public interface CategoryService{
     Category categoryName(Long id);
+
+    Category findCategoryById(Long id);
 }

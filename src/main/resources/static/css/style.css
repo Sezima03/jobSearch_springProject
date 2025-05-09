@@ -8,22 +8,27 @@
 }
 
 .resume-card {
-    border: 2px solid #ffd700;
-    border-radius: 15px;
-    padding: 15px;
-    min-width: 200px;
+    width: 350px;
     background-color: #1a1a1a;
-    transition: border-color 0.3s ease;
+    border: 1px solid #ffd700;
+    border-radius: 8px;
+    box-sizing: border-box;
+    text-align: center;
+    margin-top: 25px;
 }
+
 
 .resume-card:hover {
     border-color: #c79c00;
 }
 
 .btn-edit {
-    background-color: #f8c300;
-    color: black;
-    transition: background-color 0.3s ease;
+    width: auto;
+    text-align: center;
+    min-width: 130px;
+    background-color: #e0f0c0;
+    color: #333;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 .btn-edit:hover {
@@ -56,11 +61,13 @@
 .badge-response {
     position: absolute;
     top: -10px;
-    right: 55px;
-    background-color: red;
-    color: white;
+    background-color: whitesmoke;
+    color: black;
     border-radius: 50%;
+    right: 30px;
     padding: 5px 10px;
+    width: 33px;
+    height: 33px;
 }
  .upload-box {
      width: 190px;
@@ -97,6 +104,14 @@
 .upload-box span {
     color: #888;
     font-size: 14px;
+    text-align: center;
+}
+.btn-sm {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 100px;
+    max-width: 120px;
     text-align: center;
 }
 

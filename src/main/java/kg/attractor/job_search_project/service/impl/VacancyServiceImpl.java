@@ -3,11 +3,10 @@ import kg.attractor.job_search_project.dto.RespondedApplicantDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.RespondedApplicant;
-import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.repository.RespondedApplicantRepository;
-import kg.attractor.job_search_project.repository.UserRepository;
 import kg.attractor.job_search_project.repository.VacancyRepository;
+import kg.attractor.job_search_project.service.ResponsesApplicantService;
 import kg.attractor.job_search_project.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,17 +20,11 @@ import java.util.List;
 public class VacancyServiceImpl implements VacancyService {
 
     private final VacancyRepository vacancyRepository;
-    private final UserRepository userRepository;
-    private final RespondedApplicantRepository respondedApplicantRepository;
+    private final ResponsesApplicantService responsesApplicantService;
 
     @Override
     public void createdVacancy(VacancyDto vacancyDto) {
         log.info("Creating Vacancy : {}", vacancyDto.getName());
-        boolean authorsExist = userRepository.existsById(vacancyDto.getAuthorId());
-
-        if (!authorsExist) {
-            throw new JobSearchException("Автор с таким id не существует");
-        }
 
         boolean existsCategory = vacancyRepository.existsCategoryById(vacancyDto.getCategoryId());
         if (!existsCategory) {
@@ -206,7 +199,7 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public List<RespondedApplicantDto>  getRespondedApplicantByVacancyId(Long vacancyId) {
         log.info("Getting RespondedApplicant by Vacancy Id : {}", vacancyId);
-        List<RespondedApplicant> respondedApplicants = respondedApplicantRepository.findAllByVacancyId(vacancyId);
+        List<RespondedApplicantDto> respondedApplicants = responsesApplicantService.findAllVacancyById(vacancyId);
         if ((respondedApplicants == null) || (respondedApplicants.isEmpty())) {
             throw new JobSearchException("No applicants found");
         }
@@ -225,7 +218,7 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public List<RespondedApplicantDto> getFindAllResponseApplicantsByUserId(Long userId) {
         log.info("Вакансии по откликам по id user: {}", userId);
-        List<RespondedApplicant> respondedApplicantsByUserId = respondedApplicantRepository.findAllRespondedApplicantByUserId(userId);
+        List<RespondedApplicantDto> respondedApplicantsByUserId = responsesApplicantService.findAllRespondedApplicantByUserId(userId);
         if ((respondedApplicantsByUserId == null) || (respondedApplicantsByUserId.isEmpty())) {
             throw new JobSearchException("No vacancy found");
         }
@@ -268,11 +261,6 @@ public class VacancyServiceImpl implements VacancyService {
                 .toList();
     }
 
-    @Override
-    public User getFindUserByName(String name){
-        return userRepository.findByName(name)
-                .orElseThrow(() -> new JobSearchException("User Not Found"));
-    }
 
     @Override
     public VacancyDto getFindVacancyById(Long vacancyId){

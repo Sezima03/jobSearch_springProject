@@ -30,8 +30,6 @@ public interface VacancyService {
 
     List<VacancyDto> getAllActiveVacancies();
 
-    User getFindUserByName(String name);
-
     VacancyDto getFindVacancyById(Long vacancyId);
 
     List<VacancyDto> getAllVacancyByUserId(Long userId);

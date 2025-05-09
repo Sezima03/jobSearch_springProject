@@ -85,21 +85,22 @@
                     <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
                            value="${(_csrf.token)!'csrf-token'}"/>
                 </#if>
-                <h2>Создание вакансии</h2>
+                <h2><@spring.message "vacancy.created"/></h2>
                 <div class="mb-3">
-                    <@spring.formInput "vacancy.name" 'id="name" class="form-control" placeholder="Название вакансии" required' />
+                    <label for="name" class="form-label"><@spring.message "jobSearch.vacancy.title"/></label>
+                    <@spring.formInput "vacancy.name" 'id="name" class="form-control" required' />
                     <@spring.showErrors "vacancy.name" "error text-danger" />
                 </div>
 
-
                 <div class="mb-3">
-                    <@spring.formTextarea "vacancy.description" 'id="description" class="form-control" placeholder="Опиши обязанности и требования..." required' />
+                    <label for="description" class="form-label"><@spring.message "jobSearch.vacancy.description"/></label>
+                    <@spring.formTextarea "vacancy.description" 'id="description" class="form-control" required' />
                     <@spring.showErrors "vacancy.description" "error text-danger" />
                 </div>
 
                 <div class="mb-3">
                     <select name="categoryId" id="categoryId" class="form-control">
-                        <option value="">Выберите категорию</option>
+                        <option value=""><@spring.message "vacancy.created.category"/></option>
                         <option value=1>js</option>
                         <option value=2>java</option>
                         <option value=3>python</option>
@@ -109,30 +110,33 @@
                 </div>
 
                 <div class="mb-3">
-                    <@spring.formInput "vacancy.salary" 'id="salary" class="form-control" type="number" required placeholder=" Зарплата: Пример: 100000"' />
+                    <label for="salary" class="form-label"><@spring.message "layout.nav.salary"/></label>
+                    <@spring.formInput "vacancy.salary" 'id="salary" class="form-control" type="number"' />
                     <@spring.showErrors "vacancy.salary" "error text-danger" />
                 </div>
 
                 <div class="mb-3">
-                    <@spring.formInput "vacancy.expFrom" 'id="expFrom" class="form-control" type="number" min="0" placeholder="Опыт от (лет):" required' />
+                    <label for="expFrom" class="form-label"><@spring.message "vacancy.expFrom"/></label>
+                    <@spring.formInput "vacancy.expFrom" 'id="expFrom" class="form-control" type="number" min="0" required' />
                     <@spring.showErrors "vacancy.expFrom" "error text-danger" />
                 </div>
 
                 <div class="mb-3">
-                    <@spring.formInput "vacancy.expTo" 'id="expTo" class="form-control" type="number" min="0" placeholder="Опыт до (лет):" required' />
+                    <label for="expTo" class="form-label"><@spring.message "vacancy.expTo"/></label>
+                    <@spring.formInput "vacancy.expTo" 'id="expTo" class="form-control" type="number" min="0" required' />
                     <@spring.showErrors "vacancy.expTo" "error text-danger" />
                 </div>
 
                 <label>
-                    <input type="hidden" name="vacancy.isActive" value="false" />
-                    <@spring.formCheckbox "vacancy.isActive" 'checked' /> Активна
+                    <input type="hidden" name="vacancy.isActive" value="false" /><@spring.message "vacancy.created.active"/>
+                    <@spring.formCheckbox "vacancy.isActive" 'checked' />
                 </label>
 
                 <div class="d-grid mb-3">
-                    <button type="submit" class="btn btn-yellow">Создать вакансию</button>
+                    <button type="submit" class="btn btn-yellow"><@spring.message "vacancy.created.save"/></button>
                 </div>
                 <div class="text-center mt-3">
-                    <a href="#" class="text-decoration-none already-registered">Вернуться к вакансиям</a>
+                    <a href="/users/profileEmp" class="text-decoration-none already-registered"><@spring.message "vacancy.created.toVacancy"/></a>
                 </div>
             </form>
         </div>

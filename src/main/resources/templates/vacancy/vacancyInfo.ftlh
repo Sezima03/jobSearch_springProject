@@ -1,4 +1,5 @@
 <#import "../layout.ftlh" as main>
+<#import "/spring.ftl" as spring/>
 <@main.layout>
     <style>
         :root {
@@ -63,26 +64,22 @@
             color: var(--soft-yellow);
         }
 
-        .modal-footer {
-            background-color: var(--dark-bg);
-            color: var(--text-muted);
-        }
     </style>
     <title>Job Search</title>
 
     <div class="card-container">
         <div class="card text-center">
             <div class="card-header">
-                Работодатель:
+                <@spring.message "jobSearch.employer"/>
             </div>
             <div class="card-body">
-                <h5 class="card-title">${vacancy.name}</h5>
-                <p class="card-text"><p6>Категория: </p6>${category}</p>
-                <p class="card-text">${vacancy.description}</p>
-                <p class="card-text"><p6>Зарплата: </p6>${vacancy.salary} сом</p>
-                <p class="card-text"><p6>Опыт работы от: </p6>${vacancy.expFrom} лет</p>
-                <p class="card-text"><p6>Вакансия создана: </p6>${vacancy.createdDate}</p>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#resumeModal">Откликнуться</button>
+                <h5 class="card-title">${vacancyDto.name}</h5>
+                <p class="card-text"><p6><@spring.message "jobSearch.info.category"/> </p6>${category}</p>
+                <p class="card-text">${vacancyDto.description}</p>
+                <p class="card-text"><p6><@spring.message "layout.nav.salary"/> </p6>${vacancyDto.salary}</p>
+                <p class="card-text"><p6><@spring.message "jobSearch.info.yearWork"/> </p6>${vacancyDto.expFrom} лет</p>
+                <p class="card-text"><p6><@spring.message "jobSearch.createdVacancy"/> </p6>${vacancyDto.createdDate}</p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#resumeModal"><@spring.message "jobSearch.apply"/></button>
             </div>
         </div>
     </div>
@@ -91,11 +88,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="resumeModalLabel">Выберите резюме</h5>
+                    <h5 class="modal-title" id="resumeModalLabel"><@spring.message "jobSearch.selectAResume"/></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="/applyForVacancy/${vacancy.id}" method="post">
+                    <form action="/applyForVacancy/${vacancyDto.id}" method="post">
                         <#list resumes as resume>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="resumeId" id="resume-${resume.id}" value="${resume.id}">
@@ -104,7 +101,7 @@
                                 </label>
                             </div>
                         </#list>
-                        <button type="submit" class="btn btn-primary">Отправить отклик</button>
+                        <button type="submit" class="btn btn-primary"><@spring.message "jobSearch.submit"/></button>
                     </form>
                 </div>
             </div>
