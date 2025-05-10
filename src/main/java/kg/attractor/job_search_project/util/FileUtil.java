@@ -1,6 +1,7 @@
 package kg.attractor.job_search_project.util;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
+@Slf4j
 @UtilityClass
 public class FileUtil {
 
@@ -53,6 +55,15 @@ public class FileUtil {
                     .body(resource);
         }catch (NoSuchFileException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Image Not Found");
+        }
+    }
+
+    public static void deleteFile(String fileName, String path){
+        try {
+            Path filePath = Paths.get(path + fileName);
+            Files.deleteIfExists(filePath);
+        }catch (Exception e){
+            log.error("Error deleting file {}",fileName,e);
         }
     }
 }
