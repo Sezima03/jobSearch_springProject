@@ -11,13 +11,12 @@
                     <form action="/images/upload" method="post" enctype="multipart/form-data">
 
                         <div class="upload-box mx-auto"
-                             style="background-image: url('<#if userImageDto??>/images/by-name/${userImageDto}</#if>');">
+                             style="background-image: url('<#if userImageDto??>/images/${userImageDto.fileName}</#if>');">
                             <label for="file">
                                 <span><@spring.message "image.down.click"/></span>
                             </label>
                             <input type="file" name="file" id="file" accept="image/*" required>
                         </div>
-
                         <input type="hidden" name="userId" value="${user.id}">
                         <button type="submit" class="btn btn-success mt-3" style="margin-left: 40px;  background: linear-gradient(135deg, #ff7b7b, #7b99ff); color: #0e0620 "><@spring.message "image.down"/></button>
                     </form>

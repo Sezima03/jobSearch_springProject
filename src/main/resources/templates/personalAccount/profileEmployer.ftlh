@@ -11,7 +11,7 @@
                 <form action="/images/uploadForEmployer" method="post" enctype="multipart/form-data">
 
                     <div class="upload-box mx-auto"
-                         style="background-image: url('/images/by-name/${userImageDto}')">
+                         style="background-image: url('<#if userImageDto??>/images/${userImageDto.fileName}</#if>');">
                         <label for="file">
                             <span><@spring.message "image.down.click"/></span>
                         </label>

@@ -36,13 +36,13 @@ public class UsersProfileController {
             return "redirect:/auth/login";
         }
         UserImage userImage = imageService.getImageDtoByUserId(user.getId());
-        String imageName = userImage!=null? userImage.getFileName():null;
+
         List<ResumeDto> resumeDtos =resumeService.getAllResumeByUserId(user.getId());
         int responded = responsesApplicantService.countRespondedApplicantByUserId(user.getId());
         model.addAttribute("user",user);
         model.addAttribute("resumes", resumeDtos);
         model.addAttribute("count", responded);
-        model.addAttribute("userImageDto", imageName);
+        model.addAttribute("userImageDto", userImage);
         return "personalAccount/profileApplicant";
     }
 
@@ -59,11 +59,10 @@ public class UsersProfileController {
         }
         UserImage userImage = imageService.getImageDtoByUserId(user.getId());
 
-        String imageName = userImage!=null? userImage.getFileName():null;
         List<VacancyDto> vacancies = vacancyService.getAllVacancyByUserId(user.getId());
         model.addAttribute("user", user);
         model.addAttribute("vacancies", vacancies);
-        model.addAttribute("userImageDto", imageName);
+        model.addAttribute("userImageDto", userImage);
         return "personalAccount/profileEmployer";
     }
 

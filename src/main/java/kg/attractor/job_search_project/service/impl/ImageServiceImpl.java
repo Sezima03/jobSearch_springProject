@@ -24,12 +24,22 @@ public class ImageServiceImpl implements ImageService {
         log.info("Uploading image for user ID: {}", userImageDto.getUserId());
 
         String fileName = FileUtil.saveUploadFile(userImageDto.getFile(), "images/");
-        UserImage userImage = new UserImage();
-        userImage.setUserId(userId);
-        userImage.setFileName(fileName);
 
-        imageRepository.save(userImage);
-        log.info("Image saved: {}", fileName);
+        UserImage existingUserImage = imageRepository.findByUserId(userId);
+        if (existingUserImage != null) {
+            FileUtil.deleteFile(existingUserImage.getFileName(), "images/");
+            existingUserImage.setFileName(fileName);
+            imageRepository.save(existingUserImage);
+            log.info("updated existing image for user Id {}", userId);
+        }
+        else {
+            UserImage userImage = new UserImage();
+            userImage.setUserId(userId);
+            userImage.setFileName(fileName);
+
+            imageRepository.save(userImage);
+            log.info("Image saved: {}", fileName);
+        }
 
         return fileName;
     }
@@ -50,7 +60,6 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public UserImage getImageDtoByUserId(Long userId) {
-        return imageRepository.getImageByUserId(userId);
+        return imageRepository.findByUserId(userId);
     }
 }
-
