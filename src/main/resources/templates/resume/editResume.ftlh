@@ -121,7 +121,7 @@
 
                 <div class="form-group">
                     <label for="name"><@spring.message "createResume.title"/></label>
-                    <@spring.formInput "resumeDto.name" 'id="name" class="form-control form-control-sm" placeholder="Введите название"' />
+                    <@spring.formInput "resumeDto.name" 'id="name" class="form-control form-control-sm"' />
                     <@spring.showErrors "resumeDto.name" "error text-danger" />
                 </div>
 
@@ -146,13 +146,13 @@
                     <legend><@spring.message "createResume.education"/></legend>
                     <div class="form-group">
                         <label for="institution"><@spring.message "createResume.institution"/></label>
-                        <@spring.formInput "educationfoDto.institution" 'id="institution" class="form-control form-control-sm" placeholder="Введите название"' />
+                        <@spring.formInput "educationfoDto.institution" 'id="institution" class="form-control form-control-sm"' />
                         <@spring.showErrors "educationfoDto.institution" "error text-danger" />
                     </div>
 
                     <div class="form-group">
                         <label for="program"><@spring.message "createResume.program"/></label>
-                        <@spring.formInput "educationfoDto.program" 'id="program" class="form-control form-control-sm" placeholder="Введите название"' />
+                        <@spring.formInput "educationfoDto.program" 'id="program" class="form-control form-control-sm"' />
                         <@spring.showErrors "educationfoDto.program" "error text-danger" />
                     </div>
                     <div class="form-group">
@@ -172,26 +172,26 @@
                     <legend>Опыт работы</legend>
                     <div class="for-group">
                         <label for="year"><@spring.message "createResume.year"/></label>
-                        <@spring.formInput "work.year" 'id="year" class="form-control form-control-sm" placeholder="Введите название"' />
+                        <@spring.formInput "work.year" 'id="year" class="form-control form-control-sm"' />
                         <@spring.showErrors "work.year" "error text-danger" />
                     </div>
 
                     <div class="form-group">
                         <label for="companyName"><@spring.message "createResume.titleCompany"/></label>
-                        <@spring.formInput "work.companyName" 'id="companyName" class="form-control form-control-sm" placeholder="Введите название"' />
+                        <@spring.formInput "work.companyName" 'id="companyName" class="form-control form-control-sm"' />
                         <@spring.showErrors "work.companyName" "error text-danger" />
                     </div>
 
                     <div class="form-group">
                         <label for="position"><@spring.message "createResume.position"/></label>
-                        <@spring.formInput "work.position" 'id="position" class="form-control form-control-sm" placeholder="Введите должность"' />
+                        <@spring.formInput "work.position" 'id="position" class="form-control form-control-sm"' />
                         <@spring.showErrors "work.position" "error text-danger" />
                     </div>
 
                     <div class="form-group">
                         <label for="responsibilities"><@spring.message "createResume.responsibilites"/></label>
                         <textarea id="responsibilities" name="responsibilities" class="form-control form-control-sm"
-                                  placeholder="Опишите, чем вы занимались"></textarea>
+                                  placeholder="<@spring.message 'responsibilites.placeholder' />"></textarea>
                     </div>
                 </fieldset>
 
