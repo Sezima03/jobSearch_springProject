@@ -1,6 +1,7 @@
 package kg.attractor.job_search_project.service;
 
 import kg.attractor.job_search_project.dto.RespondedApplicantDto;
+import kg.attractor.job_search_project.model.RespondedApplicant;
 
 import java.util.List;
 

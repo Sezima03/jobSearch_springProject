@@ -8,7 +8,6 @@
             <@spring.message "profileApplicant.resumes"/>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="/responses">Отклики</a></li>
             <li><a class="dropdown-item" href="/resume/resumes"><@spring.message "resume.all"/></a></li>
             <li><a class="dropdown-item" href="/users/profileEmp"><@spring.message "jobSearchExit"/></a></li>
         </ul>

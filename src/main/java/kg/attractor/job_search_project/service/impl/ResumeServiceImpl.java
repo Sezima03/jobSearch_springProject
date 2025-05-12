@@ -1,5 +1,4 @@
 package kg.attractor.job_search_project.service.impl;
-import kg.attractor.job_search_project.dao.ResumeDao;
 import kg.attractor.job_search_project.dto.EducationInfoDto;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
@@ -69,8 +68,11 @@ public class ResumeServiceImpl implements ResumeService {
         resumeRepository.save(resume);
         log.info("Resume with id {} updated successfully",  resumeId);
 
-            educationInfoService.updateEducationInfo(resume, (EducationInfoDto) updateResume.getEducationInfo());
-
+        List<EducationInfoDto> edu = updateResume.getEducationInfo();
+        if (updateResume.getEducationInfo() != null && !updateResume.getEducationInfo().isEmpty()) {
+            EducationInfoDto educationInfoDto = edu.get(0);
+            educationInfoService.updateEducationInfo(resume, educationInfoDto);
+        }
 
             workExperienceInfoService.updateWorkExperienceInfo(resume, (WorkExperienceInfoDto) updateResume.getWorkExperienceInfo());
 

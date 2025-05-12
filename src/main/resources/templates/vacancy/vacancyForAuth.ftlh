@@ -10,6 +10,8 @@
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li><a class="dropdown-item" href="/sortDesc"><@spring.message "layout.nav.sortDesc"/></a></li>
             <li><a class="dropdown-item" href="/sortAsc"><@spring.message "layout.nav.sortAsc"/></a></li>
+            <li><a class="dropdown-item" href="/responseToVacancy"><@spring.message "responses"/></a></li>
+
         </ul>
     </div>
 

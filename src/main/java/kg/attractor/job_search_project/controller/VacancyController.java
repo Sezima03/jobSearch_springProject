@@ -4,9 +4,7 @@ import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.RespondedApplicantDto;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
-import kg.attractor.job_search_project.model.Category;
-import kg.attractor.job_search_project.model.User;
-import kg.attractor.job_search_project.model.Vacancy;
+import kg.attractor.job_search_project.model.*;
 import kg.attractor.job_search_project.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -17,7 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping
@@ -91,17 +90,18 @@ public class VacancyController {
 
     @PostMapping("created")
     public String createdVacancy(@ModelAttribute("vacancy") @Valid VacancyDto vacancyDto,
-                                 BindingResult bindingResult,
-                                 Model model) {
+                                 BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "vacancy/created";
         }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userService.findUserByUsername(username);
+
         vacancyDto.setAuthorId(user.getId());
-        model.addAttribute("vacancy", vacancyDto);
         vacancyService.createdVacancy(vacancyDto);
+
         return "redirect:/users/profileEmp";
     }
 
@@ -117,9 +117,7 @@ public class VacancyController {
     @PostMapping("edit/{vacancyId}")
     public String updateVacancy(@PathVariable Long vacancyId,
                                 @ModelAttribute("vacancy") @Valid VacancyDto vacancyDto,
-                                BindingResult bindingResult,
-                                Model model) {
-        model.addAttribute("vacancy", vacancyService.getFindVacancyById(vacancyId));
+                                BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "vacancy/edit";
         }
@@ -147,14 +145,16 @@ public class VacancyController {
         return "redirect:/info/" + id;
     }
 
-    @GetMapping("/responses")
-    public String responsesToVacancy(Model model, Authentication authentication) {
+    @GetMapping("responseToVacancy")
+    public String responseToVacancy(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        User user = userService.getFindUserByName(username);
+        User user = userService.findUserByUsername(username);
 
-        List<RespondedApplicantDto> respondedApplicantDto = vacancyService.getFindAllResponseApplicantsByUserId(user.getId());
-        model.addAttribute("respondedApplicant", respondedApplicantDto);
-        return "vacancy/responsesToVacancy";
+        List<RespondedApplicantDto> respondedApplicantDto = responsesApplicantService.findAllRespondedApplicantByUserId(user.getId());
+
+        model.addAttribute("responses", respondedApplicantDto);
+        return "vacancy/response";
     }
 
 }

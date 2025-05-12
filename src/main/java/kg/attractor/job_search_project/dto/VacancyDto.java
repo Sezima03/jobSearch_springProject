@@ -19,10 +19,10 @@ public class VacancyDto {
     @NotBlank(message = "{vacancy.dto.name}")
     private String name;
 
-    @NotBlank(message = "{vacancy.dto}")
+    @NotBlank(message = "{vacancy.dto.description}")
     private String description;
 
-    @NotNull(message = "{vacancy.dto}")
+    @NotNull(message = "{vacancy.dto.categoryId}")
     private Long categoryId;
 
     @NotNull(message = "{vacancy.dto.salary}")
