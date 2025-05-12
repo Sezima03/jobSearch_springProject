@@ -13,6 +13,7 @@ import kg.attractor.job_search_project.service.ResumeService;
 import kg.attractor.job_search_project.service.UserService;
 import kg.attractor.job_search_project.service.WorkExperienceInfoService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import java.util.List;
 @Controller
 @RequestMapping("resume")
 @RequiredArgsConstructor
+@Slf4j
 public class ResumeController {
 
     private final UserService userService;
@@ -101,10 +103,11 @@ public class ResumeController {
     @PostMapping("editResume/{resumeId}")
     public String editResume(@PathVariable Long resumeId,
                              @ModelAttribute("resumeDto") @Valid ResumeDto resumeDto,
-                             @ModelAttribute("educationfoDto") EducationInfoDto educationInfoDto,
-                             @ModelAttribute("work") WorkExperienceInfoDto workExperienceInfoDto,
                              BindingResult resumeBindingResult,
-                             Model model){
+                             Model model,
+                             @ModelAttribute("educationfoDto") EducationInfoDto educationInfoDto,
+                             @ModelAttribute("work") WorkExperienceInfoDto workExperienceInfoDto
+                             ){
         model.addAttribute("resumes", resumeService.getFindResumeById(resumeId));
 
         if (resumeBindingResult.hasErrors()){
@@ -117,6 +120,7 @@ public class ResumeController {
         resumeDto.setWorkExperienceInfo(List.of(workExperienceInfoDto));
 
         resumeService.getUpdateResume(resumeId, resumeDto);
+        log.info("Updated Resume with id {}",resumeId);
         return "redirect:/users/profileApplicant";
     }
 
