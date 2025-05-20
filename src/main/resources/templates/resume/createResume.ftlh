@@ -255,6 +255,7 @@
         addExperience();
         function removeField(button){
             const wrapper = button.closest('div');
+
             const nextInput = wrapper.nextElementSibling;
             if (nextInput) {
                 nextInput.remove();
