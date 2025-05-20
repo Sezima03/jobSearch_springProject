@@ -52,24 +52,26 @@ public class ResumeController {
         return "resume/info";
     }
 
+
     @GetMapping("create")
-    public String createdResume(Model model, ResumeDto resumeDto, EducationInfoDto educationInfoDto, WorkExperienceInfoDto workExperienceInfoDto){
+    public String createdResume(Model model, ResumeDto resumeDto,
+                                EducationInfoDto educationInfoDto,
+                                WorkExperienceInfoDto workExperienceInfoDto){
+        model.addAttribute("eduIndex", 0);
+        model.addAttribute("expIndex", 0);
         model.addAttribute("resumeDto", resumeDto);
-        model.addAttribute("educationfoDto", educationInfoDto);
-        model.addAttribute("work", workExperienceInfoDto);
+        model.addAttribute("educationInfoDto", educationInfoDto);
+        model.addAttribute("workExperienceInfoDto", workExperienceInfoDto);
         return "resume/createResume";
     }
 
     @PostMapping("create")
     public String createdResume(@ModelAttribute("resumeDto") @Valid ResumeDto resumeDto,
-                                BindingResult bindingResultResume,
-                                @ModelAttribute("educationfoDto") EducationInfoDto educationInfoDto,
-                                @ModelAttribute("work") WorkExperienceInfoDto workExperienceInfoDto,
-                                Model model) {
+                                BindingResult bindingResultResume, Model model) {
 
         if (bindingResultResume.hasErrors()) {
-            model.addAttribute("educationfoDto", educationInfoDto);
-            model.addAttribute("work", workExperienceInfoDto);
+            model.addAttribute("eduIndex", resumeDto.getEducationInfo() != null ? resumeDto.getEducationInfo().size() : 0);
+            model.addAttribute("expIndex", resumeDto.getWorkExperienceInfo() != null ? resumeDto.getWorkExperienceInfo().size() : 0);
             return "resume/createResume";
         }
 
@@ -78,8 +80,6 @@ public class ResumeController {
         User user = userService.findUserByUsername(username);
 
         resumeDto.setApplicantId(user.getId());
-        resumeDto.setEducationInfo(List.of(educationInfoDto));
-        resumeDto.setWorkExperienceInfo(List.of(workExperienceInfoDto));
 
         resumeService.getCreateResume(resumeDto);
 
@@ -93,6 +93,8 @@ public class ResumeController {
                              ResumeDto resumeDto,
                              EducationInfoDto educationInfoDto,
                              WorkExperienceInfoDto workExperienceInfoDto){
+        model.addAttribute("eduIndex", 0);
+        model.addAttribute("expIndex", 0);
         model.addAttribute("resumes", resumeService.getFindResumeById(resumeId));
         model.addAttribute("resumeDto", resumeDto);
         model.addAttribute("educationfoDto", educationInfoDto);
@@ -104,20 +106,20 @@ public class ResumeController {
     public String editResume(@PathVariable Long resumeId,
                              @ModelAttribute("resumeDto") @Valid ResumeDto resumeDto,
                              BindingResult resumeBindingResult,
-                             Model model,
-                             @ModelAttribute("educationfoDto") EducationInfoDto educationInfoDto,
-                             @ModelAttribute("work") WorkExperienceInfoDto workExperienceInfoDto
-                             ){
+                             Model model
+    ){
         model.addAttribute("resumes", resumeService.getFindResumeById(resumeId));
 
         if (resumeBindingResult.hasErrors()){
-            model.addAttribute("educationfoDto", educationInfoDto);
-            model.addAttribute("work", workExperienceInfoDto);
+            model.addAttribute("eduIndex", resumeDto.getEducationInfo() != null ? resumeDto.getEducationInfo().size() : 0);
+            model.addAttribute("expIndex", resumeDto.getWorkExperienceInfo() != null ? resumeDto.getWorkExperienceInfo().size() : 0);
             return "resume/editResume";
         }
 
-        resumeDto.setEducationInfo(List.of(educationInfoDto));
-        resumeDto.setWorkExperienceInfo(List.of(workExperienceInfoDto));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        User user = userService.findUserByUsername(username);
+        resumeDto.setApplicantId(user.getId());
 
         resumeService.getUpdateResume(resumeId, resumeDto);
         log.info("Updated Resume with id {}",resumeId);

@@ -68,6 +68,12 @@ public class UsersProfileController {
 
     @GetMapping("updateProfile/{id}")
     public String updateResume(@PathVariable Long id, Model model){
+        Authentication  auth = SecurityContextHolder.getContext().getAuthentication();
+        String authName = auth.getName();
+        User user = userService.findUserByUsername(authName);
+        if (user == null) {
+            return "redirect:/auth/login";
+        }
         User userDto = userService.getById(id);
         model.addAttribute("user", userDto);
         return "personalAccount/updateProfileApplicant";

@@ -2,6 +2,7 @@ package kg.attractor.job_search_project.controller;
 
 import jakarta.validation.Valid;
 import kg.attractor.job_search_project.dto.UserDto;
+import kg.attractor.job_search_project.repository.UserRepository;
 import kg.attractor.job_search_project.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class RegisterController {
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @GetMapping("select")
     public String selectRole(){
@@ -34,7 +36,12 @@ public class RegisterController {
     @PostMapping("employer")
     public String registerFormForEmployer(@ModelAttribute("userDto")
                                               @Valid UserDto userDto,
-                                          BindingResult bindingResult){
+                                          BindingResult bindingResult,
+                                          Model model){
+        if (userRepository.existsByEmail(userDto.getEmail())) {
+            model.addAttribute("error", "! Email Already Exists" );
+            return "registrations/employer";
+        }
         if (userDto.getAuthorityId() == null) {
             userDto.setAuthorityId(2L);
         }
@@ -56,7 +63,13 @@ public class RegisterController {
     @PostMapping("applicant")
     public String usersRegisterFormForApplicant(@ModelAttribute("userDto")
                                                 @Valid UserDto userDto,
-                                                BindingResult bindingResult) {
+                                                BindingResult bindingResult,
+                                                Model model) {
+
+        if (userRepository.existsByEmail(userDto.getEmail())) {
+            model.addAttribute("error", "! Email Already Exists" );
+            return "registrations/applicant";
+        }
 
         if (userDto.getAuthorityId() == null) {
             userDto.setAuthorityId(1L);
