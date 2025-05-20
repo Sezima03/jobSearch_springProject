@@ -48,11 +48,6 @@ public class UserServiceImpl implements UserService {
     public String registerUser(UserDto userDto){
         log.info("Starting registration for User with Email : {}", userDto.getEmail());
 
-        if (userRepository.existsByEmail(userDto.getEmail())){
-            log.warn("Email Already Exists: {}", userDto.getEmail());
-            return "Email уже существует";
-        }
-
         userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         User user = convertToUser(userDto);
 

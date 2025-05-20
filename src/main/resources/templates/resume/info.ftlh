@@ -77,8 +77,19 @@
                 <p class="card-text"><span class="label-text"><@spring.message "layout.nav.salary"/> </span><span class="resume-text">${resume.salary} сом</span></p>
                 <h5 class="card-title"><@spring.message "jobSearch.info.edu"/></h5>
                 <#list eduInfos as eduInfo>
-                    <p class="card-text"><span class="label-text"><@spring.message "jobSearch.info.ins"/> </span><span class="resume-text">${eduInfo.institution}</span></p>
-                    <p class="card-text"><span class="label-text"><@spring.message "jobSearch.info.program"/> </span><span class="resume-text">${eduInfo.program}</span></p>
+                    <p class="card-text"><span class="label-text"><@spring.message "jobSearch.info.ins"/> </span>
+                        <#if eduInfo.institution??>
+                            <span class="resume-text">${eduInfo.institution}</span></p>
+                            <#else>
+                            <span class="text-muted"><@spring.message"jobSearch.info.notAvailable"/></span>
+                        </#if>
+
+                    <#if eduInfo.program??>
+                     <p class="card-text"><span class="label-text"><@spring.message "jobSearch.info.program"/> </span><span class="resume-text">${eduInfo.program}</span></p>
+                        <#else>
+                            <span class="text-muted"><@spring.message"jobSearch.info.notAvailable"/></span>
+                    </#if>
+
                     <p class="card-text">
                         <span class="label-text"><@spring.message "jobSearch.info.startDate"/> </span>
                         <span class="resume-text">
@@ -97,22 +108,30 @@
         <#else>
             <span class="text-muted"><@spring.message "jobSearch.info.notAvailable"/></span>
         </#if>
-    </span>
-                    </p>
-                </#list>
+    </span></p></#list>
                 <h5 class="card-title"><@spring.message "jobSearch.info.wei"/></h5>
+
                 <#list weis as wei>
-                    <#if wei?? && wei.year??>
+                    <#if wei.year??>
                         ${wei.year}
                     <#else>
-                        <@spring.message "jobSearch.info.notAvailable"/>
-                    </#if>                    <p class="card-text"><span class="label-text"><@spring.message "jobSearch.info.companyTitle"/> </span><span class="resume-text">${wei.companyName}</span></p>
-                    <p class="card-text"><span class="label-text"><@spring.message "jobSearch.info.position"/> </span><span class="resume-text">${wei.position}</span></p>
+                    </#if>
+
+                    <#if wei.companyName??>
+                      <p class="card-text"><span class="label-text"><@spring.message "jobSearch.info.companyTitle"/> </span><span class="resume-text">${wei.companyName}</span></p>
+                      <#else>
+                       <@spring.message "jobSearch.info.notAvailable"/>
+                    </#if>
+
+                    <#if wei.position??>
+                     <p class="card-text"><span class="label-text"><@spring.message "jobSearch.info.position"/> </span><span class="resume-text">${wei.position}</span></p>
+                    <#else>
+                    </#if>
                     <#if wei?? && wei.responsibilities??>
                         ${wei.responsibilities}
                     <#else>
-                        <@spring.message "jobSearch.info.notAvailable"/>
-                    </#if>                </#list>
+                    </#if>
+                </#list>
 
                 <p class="card-text"><span class="label-text"><@spring.message "jobSearch.info.createVacancy"/> </span><span class="resume-text">${resume.createdDate}</span></p>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#resumeModal"><@spring.message "jobSearch.info.confirm"/></button>

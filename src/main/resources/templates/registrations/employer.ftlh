@@ -71,12 +71,19 @@
     <body>
     <div class="bg-image">
         <div class="overlay">
+
             <form class="registration-form" action="/register/employer" method="post">
                 <#if _csrf??>-->
                     <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
                     value="${(_csrf.token)!'csrf-token'}"/>
                 </#if>
                 <h2><@spring.message "registration.registration"/></h2>
+                <#if error??>
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>${error}</div>
+                    </div>
+                </#if>
                 <div class="mb-3">
                     <label for="companyName" class="form-label"><@spring.message "registration.nameCompany"/></label>
                     <@spring.formInput "userDto.companyName" 'id="companyName" class="form-control"' />

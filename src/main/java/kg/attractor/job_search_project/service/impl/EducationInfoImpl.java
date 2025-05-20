@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,18 +41,25 @@ public class EducationInfoImpl implements EducationInfoService {
     }
 
     @Override
-    public void updateEducationInfo(Resume resume, EducationInfoDto eduDto) {
-        EducationInfo educationInfo = educationInfoRepository.findById(eduDto.getId())
-                .orElseThrow(() -> new JobSearchException("Education not found"));
+    public void updateEducationInfo(Resume resume, List<EducationInfoDto> eduList) {
 
-        educationInfo.setResume(resume);
-        educationInfo.setInstitution(eduDto.getInstitution());
-        educationInfo.setProgram(eduDto.getProgram());
-        educationInfo.setStartDate(eduDto.getStartDate());
-        educationInfo.setEndDate(eduDto.getEndDate());
-        educationInfo.setDegree(eduDto.getDegree());
+        List<EducationInfo> educationInfoDto = educationInfoRepository.findEducationInfoByResumeId(resume.getId());
+        educationInfoRepository.deleteAll(educationInfoDto);
 
-        educationInfoRepository.save(educationInfo);
-        log.info("Education info for resume Id {} updated successfully", resume.getId());
-    }
+        List<EducationInfo> entities = eduList.stream()
+                .map(dto -> {
+                    EducationInfo edu = new EducationInfo();
+                    edu.setResume(resume);
+                    edu.setInstitution(dto.getInstitution());
+                    edu.setProgram(dto.getProgram());
+                    edu.setStartDate(dto.getStartDate());
+                    edu.setEndDate(dto.getEndDate());
+                    edu.setDegree(dto.getDegree());
+                    return edu;
+                })
+                .collect(Collectors.toList());
+        educationInfoRepository.saveAll(entities);
+
+            log.info("Education info for resume Id {} updated", resume.getId());
+        }
 }

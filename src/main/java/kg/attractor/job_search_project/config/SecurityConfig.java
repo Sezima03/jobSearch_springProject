@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/resume/update/{id}",
                                 "/resume/create",
+                                "/users/updateProfile/",
                                 "/resume/editResume/{resumeId}",
                                 "/users/profileApplicant").hasAuthority("APPLICANT")
                         .requestMatchers(

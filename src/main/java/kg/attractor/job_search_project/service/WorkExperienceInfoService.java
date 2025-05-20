@@ -11,5 +11,5 @@ public interface WorkExperienceInfoService {
 
     void saveWorkExperienceInfo(Resume resume, List<WorkExperienceInfoDto> workExperienceInfoDtos);
 
-    void updateWorkExperienceInfo(Resume resume, WorkExperienceInfoDto wei);
+    void updateWorkExperienceInfo(Resume resume, List<WorkExperienceInfoDto> wei);
 }

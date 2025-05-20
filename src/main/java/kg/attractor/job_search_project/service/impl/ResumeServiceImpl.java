@@ -68,13 +68,15 @@ public class ResumeServiceImpl implements ResumeService {
         resumeRepository.save(resume);
         log.info("Resume with id {} updated successfully",  resumeId);
 
-        List<EducationInfoDto> edu = updateResume.getEducationInfo();
-        if (updateResume.getEducationInfo() != null && !updateResume.getEducationInfo().isEmpty()) {
-            EducationInfoDto educationInfoDto = edu.get(0);
-            educationInfoService.updateEducationInfo(resume, educationInfoDto);
+        if (updateResume.getEducationInfo() != null) {
+            educationInfoService.updateEducationInfo(resume, updateResume.getEducationInfo());
         }
 
-            workExperienceInfoService.updateWorkExperienceInfo(resume, (WorkExperienceInfoDto) updateResume.getWorkExperienceInfo());
+        if (updateResume.getWorkExperienceInfo() != null && !updateResume.getWorkExperienceInfo().isEmpty()) {
+                workExperienceInfoService.updateWorkExperienceInfo(resume, updateResume.getWorkExperienceInfo());
+
+        }
+
 
     }
 

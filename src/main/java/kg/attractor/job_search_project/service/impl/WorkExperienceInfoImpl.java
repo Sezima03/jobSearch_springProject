@@ -38,17 +38,25 @@ public class WorkExperienceInfoImpl implements WorkExperienceInfoService {
     }
 
     @Override
-    public void updateWorkExperienceInfo(Resume resume, WorkExperienceInfoDto wei) {
-        WorkExperienceInfo workExperienceInfo = workExperienceInfoRepository.findById(wei.getId())
-                .orElseThrow(() -> new JobSearchException("WorkExperience info not found"));
+    public void updateWorkExperienceInfo(Resume resume, List<WorkExperienceInfoDto> workList) {
+        List<WorkExperienceInfo> weiByResumeID = workExperienceInfoRepository.findWorkExperienceInfoByResumeId(resume.getId());
+        workExperienceInfoRepository.deleteAll(weiByResumeID);
 
-        workExperienceInfo.setResume(resume);
-        workExperienceInfo.setYear(wei.getYear());
-        workExperienceInfo.setCompanyName(wei.getCompanyName());
-        workExperienceInfo.setPosition(wei.getPosition());
-        workExperienceInfo.setResponsibilities(wei.getResponsibility());
 
-        workExperienceInfoRepository.save(workExperienceInfo);
-        log.info("WorkExperience info for resume Id {} updated successfully", resume.getId());
-    }
+        List<WorkExperienceInfo> weiDto = workList.stream()
+                .map(dto->{
+                    WorkExperienceInfo workExperienceInfo = new WorkExperienceInfo();
+                    workExperienceInfo.setResume(resume);
+                    workExperienceInfo.setYear(dto.getYear());
+                    workExperienceInfo.setCompanyName(dto.getCompanyName());
+                    workExperienceInfo.setCompanyName(dto.getCompanyName());
+                    workExperienceInfo.setPosition(dto.getPosition());
+                    workExperienceInfo.setResponsibilities(dto.getResponsibility());
+                    return workExperienceInfo;
+                })
+                .toList();
+
+            workExperienceInfoRepository.saveAll(weiDto);
+            log.info("Work experience for resume Id {} updated", resume.getId());
+        }
 }
