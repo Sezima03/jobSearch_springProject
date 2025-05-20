@@ -11,5 +11,5 @@ public interface EducationInfoService {
 
     void saveEducationInfo(Resume resume, List<EducationInfoDto> educationInfoDtos);
 
-    void updateEducationInfo(Resume resume, EducationInfoDto eduDto);
+    void updateEducationInfo(Resume resume, List<EducationInfoDto> eduDto);
 }

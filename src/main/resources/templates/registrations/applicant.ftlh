@@ -67,6 +67,12 @@
                     value="${(_csrf.token)!'csrf-token'}"/>-->
                 </#if>
                 <h2><@spring.message "registration.register"/></h2>
+                <#if error??>
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>${error}</div>
+                    </div>
+                </#if>
                 <div class="mb-3">
                     <label for="name" class="form-label"><@spring.message "registration.name"/></label>
                     <@spring.formInput "userDto.name" 'id="name" class="form-control"' />
