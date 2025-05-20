@@ -142,58 +142,17 @@
                     <@spring.showErrors "resumeDto.salary" "error text-danger" />
                 </div>
 
-                <fieldset>
-                    <legend><@spring.message "createResume.education"/></legend>
-                    <div class="form-group">
-                        <label for="institution"><@spring.message "createResume.institution"/></label>
-                        <@spring.formInput "educationfoDto.institution" 'id="institution" class="form-control form-control-sm"' />
-                        <@spring.showErrors "educationfoDto.institution" "error text-danger" />
-                    </div>
+                <div>
+                    <h4>Образование</h4>
+                    <div id="educationContainer"></div>
+                    <button type="button" class="btn-yellow" onclick="addEducation()">Добавить образование</button>
+                </div>
 
-                    <div class="form-group">
-                        <label for="program"><@spring.message "createResume.program"/></label>
-                        <@spring.formInput "educationfoDto.program" 'id="program" class="form-control form-control-sm"' />
-                        <@spring.showErrors "educationfoDto.program" "error text-danger" />
-                    </div>
-                    <div class="form-group">
-                        <label for="startDate"><@spring.message "createResume.startdate"/></label>
-                        <@spring.formInput "educationfoDto.startDate" 'id="startDate" type="date" class="form-control form-control-sm"' />
-                        <@spring.showErrors "educationfoDto.startDate" "error text-danger" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="endDate"><@spring.message "createResume.enddate"/></label>
-                        <@spring.formInput "educationfoDto.endDate" 'id="endDate" type="date" class="form-control form-control-sm"' />
-                        <@spring.showErrors "educationfoDto.endDate" "error text-danger" />
-                    </div>
-                </fieldset>
-
-                <fieldset>
-                    <legend>Опыт работы</legend>
-                    <div class="for-group">
-                        <label for="year"><@spring.message "createResume.year"/></label>
-                        <@spring.formInput "work.year" 'id="year" class="form-control form-control-sm"' />
-                        <@spring.showErrors "work.year" "error text-danger" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="companyName"><@spring.message "createResume.titleCompany"/></label>
-                        <@spring.formInput "work.companyName" 'id="companyName" class="form-control form-control-sm"' />
-                        <@spring.showErrors "work.companyName" "error text-danger" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="position"><@spring.message "createResume.position"/></label>
-                        <@spring.formInput "work.position" 'id="position" class="form-control form-control-sm"' />
-                        <@spring.showErrors "work.position" "error text-danger" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="responsibilities"><@spring.message "createResume.responsibilites"/></label>
-                        <textarea id="responsibilities" name="responsibilities" class="form-control form-control-sm"
-                                  placeholder="<@spring.message 'responsibilites.placeholder' />"></textarea>
-                    </div>
-                </fieldset>
+                <div>
+                    <h4>Опыт работы</h4>
+                    <div id="experienceContainer"></div>
+                    <button type="button" class="btn-yellow" onclick="addExperience()">Добавить опыт</button>
+                </div>
 
                 <label><input type="checkbox" name="active" checked><@spring.message "createResume.published"/></label>
 
@@ -204,4 +163,96 @@
             </form>
         </div>
     </div>
+
+    <script>
+
+        let eduIndex = 0;
+        let expIndex = 0;
+
+        function addEducation() {
+            const container = document.getElementById('educationContainer');
+            const div = document.createElement('fieldset');
+            div.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                <label style="flex: 1;">Учебное заведение</label>
+                <button type="button" onclick="removeField(this)" style="margin-left: 5px; background: none; border: none; cursor: pointer;">
+                <img src="https://img.icons8.com/m_rounded/512/FFFFFF/trash.png" alt="Удалить" width="20" height="20" />
+                </button>
+                </div>
+                <input type="text" name="educationInfo[${eduIndex}].institution" class="form-control form-control-sm" />
+
+                <div style="display: flex; align-items: center; margin-top: 10px;">
+                <label style="flex: 1;">Программа</label>
+                <button type="button" onclick="removeField(this)" style="margin-left: 5px; background: none; border: none; cursor: pointer;">
+                <img src="https://img.icons8.com/m_rounded/512/FFFFFF/trash.png" alt="Удалить" width="20" height="20" />
+                </button>
+                </div>
+                <input type="text" name="educationInfo[${eduIndex}].program" class="form-control form-control-sm" />
+
+
+                <div style="display: flex; align-items: center; margin-top: 10px;">
+                <label style="flex: 1;">Дата начала</label>
+                <button type="button" onclick="removeField(this)" style="margin-left: 5px; background: none; border: none; cursor: pointer;">
+                <img src="https://img.icons8.com/m_rounded/512/FFFFFF/trash.png" alt="Удалить" width="20" height="20" />
+                </button>
+                </div>
+                <input type="date" name="educationInfo[${eduIndex}].startDate" class="form-control form-control-sm" />
+
+
+                <div style="display: flex; align-items: center; margin-top: 10px;">
+                <label style="flex: 1;">Дата окончания</label>
+                <button type="button" onclick="removeField(this)" style="margin-left: 5px; background: none; border: none; cursor: pointer;">
+                <img src="https://img.icons8.com/m_rounded/512/FFFFFF/trash.png" alt="Удалить" width="20" height="20" />
+                </button>
+                </div>
+                <input type="date" name="educationInfo[${eduIndex}].endDate" class="form-control form-control-sm" />
+            `;
+            container.appendChild(div);
+            eduIndex++;
+        }
+
+        function addExperience() {
+            const container = document.getElementById('experienceContainer');
+            const div = document.createElement('fieldset');
+            div.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                <label style="flex: 1;">Год</label>
+                <button type="button" onclick="removeField(this)" style="margin-left: 5px; background: none; border: none; cursor: pointer;">
+                <img src="https://img.icons8.com/m_rounded/512/FFFFFF/trash.png" alt="Удалить" width="20" height="20" />
+                </button>
+                </div>
+                <input type="text" name="workExperienceInfo[${expIndex}].year" class="form-control form-control-sm" />
+
+                <div style="display: flex; align-items: center; margin-top: 10px;">
+                <label style="flex: 1;">Компания</label>
+                <button type="button" onclick="removeField(this)" style="margin-left: 5px; background: none; border: none; cursor: pointer;">
+                <img src="https://img.icons8.com/m_rounded/512/FFFFFF/trash.png" alt="Удалить" width="20" height="20" />
+                </button>
+                </div>
+                <input type="text" name="workExperienceInfo[${expIndex}].companyName" class="form-control form-control-sm" />
+
+                <div style="display: flex; align-items: center; margin-top: 10px;">
+                <label style="flex: 1;">Должность</label>
+                <button type="button" onclick="removeField(this)" style="margin-left: 5px; background: none; border: none; cursor: pointer;">
+                <img src="https://img.icons8.com/m_rounded/512/FFFFFF/trash.png" alt="Удалить" width="20" height="20" />
+                </button>
+                </div>
+                <input type="text" name="workExperienceInfo[${expIndex}].position" class="form-control form-control-sm" />
+
+                <div style="display: flex; align-items: center; margin-top: 10px;">
+                <label style="flex: 1;">Обязанности</label>
+                <button type="button" onclick="removeField(this)" style="margin-left: 5px; background: none; border: none; cursor: pointer;">
+                <img src="https://img.icons8.com/m_rounded/512/FFFFFF/trash.png" alt="Удалить" width="20" height="20" />
+                </button>
+                </div>
+                <textarea name="workExperienceInfo[${expIndex}].responsibilities" class="form-control form-control-sm"></textarea>
+            `;
+            container.appendChild(div);
+            expIndex++;
+        }
+
+        addEducation();
+        addExperience();
+
+    </script>
 </@main.layout>
