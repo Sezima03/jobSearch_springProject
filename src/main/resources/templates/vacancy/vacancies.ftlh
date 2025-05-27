@@ -26,6 +26,7 @@
             </div>
         </div>
     </form>
+
     <div id="vacancyList" class="mt-4">
         <#list vacancies as vacancy>
             <div class="custom-alert job-item"
