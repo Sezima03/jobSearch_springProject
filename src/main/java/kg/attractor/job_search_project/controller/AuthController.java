@@ -1,6 +1,6 @@
 package kg.attractor.job_search_project.controller;
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.exceptions.UserNotFoundException;
 import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.service.UserService;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.io.UnsupportedEncodingException;
 
 @Controller
 @RequestMapping("auth")
@@ -35,15 +33,31 @@ public class AuthController {
     @PostMapping("forgot_password")
     public String processForgotPassword(HttpServletRequest request, Model model) {
         try {
-            userService.makeResetPasswdLnk(request);
-            model.addAttribute("message", "Password reset link has been sent");
-        }catch (UserNotFoundException | UnsupportedEncodingException e){
+            String token = userService.makeResetPasswdLnk(request);
+            model.addAttribute("message", "Скопируйте токен и введите его ниже:");
+            model.addAttribute("token", token);
+        } catch (UserNotFoundException | JobSearchException e) {
             model.addAttribute("error", e.getMessage());
-        } catch (MessagingException e) {
-            model.addAttribute("error", "error while sending email");
         }
         return "passTemp/forgot_password_form";
     }
+
+    @GetMapping("enter_token")
+    public String showEnterTokenForm() {
+        return "passTemp/enter_token_form";
+    }
+    @PostMapping("enter_token")
+    public String processEnterToken(@RequestParam String token, Model model) {
+        try {
+            userService.getByResetPasswordToken(token);
+            model.addAttribute("token", token);
+            return "passTemp/reset_password_form";
+        } catch (UserNotFoundException e) {
+            model.addAttribute("error", "Неверный токен");
+            return "passTemp/enter_token_form";
+        }
+    }
+
 
     @GetMapping("/reset_password")
     public String showResetPasswordForm(@RequestParam String token, Model model) {
