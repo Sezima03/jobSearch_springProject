@@ -38,7 +38,7 @@
 
         <h5 class="text-start text-white"><@spring.message "profileApplicant.resumes"/></h5>
         <div class="d-flex justify-content-around flex-wrap gap-3 mt-3" >
-            <#list resumes as resume>
+            <#list resumes.content as resume>
                 <div class="resume-card p-3 text-white">
                     <p class="fw-bold mb-2">${resume.name}</p>
                     <p class="text-white mb-3"><@spring.message "profileApplicant.dateupdate"/><br><span>${resume.updateTime}</span></p>
@@ -52,6 +52,18 @@
             </#list>
         </div>
 
+    </div>
+
+    <div class="mt-5 text-center">
+        <#if currentPage??>
+            <a href="?page=${currentPage - 1}" class="btn btn-outline-warning">Предыдущая</a>
+        </#if>
+
+        <span class="mx-3">Страница ${currentPage + 1} из ${totalPages}</span>
+
+        <#if currentPage + 1 < totalPages>
+            <a href="?page=${currentPage + 1}" class="btn btn-outline-warning">Следующая</a>
+        </#if>
     </div>
 </@main.layout>
 

@@ -43,7 +43,7 @@
 
         <h5 class="text-start"><@spring.message "profile.employer.AllVacancy"/></h5>
         <div class="d-flex justify-content-around flex-wrap gap-3 mt-3" style="margin-top: 25px !important;">
-            <#list vacancies as vacancy>
+            <#list vacancies.content as vacancy>
                 <div class="vacancy-card p-3">
                     <p class="fw-bold mb-2" style="color: #ffd700;">${vacancy.name}</p>
                     <p class="mb-3" style="color: white"><@spring.message "profileApplicant.dateupdate"/><br><span>${vacancy.updateTime}</span></p>
@@ -67,6 +67,18 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="mt-5 text-center">
+        <#if currentPage??>
+            <a href="?page=${currentPage - 1}" class="btn btn-outline-warning">Предыдущая</a>
+        </#if>
+
+        <span class="mx-3">Страница ${currentPage + 1} из ${totalPages}</span>
+
+        <#if currentPage + 1 < totalPages>
+            <a href="?page=${currentPage + 1}" class="btn btn-outline-warning">Следующая</a>
+        </#if>
     </div>
 </@main.layout>
 
