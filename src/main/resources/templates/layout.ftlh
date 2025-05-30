@@ -108,6 +108,9 @@
                         <a class="nav-link active" aria-current="page" href="/register/select"><@spring.message "registration.registration"/></a>
                     </li>
                 </ul>
+                <a href="/auth/login" class="ms-2 btn btn-outline-warning">
+                    <i class="fas fa-sign-in-alt"></i> Войти
+                </a>
                 <a href="?lang=ru" class="ms-3 btn btn-dark text-light border-warning">
                     <@spring.message "layout.nav.lang_ru"/>
                 </a>

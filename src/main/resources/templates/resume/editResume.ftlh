@@ -133,7 +133,6 @@
                         <option value=3>python</option>
                         <option value=4>project manager</option>
                     </select>
-                    <@spring.showErrors "resumeDto.categoryId" "error text-danger" />
                 </div>
 
                 <div class="form-group">

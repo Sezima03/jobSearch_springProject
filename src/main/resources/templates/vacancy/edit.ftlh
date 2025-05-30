@@ -80,7 +80,7 @@
     <body>
     <div class="bg-image">
         <div class="overlay">
-            <form class="vacancy-form" action="/edit/${vacancy.id}" method="POST" modelAttribute="vacancy">
+            <form class="vacancy-form" action="/edit/${(vacancy.id)!0}" method="POST">
                 <#if _csrf??>
                     <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
                            value="${(_csrf.token)!'csrf-token'}"/>
@@ -88,18 +88,18 @@
                 <h2><@spring.message "jobSearch.updateVacancy"/></h2>
                 <div class="mb-3">
                     <label for="name" class="form-label"><@spring.message "jobSearch.vacancy.title"/></label>
-                    <@spring.formInput "vacancy.name" 'id="name" class="form-control" required' />
+                    <@spring.formInput "vacancy.name" 'id="name" class="form-control"' />
                     <@spring.showErrors "vacancy.name" "error text-danger" />
                 </div>
 
                 <div class="mb-3">
                     <label for="description" class="form-label"><@spring.message "jobSearch.vacancy.description"/></label>
-                    <@spring.formTextarea "vacancy.description" 'id="description" class="form-control" required' />
+                    <@spring.formTextarea "vacancy.description" 'id="description" class="form-control"' />
                     <@spring.showErrors "vacancy.description" "error text-danger" />
                 </div>
 
                 <div class="mb-3">
-                    <select name="categoryId" id="categoryId" class="form-control">
+                    <select name="vacancy.categoryId" id="categoryId" class="form-control">
                         <option value=""><@spring.message "vacancy.created.category"/></option>
                         <option value=1>js</option>
                         <option value=2>java</option>
@@ -117,14 +117,12 @@
 
                 <div class="mb-3">
                     <label for="expFrom" class="form-label"><@spring.message "vacancy.expFrom"/></label>
-                    <@spring.formInput "vacancy.expFrom" 'id="expFrom" class="form-control" type="number" min="0" required' />
-                    <@spring.showErrors "vacancy.expFrom" "error text-danger" />
+                    <@spring.formInput "vacancy.expFrom" 'id="expFrom" class="form-control" type="number" min="0"' />
                 </div>
 
                 <div class="mb-3">
                     <label for="expTo" class="form-label"><@spring.message "vacancy.expTo"/></label>
-                    <@spring.formInput "vacancy.expTo" 'id="expTo" class="form-control" type="number" min="0" required' />
-                    <@spring.showErrors "vacancy.expTo" "error text-danger" />
+                    <@spring.formInput "vacancy.expTo" 'id="expTo" class="form-control" type="number" min="0"' />
                 </div>
 
                 <label>

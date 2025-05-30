@@ -1,4 +1,5 @@
 <#import "../layout.ftlh" as main>
+<#import "/spring.ftl" as spring/>
 <@main.layout>
     <style>
         .card {
@@ -7,6 +8,7 @@
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
             background-color: #1a1a1a;
         }
+
         .card-body {
             padding: 2rem;
             color: white;
@@ -47,32 +49,12 @@
         .alert {
             border-radius: 10px;
             margin-bottom: 1rem;
-            padding: 1rem;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
         }
 
         .alert-danger {
             background-color: #f8d7da;
             color: #721c24;
-        }
-
-        .token-box {
-            background-color: #333;
-            border: 1px solid #ffd700;
             padding: 1rem;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 1.2rem;
-            color: #ffd700;
-            margin-top: 1rem;
-            word-break: break-word;
-        }
-
-        .text-center {
             text-align: center;
         }
 
@@ -89,40 +71,22 @@
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
         <div class="card w-100" style="max-width: 500px;">
             <div class="card-body p-5">
-                <h3 class="card-title mb-4 text-center" style="color: #ffd700;">Восстановление пароля</h3>
-
+                <h3 class="card-title mb-4 text-center" style="color: #ffd700;">Введите токен восстановления</h3>
                 <#if error??>
-                    <div class="alert alert-danger text-center">${error}</div>
+                    <div class="alert alert-danger">${error}</div>
                 </#if>
-
-                <#if message??>
-                    <div class="alert alert-success text-center">${message}</div>
-                </#if>
-
-                <form method="post" action="/auth/forgot_password">
+                <form method="post" action="/auth/enter_token">
                     <#if _csrf??>
                         <input type="hidden" name="${(_csrf.parameterName)!'csrf-param'}" value="${(_csrf.token)!'csrf-token'}"/>
                     </#if>
-
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <label for="token" class="form-label">Токен</label>
+                        <input type="text" class="form-control" id="token" name="token" placeholder="Введите токен" required>
                     </div>
-
-                    <button type="submit" class="btn btn-primary">Получить токен</button>
+                    <button type="submit" class="btn btn-primary">Продолжить</button>
                 </form>
-
-                <#if token??>
-                    <div class="token-box mt-4">
-                        ${token}
-                    </div>
-                    <div class="text-center mt-2">
-                        <p>Теперь перейдите на <a href="/auth/enter_token">страницу ввода токена</a>.</p>
-                    </div>
-                </#if>
-
                 <div class="mt-4 text-center">
-                    <a href="/">На главную</a>
+                    <a href="/"><@spring.message "return.to.main"/></a>
                 </div>
             </div>
         </div>

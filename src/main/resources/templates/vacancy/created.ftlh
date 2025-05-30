@@ -88,13 +88,13 @@
                 <h2><@spring.message "vacancy.created"/></h2>
                 <div class="mb-3">
                     <label for="name" class="form-label"><@spring.message "jobSearch.vacancy.title"/></label>
-                    <@spring.formInput "vacancy.name" 'id="name" class="form-control" required' />
+                    <@spring.formInput "vacancy.name" 'id="name" class="form-control"' />
                     <@spring.showErrors "vacancy.name" "error text-danger" />
                 </div>
 
                 <div class="mb-3">
                     <label for="description" class="form-label"><@spring.message "jobSearch.vacancy.description"/></label>
-                    <@spring.formTextarea "vacancy.description" 'id="description" class="form-control" required' />
+                    <@spring.formTextarea "vacancy.description" 'id="description" class="form-control"' />
                     <@spring.showErrors "vacancy.description" "error text-danger" />
                 </div>
 
@@ -117,14 +117,12 @@
 
                 <div class="mb-3">
                     <label for="expFrom" class="form-label"><@spring.message "vacancy.expFrom"/></label>
-                    <@spring.formInput "vacancy.expFrom" 'id="expFrom" class="form-control" type="number" min="0" required' />
-                    <@spring.showErrors "vacancy.expFrom" "error text-danger" />
+                    <@spring.formInput "vacancy.expFrom" 'id="expFrom" class="form-control" type="number" min="0"' />
                 </div>
 
                 <div class="mb-3">
                     <label for="expTo" class="form-label"><@spring.message "vacancy.expTo"/></label>
-                    <@spring.formInput "vacancy.expTo" 'id="expTo" class="form-control" type="number" min="0" required' />
-                    <@spring.showErrors "vacancy.expTo" "error text-danger" />
+                    <@spring.formInput "vacancy.expTo" 'id="expTo" class="form-control" type="number" min="0"' />
                 </div>
 
                 <label>

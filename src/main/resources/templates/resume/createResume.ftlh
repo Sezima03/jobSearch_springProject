@@ -126,13 +126,12 @@
 
                 <div class="form-group">
                     <label for="categoryId"><@spring.message "createResume.category"/></label>
-                    <select name="categoryId" id="categoryId" class="form-control form-control-sm">
+                    <select name="resumeDto.categoryId" id="categoryId" class="form-control form-control-sm">
                         <option value=1>java script</option>
                         <option value=2>java</option>
                         <option value=3>python</option>
                         <option value=4>project manager</option>
                     </select>
-                    <@spring.showErrors "resumeDto.categoryId" "error text-danger" />
                 </div>
 
                 <div class="form-group">
