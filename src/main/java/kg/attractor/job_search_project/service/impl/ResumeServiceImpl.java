@@ -1,13 +1,15 @@
 package kg.attractor.job_search_project.service.impl;
-import kg.attractor.job_search_project.dto.EducationInfoDto;
 import kg.attractor.job_search_project.dto.ResumeDto;
-import kg.attractor.job_search_project.dto.WorkExperienceInfoDto;
 import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.*;
 import kg.attractor.job_search_project.repository.*;
 import kg.attractor.job_search_project.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -160,7 +162,7 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public List<ResumeDto> getAllResumeByApplicantId(Long applicantId) {
         log.info("Retrieving Resumes by applicantId {}", applicantId);
-        List<Resume> resumes = resumeRepository.findAllByApplicantId(applicantId);
+        List<Resume> resumes = resumeRepository.byApplicantId(applicantId);
         if (resumes==null||resumes.isEmpty()){
             throw new JobSearchException("ResumeControllerApi Not Found");
         }
@@ -180,9 +182,28 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<ResumeDto> getAllResumeByUserId(Long userId) {
+    public Page<ResumeDto> getAllResumeByUserId(Long userId, int page, int size) {
 
-        List<Resume> resumeList =resumeRepository.findAllByApplicantId(userId);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("updateTime").descending());
+        Page<Resume> resumeList =resumeRepository.findAllByApplicantId(userId, pageable);
+
+        return resumeList.map(resume -> ResumeDto.builder()
+                        .id(resume.getId())
+                        .applicantId(resume.getApplicantId().getId())
+                        .name(resume.getName())
+                        .categoryId(resume.getCategoryId().getId())
+                        .salary(resume.getSalary())
+                        .isActive(resume.isActive())
+                        .createdDate(resume.getCreatedDate())
+                        .updateTime(resume.getUpdateTime())
+                        .build());
+
+    }
+
+    @Override
+    public List<ResumeDto> allResumeByUserId(Long userId) {
+
+        List<Resume> resumeList =resumeRepository.byApplicantId(userId);
 
         return resumeList.stream()
                 .map(resume -> ResumeDto.builder()

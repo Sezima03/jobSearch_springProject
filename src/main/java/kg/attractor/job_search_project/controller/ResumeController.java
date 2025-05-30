@@ -90,9 +90,9 @@ public class ResumeController {
     @GetMapping("editResume/{resumeId}")
     public String editResume(Model model,
                              @PathVariable Long resumeId,
-                             ResumeDto resumeDto,
                              EducationInfoDto educationInfoDto,
                              WorkExperienceInfoDto workExperienceInfoDto){
+        ResumeDto resumeDto = resumeService.getFindResumeById(resumeId);
         model.addAttribute("eduIndex", 0);
         model.addAttribute("expIndex", 0);
         model.addAttribute("resumes", resumeService.getFindResumeById(resumeId));

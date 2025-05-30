@@ -6,13 +6,16 @@ import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.UserImage;
 import kg.attractor.job_search_project.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("users")
@@ -25,7 +28,10 @@ public class UsersProfileController {
     private final ImageService imageService;
 
     @GetMapping("profileApplicant")
-    public String showProfileApplicant(Model model) {
+    public String showProfileApplicant(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size,
+            Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) {
             return "redirect:/auth/login";
@@ -35,19 +41,27 @@ public class UsersProfileController {
         if (user == null) {
             return "redirect:/auth/login";
         }
+        if (page < 0) {
+            page = 0;
+        }
         UserImage userImage = imageService.getImageDtoByUserId(user.getId());
 
-        List<ResumeDto> resumeDtos =resumeService.getAllResumeByUserId(user.getId());
+        Page<ResumeDto> resumeDtos =resumeService.getAllResumeByUserId(user.getId(), page, size);
         int responded = responsesApplicantService.countRespondedApplicantByUserId(user.getId());
         model.addAttribute("user",user);
         model.addAttribute("resumes", resumeDtos);
         model.addAttribute("count", responded);
         model.addAttribute("userImageDto", userImage);
+        model.addAttribute("currentPage", resumeDtos.getNumber());
+        model.addAttribute("totalPages", resumeDtos.getTotalPages());
         return "personalAccount/profileApplicant";
     }
 
     @GetMapping("profileEmp")
-    public String showProfileEmployer(Model model) {
+    public String showProfileEmployer(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "15") int size,
+            Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated()) {
             return "redirect:/auth/login";
@@ -57,12 +71,19 @@ public class UsersProfileController {
         if (user == null) {
             return "redirect:/auth/login";
         }
+
+        if (page < 0) {
+            page = 0;
+        }
         UserImage userImage = imageService.getImageDtoByUserId(user.getId());
 
-        List<VacancyDto> vacancies = vacancyService.getAllVacancyByUserId(user.getId());
+
+        Page<VacancyDto> vacancies = vacancyService.getAllVacancyByUserId(user.getId(), page, size);
         model.addAttribute("user", user);
         model.addAttribute("vacancies", vacancies);
         model.addAttribute("userImageDto", userImage);
+        model.addAttribute("currentPage", vacancies.getNumber());
+        model.addAttribute("totalPages", vacancies.getTotalPages());
         return "personalAccount/profileEmployer";
     }
 

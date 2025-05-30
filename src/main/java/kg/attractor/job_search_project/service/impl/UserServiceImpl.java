@@ -1,5 +1,4 @@
 package kg.attractor.job_search_project.service.impl;
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import kg.attractor.job_search_project.dto.UserDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
@@ -9,13 +8,11 @@ import kg.attractor.job_search_project.model.User;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.repository.UserRepository;
 import kg.attractor.job_search_project.service.UserService;
-import kg.attractor.job_search_project.util.CommonUtilities;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.UUID;
 
@@ -186,14 +183,14 @@ public class UserServiceImpl implements UserService {
         userRepository.saveAndFlush(user);
     }
 
-   @Override
-   public void makeResetPasswdLnk(HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
+    @Override
+    public String makeResetPasswdLnk(HttpServletRequest request) {
         String email = request.getParameter("email");
         String token = UUID.randomUUID().toString();
         updateResetPasswordToken(token, email);
-        String resetPasswordLnk = CommonUtilities.getSiteUrl(request) + "/auth/reset_password?token=" + token;
-        emailService.sendEmail(email, resetPasswordLnk);
+        return token;
     }
+
 
     @Override
     public void updateProfile(UserDto userDto){
@@ -213,10 +210,5 @@ public class UserServiceImpl implements UserService {
     public User getFindById(Long id){
         return userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
-    }
-    @Override
-    public User getFindUserByName(String name){
-        return userRepository.findByName(name)
-                .orElseThrow(() -> new JobSearchException("User Not Found"));
     }
 }

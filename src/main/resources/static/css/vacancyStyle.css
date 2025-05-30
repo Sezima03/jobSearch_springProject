@@ -68,3 +68,14 @@
     font-size: 14px;
     text-align: center;
 }
+.badge-response {
+    position: absolute;
+    top: -10px;
+    background-color: #e0f0c0;
+    color: black;
+    border-radius: 50%;
+    right: 30px;
+    padding: 5px 10px;
+    width: 33px;
+    height: 33px;
+}

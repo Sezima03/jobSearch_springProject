@@ -2,6 +2,7 @@ package kg.attractor.job_search_project.service;
 import kg.attractor.job_search_project.dto.RespondedApplicantDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.model.User;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public interface VacancyService {
 
     VacancyDto getFindVacancyById(Long vacancyId);
 
-    List<VacancyDto> getAllVacancyByUserId(Long userId);
+    Page<VacancyDto> getAllVacancyByUserId(Long userId, int page, int size);
 
     void getUpdateVacancyDate(Long vacancyId);
 

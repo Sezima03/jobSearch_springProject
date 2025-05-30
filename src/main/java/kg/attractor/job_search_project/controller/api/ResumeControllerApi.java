@@ -50,6 +50,6 @@ public class ResumeControllerApi {
 
     @GetMapping("applicant/{id}")
     private List<ResumeDto> allResumesByApplicantID(@PathVariable Long id) {
-        return resumeService.getAllResumeByApplicantId(id);
+        return resumeService.allResumeByUserId(id);
     }
 }

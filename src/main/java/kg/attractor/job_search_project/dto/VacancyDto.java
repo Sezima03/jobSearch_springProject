@@ -28,7 +28,6 @@ public class VacancyDto {
     @NotNull(message = "{vacancy.dto.salary}")
     private Double salary;
 
-    @NotNull(message = "{vacancy.dto}")
     private Integer expFrom;
 
     private Integer expTo;

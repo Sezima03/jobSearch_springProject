@@ -1,6 +1,7 @@
 package kg.attractor.job_search_project.service.impl;
 
 import kg.attractor.job_search_project.dto.RespondedApplicantDto;
+import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.model.RespondedApplicant;
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.repository.RespondedApplicantRepository;
@@ -59,6 +60,21 @@ public class RespondedApplicantImpl implements ResponsesApplicantService {
                             .confirmation(respondedApplicant.isConfirmation())
                             .build();
                 })
+                .toList();
+    }
+
+    @Override
+    public List<RespondedApplicantDto> getFundRespondedApplicantByVacancyId() {
+        List<RespondedApplicant> find = replyRepository.findAllRespondedApplicant();
+        return find.stream()
+                .map(respondedApplicant -> RespondedApplicantDto.builder()
+                        .id(respondedApplicant.getId())
+                        .userId(respondedApplicant.getUserId())
+                        .resumeId(respondedApplicant.getResumeId())
+                        .vacancyId(respondedApplicant.getVacancyId())
+                        .confirmation(respondedApplicant.isConfirmation())
+                        .build()
+                )
                 .toList();
     }
 

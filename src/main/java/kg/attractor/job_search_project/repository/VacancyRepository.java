@@ -1,9 +1,10 @@
 package kg.attractor.job_search_project.repository;
 import kg.attractor.job_search_project.model.Vacancy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 
@@ -27,7 +28,7 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
             """)
     List<Vacancy> findAllOrderByResponseCount();
 
-    List<Vacancy> findByAuthorId(Long author_id);
+    Page<Vacancy> findByAuthorId(Long author_id, Pageable pageable);
 
     @Query("SELECT v FROM Vacancy v")
     List<Vacancy> allVacancies();

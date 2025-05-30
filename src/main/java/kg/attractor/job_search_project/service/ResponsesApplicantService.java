@@ -1,7 +1,7 @@
 package kg.attractor.job_search_project.service;
 
 import kg.attractor.job_search_project.dto.RespondedApplicantDto;
-import kg.attractor.job_search_project.model.RespondedApplicant;
+import kg.attractor.job_search_project.dto.VacancyDto;
 
 import java.util.List;
 
@@ -13,4 +13,7 @@ public interface ResponsesApplicantService {
     List<RespondedApplicantDto> findAllVacancyById(long userId);
 
     List<RespondedApplicantDto> findAllRespondedApplicantByUserId(long userId);
+
+    List<RespondedApplicantDto> getFundRespondedApplicantByVacancyId();
+
 }

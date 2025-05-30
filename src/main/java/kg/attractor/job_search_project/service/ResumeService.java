@@ -1,6 +1,7 @@
 package kg.attractor.job_search_project.service;
 import kg.attractor.job_search_project.dto.ResumeDto;
 import kg.attractor.job_search_project.model.Resume;
+import org.springframework.data.domain.Page;
 
 
 import java.util.List;
@@ -21,9 +22,12 @@ public interface ResumeService {
 
     List<ResumeDto> getAllResume();
 
+
     List<ResumeDto> getAllResumeByApplicantId(Long applicantId);
 
-    List<ResumeDto> getAllResumeByUserId(Long userId);
+    Page<ResumeDto> getAllResumeByUserId(Long userId, int page, int size);
+
+    List<ResumeDto> allResumeByUserId(Long userId);
 
     void getResumeUpdateDate(Long resumeId);
 

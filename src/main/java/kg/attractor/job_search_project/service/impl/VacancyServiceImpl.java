@@ -9,8 +9,12 @@ import kg.attractor.job_search_project.service.ResponsesApplicantService;
 import kg.attractor.job_search_project.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
+import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
@@ -49,10 +53,9 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public void getUpdateVacancy(VacancyDto vacancyDto, Long id) {
-        log.info("Updating Vacancy with id : {}", id);
-
-        Vacancy vacancy = new  Vacancy();
-        vacancy.setId(id);
+        log.info("Updating Vacancy with id: {}", id);
+        Vacancy vacancy = vacancyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Vacancy not found with id: " + id));
         vacancy.setName(vacancyDto.getName());
         vacancy.setDescription(vacancyDto.getDescription());
         vacancy.setCategoryId(vacancyDto.getCategoryId());
@@ -62,9 +65,9 @@ public class VacancyServiceImpl implements VacancyService {
         vacancy.setIsActive(vacancyDto.getIsActive());
         vacancy.setAuthorId(vacancyDto.getAuthorId());
         vacancyRepository.save(vacancy);
-
-        log.info("Vacancy Updated : {}", id);
+        log.info("Vacancy Updated: {}", id);
     }
+
 
     @Override
     public boolean deleteVacancy(Long id) {
@@ -286,24 +289,24 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getAllVacancyByUserId(Long userId) {
-        return vacancyRepository.findByAuthorId(userId)
-                .stream()
-                .map(vacancy -> VacancyDto.builder()
-                        .id(vacancy.getId())
-                        .name(vacancy.getName())
-                        .description(vacancy.getDescription())
-                        .categoryId(vacancy.getCategoryId())
-                        .salary(vacancy.getSalary())
-                        .expFrom(vacancy.getExpFrom())
-                        .expTo(vacancy.getExpTo())
-                        .isActive(vacancy.getIsActive())
-                        .authorId(vacancy.getAuthorId())
-                        .createdDate(vacancy.getCreatedDate())
-                        .updateTime(vacancy.getUpdateTime())
-                        .build())
-                .toList();
+    public Page<VacancyDto> getAllVacancyByUserId(Long userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("updateTime").descending());
+        Page<Vacancy> vacancyPage = vacancyRepository.findByAuthorId(userId, pageable);
+        return vacancyPage.map(vac -> VacancyDto.builder()
+                .id(vac.getId())
+                .name(vac.getName())
+                .description(vac.getDescription())
+                .categoryId(vac.getCategoryId())
+                .salary(vac.getSalary())
+                .expFrom(vac.getExpFrom())
+                .expTo(vac.getExpTo())
+                .isActive(vac.getIsActive())
+                .authorId(vac.getAuthorId())
+                .createdDate(vac.getCreatedDate())
+                .updateTime(vac.getUpdateTime())
+                .build());
     }
+
 
 
     @Override

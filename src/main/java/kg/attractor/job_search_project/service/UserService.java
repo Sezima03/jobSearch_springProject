@@ -29,11 +29,9 @@ public interface UserService {
 
     void updatePassword(User user, String password);
 
-    void makeResetPasswdLnk(HttpServletRequest request) throws MessagingException, UnsupportedEncodingException;
+    String makeResetPasswdLnk(HttpServletRequest request);
 
     void updateProfile(UserDto userDto);
 
     User getFindById(Long id);
-
-    User getFindUserByName(String name);
 }

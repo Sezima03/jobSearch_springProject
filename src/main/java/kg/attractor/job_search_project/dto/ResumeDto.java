@@ -20,7 +20,6 @@ public class ResumeDto {
 
     @NotBlank(message = "{resumeDto.title}")
     private String name;
-
     private Long categoryId;
 
     @NotNull(message = "{resumeDto.salary}")

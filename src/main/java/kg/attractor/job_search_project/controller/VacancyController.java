@@ -73,7 +73,7 @@ public class VacancyController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         User user = userService.findUserByUsername(name);
-        List<ResumeDto> resumeDto =resumeService.getAllResumeByUserId(user.getId());
+        List<ResumeDto> resumeDto =resumeService.allResumeByUserId(user.getId());
         VacancyDto vacancyDto = vacancyService.getFindVacancyById(id);
         Category category = categoryService.categoryName(vacancyDto.getCategoryId());
         model.addAttribute("vacancyDto", vacancyDto);
@@ -83,8 +83,8 @@ public class VacancyController {
     }
 
     @GetMapping("created")
-    public String createdVacancy(Model model) {
-        model.addAttribute("vacancy", new Vacancy());
+    public String createdVacancy(Model model, VacancyDto vacancyDto) {
+        model.addAttribute("vacancy", vacancyDto);
         return "vacancy/created";
     }
 
@@ -107,10 +107,9 @@ public class VacancyController {
 
     @GetMapping("edit/{vacancyId}")
     public String updateVacancy(Model model,
-                                @PathVariable Long vacancyId,
-                                VacancyDto vacancyDto) {
-        model.addAttribute("vacancy", vacancyService.getFindVacancyById(vacancyId));
-        model.addAttribute("vacancyDto", vacancyDto);
+                                @PathVariable Long vacancyId) {
+        VacancyDto vacancy = vacancyService.getFindVacancyById(vacancyId);
+        model.addAttribute("vacancy", vacancy);
         return "vacancy/edit";
     }
 
@@ -155,6 +154,14 @@ public class VacancyController {
 
         model.addAttribute("responses", respondedApplicantDto);
         return "vacancy/response";
+    }
+
+    @GetMapping("vacancy_responses")
+    public String vacancyResponses(Model model) {
+
+        List<RespondedApplicantDto> respondedApplicantDto = responsesApplicantService.getFundRespondedApplicantByVacancyId();
+        model.addAttribute("applicants", respondedApplicantDto);
+        return "vacancy/vacancy_responses";
     }
 
 }
