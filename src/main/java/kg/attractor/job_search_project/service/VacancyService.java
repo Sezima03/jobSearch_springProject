@@ -2,6 +2,7 @@ package kg.attractor.job_search_project.service;
 import kg.attractor.job_search_project.dto.RespondedApplicantDto;
 import kg.attractor.job_search_project.dto.VacancyDto;
 import kg.attractor.job_search_project.model.User;
+import kg.attractor.job_search_project.model.Vacancy;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -23,11 +24,7 @@ public interface VacancyService {
 
     List<VacancyDto> getVacancySortAsc();
 
-    List<VacancyDto> getVacancyByResponses();
-
     List<RespondedApplicantDto>  getRespondedApplicantByVacancyId(Long vacancyId);
-
-    List<RespondedApplicantDto> getFindAllResponseApplicantsByUserId(Long userId);
 
     List<VacancyDto> getAllActiveVacancies();
 
@@ -37,4 +34,5 @@ public interface VacancyService {
 
     void getUpdateVacancyDate(Long vacancyId);
 
+    Vacancy findById(Long id);
 }

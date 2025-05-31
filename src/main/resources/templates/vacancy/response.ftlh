@@ -46,7 +46,7 @@
                                     <@spring.message "resume"/>${respondedApplicant.resumeName}
                                 </div>
                                 <div class="card-body">
-                                    <p><strong><@spring.message "vacancy"/></strong> ${respondedApplicant.vacancyId}</p>
+                                    <p><strong><@spring.message "vacancy"/></strong> ${respondedApplicant.vacancyName}</p>
                                     <p><strong><@spring.message "status"/>:</strong>
                                         <#if respondedApplicant.confirmation>
                                             <@spring.message "confirmed"/>

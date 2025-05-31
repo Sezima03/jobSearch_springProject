@@ -156,12 +156,4 @@ public class VacancyController {
         return "vacancy/response";
     }
 
-    @GetMapping("vacancy_responses")
-    public String vacancyResponses(Model model) {
-
-        List<RespondedApplicantDto> respondedApplicantDto = responsesApplicantService.getFundRespondedApplicantByVacancyId();
-        model.addAttribute("applicants", respondedApplicantDto);
-        return "vacancy/vacancy_responses";
-    }
-
 }

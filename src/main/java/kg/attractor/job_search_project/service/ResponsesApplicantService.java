@@ -14,6 +14,4 @@ public interface ResponsesApplicantService {
 
     List<RespondedApplicantDto> findAllRespondedApplicantByUserId(long userId);
 
-    List<RespondedApplicantDto> getFundRespondedApplicantByVacancyId();
-
 }

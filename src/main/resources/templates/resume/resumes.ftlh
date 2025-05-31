@@ -10,8 +10,6 @@
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li><a class="dropdown-item" href="/resume/resumes"><@spring.message "resume.all"/></a></li>
             <li><a class="dropdown-item" href="/users/profileEmp"><@spring.message "jobSearchExit"/></a></li>
-            <li><a class="dropdown-item" href="/vacancy_responses">отклики к резюме</a></li>
-
         </ul>
     </div>
 
