@@ -269,10 +269,5 @@ public class VacancyServiceImpl implements VacancyService {
         vacancyRepository.save(vacancy);
     }
 
-    @Override
-    public Vacancy findById(Long id){
-            return vacancyRepository.findById(id)
-                    .orElseThrow(()-> new NoSuchElementException("Vacancy Not Found"));
-    }
 
 }

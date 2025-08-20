@@ -34,18 +34,8 @@
             color: var(--soft-yellow) !important;
         }
 
-        .nav-link.disabled {
+        .nav-link{
             color: var(--text-muted) !important;
-        }
-
-        .form-control {
-            background-color: #2c2c2c;
-            border: 1px solid #444;
-            color: var(--text-light);
-        }
-
-        .form-control::placeholder {
-            color: #aaa;
         }
 
         .btn-outline-warning {
@@ -72,16 +62,6 @@
             border-color: var(--soft-yellow);
         }
 
-        .job-info {
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-
-        .job-label {
-            font-weight: 500;
-            color: var(--soft-yellow);
-            margin-right: 0.5rem;
-        }
 
         .dropdown-item i {
             margin-right: 8px;

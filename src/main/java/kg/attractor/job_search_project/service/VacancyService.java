@@ -34,5 +34,4 @@ public interface VacancyService {
 
     void getUpdateVacancyDate(Long vacancyId);
 
-    Vacancy findById(Long id);
 }

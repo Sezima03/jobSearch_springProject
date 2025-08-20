@@ -1,16 +1,15 @@
 package kg.attractor.job_search_project.service.impl;
 
 import kg.attractor.job_search_project.dto.RespondedApplicantDto;
-import kg.attractor.job_search_project.dto.VacancyDto;
+import kg.attractor.job_search_project.exceptions.JobSearchException;
 import kg.attractor.job_search_project.model.RespondedApplicant;
 import kg.attractor.job_search_project.model.Resume;
 import kg.attractor.job_search_project.model.Vacancy;
 import kg.attractor.job_search_project.repository.RespondedApplicantRepository;
+import kg.attractor.job_search_project.repository.VacancyRepository;
 import kg.attractor.job_search_project.service.ResponsesApplicantService;
 import kg.attractor.job_search_project.service.ResumeService;
-import kg.attractor.job_search_project.service.VacancyService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
 public class RespondedApplicantImpl implements ResponsesApplicantService {
     private final RespondedApplicantRepository replyRepository;
     private final ResumeService resumeService;
-    private final @Lazy VacancyService vacancyService;
+    private final VacancyRepository vacancyRepository;
 
     @Override
     public void saveRespondedApplicant(long userId, long resumeId, long vacancyId, boolean confirmation) {
@@ -56,7 +55,8 @@ public class RespondedApplicantImpl implements ResponsesApplicantService {
         return respondedApplicants.stream()
                 .map(respondedApplicant -> {
                     Resume resume = resumeService.getFindResumeByID(respondedApplicant.getResumeId());
-                    Vacancy vacancy = vacancyService.findById(respondedApplicant.getVacancyId());
+                    Vacancy vacancy = vacancyRepository.findById(respondedApplicant.getVacancyId())
+                            .orElseThrow(() -> new JobSearchException("Vacancy not found"));
                     return RespondedApplicantDto.builder()
                             .id(respondedApplicant.getId())
                             .resumeId(respondedApplicant.getResumeId())
